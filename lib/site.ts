@@ -7,6 +7,7 @@ export const navItems = [
     mega: "brands",
     brands: [
       "Catcher Gourmet",
+      "Casadio",
       "Eureka 1920",
       "Slayer",
       "La Nuova Era",
@@ -620,6 +621,7 @@ export const brandCatalog = [
 
 export const brandLogos = [
   { name: "Catcher Gourmet", href: brandPageHref("Catcher Gourmet") },
+  { name: "Casadio", href: brandPageHref("Casadio") },
   { name: "Eureka 1920", href: brandPageHref("Eureka 1920") },
   { name: "Slayer", href: brandPageHref("Slayer") },
   { name: "La Nuova Era", href: brandPageHref("La Nuova Era") },
