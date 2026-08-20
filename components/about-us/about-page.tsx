@@ -192,16 +192,16 @@ export function AboutPage() {
         </div>
       </section>
 
-      <section id="our-brand" className="px-4 pb-16 md:px-6">
+      <section id="our-brand" className="px-4 pb-16 md:px-6 lg:px-8">
         <h2 className="text-center text-2xl font-bold tracking-[0.14em] text-[#6b3e24] uppercase">
           Our Brand
         </h2>
-        <div className="mx-auto mt-8 flex max-w-[1180px] flex-wrap items-center justify-center gap-3">
+        <div className="mx-auto mt-8 grid max-w-[1280px] grid-cols-2 gap-3 sm:grid-cols-4 xl:flex xl:items-stretch">
           {brandLogos.map((brand) => (
             <Link
               key={brand.name}
               href={brand.href}
-              className="flex h-40 w-36 items-center justify-center rounded-xl bg-[#e6e6e6] px-2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:scale-[1.06] hover:bg-[#f3f3f3] hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)]"
+              className="flex min-h-[120px] items-center justify-center rounded-xl bg-[#e6e6e6] px-2 py-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:scale-[1.05] hover:bg-[#f3f3f3] hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)] sm:min-h-[140px] xl:h-[160px] xl:min-w-0 xl:flex-1"
             >
               <BrandMark name={brand.name} size="lg" />
             </Link>
