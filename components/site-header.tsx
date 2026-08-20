@@ -136,16 +136,16 @@ export function SiteHeader() {
       </nav>
 
       {openItem && isBrandsMega(openItem) ? (
-        <div className="absolute inset-x-0 top-full border-t border-[#e2d6c6] bg-gradient-to-b from-[#fffaf4] to-[#f3ebe0] shadow-sm">
-          <div className="mx-auto flex max-w-[1280px] gap-3 overflow-x-auto px-4 py-6 lg:px-6">
+        <div className="absolute inset-x-0 top-full border-t border-zinc-300 bg-gradient-to-b from-white to-[#c8c8c8] shadow-md">
+          <div className="mx-auto flex max-w-[1280px] items-stretch gap-2 overflow-visible px-3 py-6 sm:gap-3 sm:px-6 lg:px-8 lg:py-7">
             {openItem.brands.map((name) => (
               <Link
                 key={name}
                 href={brandPageHref(name)}
                 onClick={close}
-            className="flex h-40 w-40 shrink-0 items-center justify-center rounded-md border border-zinc-200 bg-white px-3"
+                className="flex min-h-[140px] min-w-0 flex-1 items-center justify-center rounded-xl bg-[#e6e6e6] px-1.5 py-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:scale-[1.06] hover:bg-[#f3f3f3] hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)] sm:min-h-[160px] sm:px-2"
               >
-                <BrandMark name={name} />
+                <BrandMark name={name} size="lg" />
               </Link>
             ))}
           </div>
@@ -191,7 +191,7 @@ export function SiteHeader() {
             <div className="flex gap-8">
               {openItem.featured.map((brand) => (
                 <div key={brand.cta} className="flex w-36 flex-col items-center">
-                  <div className="flex h-24 w-36 items-center justify-center border border-zinc-200 bg-white">
+                  <div className="flex h-28 w-36 items-center justify-center rounded-xl bg-[#e6e6e6] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:bg-[#f3f3f3] hover:shadow-[0_10px_20px_rgba(0,0,0,0.14)]">
                     {brand.src ? (
                       <div className="relative h-20 w-32">
                         <Image
@@ -203,7 +203,7 @@ export function SiteHeader() {
                         />
                       </div>
                     ) : brand.name ? (
-                      <BrandMark name={brand.name} />
+                      <BrandMark name={brand.name} size="lg" />
                     ) : null}
                   </div>
                   <Link

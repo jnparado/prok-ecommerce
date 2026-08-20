@@ -7,7 +7,6 @@ export const navItems = [
     mega: "brands",
     brands: [
       "Catcher Gourmet",
-      "Casadio",
       "Eureka 1920",
       "Slayer",
       "La Nuova Era",
@@ -34,10 +33,10 @@ export const navItems = [
     featured: [
       {
         src: "",
-        name: "Casadio",
-        alt: "Casadio Bologna 1958",
-        href: "/espresso-machines?brand=casadio",
-        cta: "View Casadio Catalog >",
+        name: "Slayer",
+        alt: "Slayer espresso machines",
+        href: "/espresso-machines?brand=slayer",
+        cta: "View Slayer Catalog >",
       },
     ],
   },
@@ -63,13 +62,6 @@ export const navItems = [
         alt: "Eureka 1920",
         href: "/grinders?brand=eureka-1920",
         cta: "View Eureka Grinder",
-      },
-      {
-        src: "",
-        name: "Casadio",
-        alt: "Casadio Bologna 1958",
-        href: "/grinders?brand=casadio",
-        cta: "View Casadio",
       },
     ],
   },
@@ -134,7 +126,7 @@ export const heroSlides = [
   },
   {
     src: "/images/hero-slayer-barista.png",
-    alt: "Barista preparing espresso on a Slayer machine",
+    alt: "Barista pulling espresso on a white Slayer machine beside a Ceado grinder",
     title: "Crafted for Flavor",
     brand: "SLAYER",
     fit: "contain",
@@ -628,7 +620,6 @@ export const brandCatalog = [
 
 export const brandLogos = [
   { name: "Catcher Gourmet", href: brandPageHref("Catcher Gourmet") },
-  { name: "Casadio", href: brandPageHref("Casadio") },
   { name: "Eureka 1920", href: brandPageHref("Eureka 1920") },
   { name: "Slayer", href: brandPageHref("Slayer") },
   { name: "La Nuova Era", href: brandPageHref("La Nuova Era") },

@@ -11,7 +11,7 @@ export function BrandStrip() {
           <a
             key={`${brand.name}-${i}`}
             href={brand.href}
-            className="flex h-32 shrink-0 items-center justify-center"
+            className="flex h-32 shrink-0 items-center justify-center transition-transform duration-300 ease-out hover:scale-110"
           >
             <BrandMark name={brand.name} size="lg" />
           </a>

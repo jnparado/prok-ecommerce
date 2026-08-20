@@ -201,9 +201,9 @@ export function AboutPage() {
             <Link
               key={brand.name}
               href={brand.href}
-              className="flex h-40 w-40 items-center justify-center rounded-md border border-zinc-200 bg-white px-3"
+              className="flex h-40 w-36 items-center justify-center rounded-xl bg-[#e6e6e6] px-2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:scale-[1.06] hover:bg-[#f3f3f3] hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)]"
             >
-              <BrandMark name={brand.name} />
+              <BrandMark name={brand.name} size="lg" />
             </Link>
           ))}
         </div>

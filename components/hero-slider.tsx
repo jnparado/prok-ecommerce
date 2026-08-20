@@ -22,8 +22,8 @@ export function HeroSlider() {
   }, [goTo, index]);
 
   return (
-    <section className="relative bg-[#eadfce] px-4 pt-8 pb-8 md:px-6">
-      <div className="relative mx-auto h-[52vh] min-h-[360px] max-h-[640px] w-full max-w-[1280px] overflow-hidden rounded-2xl border border-black/5 bg-black shadow-[0_10px_32px_rgba(0,0,0,0.18)] md:h-[60vh]">
+    <section className="relative bg-[#eadfce] px-3 pt-6 pb-8 md:px-5 md:pt-8">
+      <div className="relative mx-auto h-[68vh] min-h-[460px] max-h-[860px] w-full max-w-[1440px] overflow-hidden rounded-2xl border border-black/5 bg-black shadow-[0_10px_32px_rgba(0,0,0,0.18)] md:h-[78vh]">
         {heroSlides.map((item, i) => (
           <div
             key={item.src}
@@ -48,16 +48,16 @@ export function HeroSlider() {
           </div>
         ))}
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-[14%] z-10 flex flex-col items-center px-4 text-center sm:bottom-[16%]">
-          <h1 className="font-serif text-[28px] font-medium text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-4xl md:text-5xl">
+        <div className="pointer-events-none absolute inset-x-0 bottom-[12%] z-10 flex flex-col items-center px-4 text-center sm:bottom-[14%]">
+          <h1 className="font-serif text-4xl font-medium text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-5xl md:text-6xl lg:text-7xl">
             {slide.title}
           </h1>
-          <p className="mt-1 font-serif text-2xl font-bold tracking-[0.28em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-3xl">
+          <p className="mt-2 font-serif text-3xl font-bold tracking-[0.28em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-4xl md:text-5xl">
             {slide.brand}
           </p>
           <Link
             href="/espresso-machines"
-            className="pointer-events-auto mt-5 inline-flex h-11 items-center justify-center bg-[#7a4f32] px-10 text-sm font-medium tracking-wide text-white transition-colors hover:bg-[#643f28]"
+            className="pointer-events-auto mt-6 inline-flex h-12 items-center justify-center bg-[#7a4f32] px-12 text-base font-medium tracking-wide text-white transition-colors hover:bg-[#643f28] sm:h-14 sm:px-14 sm:text-lg"
           >
             Shop Now
           </Link>
@@ -69,7 +69,7 @@ export function HeroSlider() {
           aria-label="Previous slide"
           className="absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 text-orange-500 transition-colors hover:text-orange-600 sm:left-5"
         >
-          <ChevronLeft className="size-9 stroke-[1.5]" />
+          <ChevronLeft className="size-12 stroke-[1.5] sm:size-14" />
         </button>
         <button
           type="button"
@@ -77,7 +77,7 @@ export function HeroSlider() {
           aria-label="Next slide"
           className="absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 text-orange-500 transition-colors hover:text-orange-600 sm:right-5"
         >
-          <ChevronRight className="size-9 stroke-[1.1]" />
+          <ChevronRight className="size-12 stroke-[1.1] sm:size-14" />
         </button>
 
         <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2.5">
@@ -89,7 +89,7 @@ export function HeroSlider() {
               aria-current={i === index}
               onClick={() => goTo(i)}
               className={cn(
-                "size-2.5 rounded-full transition-colors",
+                "size-3 rounded-full transition-colors sm:size-3.5",
                 i === index ? "bg-white" : "bg-white/45 hover:bg-white/70"
               )}
             />
