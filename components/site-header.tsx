@@ -8,7 +8,7 @@ import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 
 import { BrandMark } from "@/components/brand-mark";
 import { SiteLogo } from "@/components/site-logo";
-import { brandPageHref, navItems } from "@/lib/site";
+import { brandPageHref, brandSlug, navItems } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type NavItem = (typeof navItems)[number];
@@ -153,33 +153,15 @@ export function SiteHeader() {
       ) : null}
 
       {openItem && isCatalogMega(openItem) ? (
-        <div className="absolute inset-x-0 top-full border-t border-[#e2d6c6] bg-gradient-to-b from-[#fffaf4] to-[#f3ebe0] shadow-sm">
-          <div
-            className={cn(
-              "mx-auto grid max-w-[1100px] items-start gap-12 px-8 py-8",
-              openItem.extras.length > 0 ? "grid-cols-[1fr_1fr_auto]" : "grid-cols-[1fr_auto]"
-            )}
-          >
-            <ul className="space-y-3">
-              {openItem.children.map((child) => (
-                <li key={child.label}>
-                  <Link
-                    href={child.href}
-                    className="text-sm text-zinc-700 hover:text-[#8b5a2b]"
-                    onClick={close}
-                  >
-                    {child.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            {openItem.extras.length > 0 ? (
-              <ul className="space-y-3">
-                {openItem.extras.map((child) => (
+        <div className="absolute inset-x-0 top-full border-t border-zinc-300 bg-gradient-to-b from-[#f3f3f3] via-white to-[#cfcfcf] shadow-md">
+          <div className="mx-auto max-w-[1280px] px-8 py-8 lg:px-12 lg:py-10">
+            <div className="flex flex-wrap gap-16 lg:gap-28">
+              <ul className="space-y-4">
+                {openItem.children.map((child) => (
                   <li key={child.label}>
                     <Link
                       href={child.href}
-                      className="text-sm text-zinc-700 hover:text-[#8b5a2b]"
+                      className="text-[15px] text-zinc-800 hover:text-[#8b5a2b]"
                       onClick={close}
                     >
                       {child.label}
@@ -187,35 +169,80 @@ export function SiteHeader() {
                   </li>
                 ))}
               </ul>
-            ) : null}
-            <div className="flex gap-8">
-              {openItem.featured.map((brand) => (
-                <div key={brand.cta} className="flex w-36 flex-col items-center">
-                  <div className="flex h-28 w-36 items-center justify-center rounded-xl bg-[#e6e6e6] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:bg-[#f3f3f3] hover:shadow-[0_10px_20px_rgba(0,0,0,0.14)]">
-                    {brand.src ? (
-                      <div className="relative h-20 w-32">
-                        <Image
-                          src={brand.src}
-                          alt={brand.alt}
-                          fill
-                          className="object-contain p-2"
-                          sizes="144px"
-                        />
+              {openItem.extras.length > 0 ? (
+                <ul className="space-y-4">
+                  {openItem.extras.map((child) => (
+                    <li key={child.label}>
+                      <Link
+                        href={child.href}
+                        className="text-[15px] text-zinc-800 hover:text-[#8b5a2b]"
+                        onClick={close}
+                      >
+                        {child.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              {openItem.label === "Espresso Machines" ? (
+                <ul className="space-y-4">
+                  <li>
+                    <Link
+                      href="/#packages"
+                      className="text-[15px] text-zinc-800 hover:text-[#8b5a2b]"
+                      onClick={close}
+                    >
+                      Package Deals
+                    </Link>
+                  </li>
+                </ul>
+              ) : null}
+              {!("brands" in openItem) && openItem.featured.length > 0 ? (
+                <div className="ml-auto flex gap-6">
+                  {openItem.featured.map((brand) => (
+                    <div key={brand.cta} className="flex w-36 flex-col items-center">
+                      <div className="flex h-[100px] w-36 items-center justify-center rounded-xl bg-[#e6e6e6] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)]">
+                        {brand.src ? (
+                          <div className="relative h-20 w-32">
+                            <Image
+                              src={brand.src}
+                              alt={brand.alt}
+                              fill
+                              className="object-contain p-2"
+                              sizes="144px"
+                            />
+                          </div>
+                        ) : brand.name ? (
+                          <BrandMark name={brand.name} size="lg" />
+                        ) : null}
                       </div>
-                    ) : brand.name ? (
-                      <BrandMark name={brand.name} size="lg" />
-                    ) : null}
-                  </div>
-                  <Link
-                    href={brand.href}
-                    className="mt-3 text-center text-sm text-[#8b5a2b] hover:underline"
-                    onClick={close}
-                  >
-                    {brand.cta}
-                  </Link>
+                      <Link
+                        href={brand.href}
+                        className="mt-3 text-center text-sm text-[#8b5a2b] hover:underline"
+                        onClick={close}
+                      >
+                        {brand.cta}
+                      </Link>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              ) : null}
             </div>
+
+            {"brands" in openItem && openItem.brands.length > 0 ? (
+              <div className="mt-10 flex items-stretch gap-3">
+                {openItem.brands.map((name) => (
+                  <Link
+                    key={name}
+                    href={`/espresso-machines?brand=${brandSlug(name)}`}
+                    onClick={close}
+                    className="flex h-[100px] min-w-0 flex-1 items-center justify-center rounded-xl bg-[#e6e6e6] px-2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1 hover:scale-[1.04] hover:bg-[#f3f3f3] hover:shadow-[0_10px_20px_rgba(0,0,0,0.14)]"
+                  >
+                    <BrandMark name={name} size="lg" />
+                  </Link>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}
