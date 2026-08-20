@@ -6,7 +6,7 @@ const icons = [ShieldCheck, Truck, Heart];
 
 export function ValueProps() {
   return (
-    <section className="bg-white">
+    <section className="bg-[#f6f1e8]">
       <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-12 px-6 py-14 md:grid-cols-3 md:gap-8 md:py-16">
         {valueProps.map((item, i) => {
           const Icon = icons[i];

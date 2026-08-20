@@ -67,7 +67,7 @@ export function TopSeller() {
   }
 
   return (
-    <section id="top-seller" className="bg-[#f7f4ef] px-4 py-12 md:px-8 md:py-16">
+    <section id="top-seller" className="bg-[#fff9f2] px-4 py-12 md:px-8 md:py-16">
       <div className="mx-auto max-w-[1100px]">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
@@ -125,7 +125,7 @@ export function TopSeller() {
             type="button"
             onClick={() => go(-1)}
             aria-label="Previous top sellers"
-            className="hidden size-11 shrink-0 items-center justify-center rounded-lg bg-zinc-200 text-zinc-600 hover:bg-zinc-300 sm:inline-flex"
+            className="hidden size-11 shrink-0 items-center justify-center rounded-lg bg-[#eadfce] text-[#6b3e24] hover:bg-[#e0d2bc] sm:inline-flex"
           >
             <ChevronLeft className="size-6 stroke-[1.5]" />
           </button>
@@ -186,7 +186,7 @@ export function TopSeller() {
             type="button"
             onClick={() => go(1)}
             aria-label="Next top sellers"
-            className="hidden size-11 shrink-0 items-center justify-center rounded-lg bg-zinc-200 text-zinc-600 hover:bg-zinc-300 sm:inline-flex"
+            className="hidden size-11 shrink-0 items-center justify-center rounded-lg bg-[#eadfce] text-[#6b3e24] hover:bg-[#e0d2bc] sm:inline-flex"
           >
             <ChevronRight className="size-6 stroke-[1.5]" />
           </button>
@@ -197,7 +197,7 @@ export function TopSeller() {
             type="button"
             onClick={() => go(-1)}
             aria-label="Previous top sellers"
-            className="inline-flex size-11 items-center justify-center rounded-lg bg-zinc-200 text-zinc-600"
+            className="inline-flex size-11 items-center justify-center rounded-lg bg-[#eadfce] text-[#6b3e24]"
           >
             <ChevronLeft className="size-6 stroke-[1.5]" />
           </button>
@@ -205,7 +205,7 @@ export function TopSeller() {
             type="button"
             onClick={() => go(1)}
             aria-label="Next top sellers"
-            className="inline-flex size-11 items-center justify-center rounded-lg bg-zinc-200 text-zinc-600"
+            className="inline-flex size-11 items-center justify-center rounded-lg bg-[#eadfce] text-[#6b3e24]"
           >
             <ChevronRight className="size-6 stroke-[1.5]" />
           </button>

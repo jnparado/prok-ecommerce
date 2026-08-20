@@ -28,7 +28,7 @@ const serviceIcons = [
 
 export function AboutPage() {
   return (
-    <main className="flex-1 bg-[#f3eee6]">
+    <main className="flex-1 bg-[#f6f1e8]">
       <section className="mx-auto max-w-[860px] space-y-8 px-4 py-12 md:px-6 md:py-16">
         <article className="rounded-[15px] bg-white px-10 py-12 text-center shadow-[8px_12px_28px_rgba(0,0,0,0.12)] md:px-16 md:py-14">
           <p className="text-sm font-normal tracking-[0.08em] text-[#800000] uppercase">
@@ -152,7 +152,7 @@ export function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-white">
+      <section className="bg-[#fff9f2]">
         <div className="mx-auto grid max-w-[1180px] items-start gap-10 px-4 py-12 md:gap-16 md:px-6 md:py-16 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="relative min-h-[280px] overflow-hidden rounded-2xl md:min-h-[340px]">
             <Image
@@ -201,7 +201,7 @@ export function AboutPage() {
             <Link
               key={brand.name}
               href={brand.href}
-              className="flex h-28 w-[132px] items-center justify-center rounded-md border border-zinc-200 bg-white px-2"
+              className="flex h-40 w-40 items-center justify-center rounded-md border border-zinc-200 bg-white px-3"
             >
               <BrandMark name={brand.name} />
             </Link>

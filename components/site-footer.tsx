@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { SiteLogo } from "@/components/site-logo";
+
 const footerColumns = [
   {
     title: "Shop",
@@ -10,7 +12,7 @@ const footerColumns = [
     links: [
       { label: "My Account", href: "#contact" },
       { label: "Shopping Cart", href: "#top-seller" },
-      { label: "Help Center", href: "#service" },
+      { label: "Help Center", href: "/services" },
       { label: "Contact Us", href: "#contact" },
     ],
   },
@@ -30,16 +32,6 @@ const legalLinks = [
   { label: "Terms of Service", href: "#contact" },
   { label: "Cookie Policy", href: "#contact" },
 ] as const;
-
-function CubeMark() {
-  return (
-    <svg viewBox="0 0 32 32" className="size-8 shrink-0" aria-hidden="true">
-      <polygon points="16,3 29,10.5 16,18 3,10.5" fill="#c0392b" />
-      <polygon points="3,10.5 16,18 16,31 3,23.5" fill="#1e7a4a" />
-      <polygon points="16,18 29,10.5 29,23.5 16,31" fill="#8b5a2b" />
-    </svg>
-  );
-}
 
 function FacebookIcon() {
   return (
@@ -93,15 +85,10 @@ const socials = [
 
 export function SiteFooter() {
   return (
-    <footer id="contact" className="bg-[#f7f5f0] text-zinc-700">
+    <footer id="contact" className="bg-[#eadfce] text-zinc-700">
       <div className="mx-auto flex max-w-[1180px] flex-col gap-12 px-6 py-14 md:flex-row md:items-start md:justify-between md:py-16">
         <div className="max-w-sm">
-          <Link href="/" className="inline-flex items-center gap-2.5">
-            <CubeMark />
-            <span className="text-sm font-bold tracking-[0.12em] text-[#c0392b] uppercase">
-              Prokrate International
-            </span>
-          </Link>
+          <SiteLogo className="inline-flex" showPitcorp={false} />
           <p className="mt-4 text-sm leading-relaxed text-zinc-600">
             Premium specialty coffee and equipment for coffee enthusiasts and
             professionals. Discover the perfect balance of quality and convenience.

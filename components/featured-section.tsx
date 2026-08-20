@@ -50,7 +50,7 @@ function Tile({
 
 export function FeaturedSection() {
   return (
-    <section id="espresso-machines" className="bg-white p-3 md:p-4">
+    <section id="espresso-machines" className="bg-[#f6f1e8] p-3 md:p-4">
       <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1.55fr_1fr] lg:gap-4">
         <div className="grid grid-rows-2 gap-3 lg:min-h-[720px] lg:gap-4">
           <Tile

@@ -1,99 +1,197 @@
-export function BrandMark({ name }: { name: string }) {
-  if (name === "Catcher Gourmet") {
-    return (
-      <span className="text-center leading-tight">
-        <span className="block text-sm font-semibold tracking-[0.18em] text-zinc-800">
-          CATCHER
+import Image from "next/image";
+
+import { cn } from "@/lib/utils";
+
+function CatcherMark({ large }: { large?: boolean }) {
+  return (
+    <span className="flex flex-col items-center text-center leading-none">
+      <span
+        className={cn(
+          "font-serif font-black tracking-[0.08em] text-zinc-900",
+          large ? "text-[22px]" : "text-[15px]"
+        )}
+      >
+        CATCHER
+      </span>
+      <span
+        className={cn(
+          "mt-0.5 font-medium tracking-[0.18em] text-[#8b1a1a]",
+          large ? "text-[11px]" : "text-[8px]"
+        )}
+      >
+        -gourmet-
+      </span>
+      <svg
+        viewBox="0 0 80 10"
+        className={cn("mt-1 text-[#c4a574]", large ? "w-16" : "w-11")}
+        aria-hidden="true"
+      >
+        <path
+          d="M4 6c8-6 16 4 24 0 8-4 12 4 20 0 8-4 16 6 24 0"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.2"
+        />
+        <path d="M36 2h8l-4 6z" fill="currentColor" />
+      </svg>
+      <span className={cn("mt-0.5 tracking-[0.2em] text-zinc-700", large ? "text-[8px]" : "text-[6px]")}>
+        SINCE 2001
+      </span>
+    </span>
+  );
+}
+
+function CasadioMark({ large }: { large?: boolean }) {
+  return (
+    <span className="flex flex-col items-center text-center leading-none">
+      <svg
+        viewBox="0 0 64 64"
+        className={cn(large ? "size-12" : "size-8")}
+        aria-hidden="true"
+      >
+        <circle cx="32" cy="32" r="29" fill="none" stroke="#111" strokeWidth="2" />
+        <circle cx="32" cy="30" r="10" fill="#111" />
+        <path
+          d="M18 38c4 10 24 10 28 0"
+          fill="none"
+          stroke="#111"
+          strokeWidth="2"
+        />
+        <circle cx="28" cy="28" r="1.6" fill="#fff" />
+        <circle cx="36" cy="28" r="1.6" fill="#fff" />
+      </svg>
+      <span className={cn("mt-1 font-bold tracking-[0.16em] text-zinc-900", large ? "text-sm" : "text-[11px]")}>
+        CASADIO
+      </span>
+      <span className={cn("mt-0.5 tracking-[0.14em] text-zinc-500", large ? "text-[9px]" : "text-[7px]")}>
+        BOLOGNA - 1958
+      </span>
+    </span>
+  );
+}
+
+function SlayerMark({ large }: { large?: boolean }) {
+  return (
+    <span className="flex flex-col items-center text-center leading-none">
+      <span
+        className={cn(
+          "font-black tracking-[0.12em] text-zinc-900",
+          large ? "text-[20px]" : "text-[13px]"
+        )}
+      >
+        SLAYER
+      </span>
+      <span
+        className={cn(
+          "mt-1 tracking-[0.28em] text-zinc-700 uppercase",
+          large ? "text-[8px]" : "text-[6px]"
+        )}
+      >
+        espresso machines
+      </span>
+    </span>
+  );
+}
+
+function LaNuovaEraMark({ large }: { large?: boolean }) {
+  return (
+    <span className="flex flex-col items-center text-center leading-none">
+      <span className={cn("font-semibold text-zinc-900", large ? "text-[17px]" : "text-[12px]")}>
+        La
+        <span className="mx-px inline-block font-black text-[#6b3fa0]">N</span>
+        uovaera
+      </span>
+      <span
+        className={cn(
+          "mt-1 tracking-[0.22em] text-[#8a6bb8] uppercase",
+          large ? "text-[8px]" : "text-[6px]"
+        )}
+      >
+        Coffee Machines
+      </span>
+    </span>
+  );
+}
+
+function MarcafeMark({ large }: { large?: boolean }) {
+  return (
+    <span className="flex flex-col items-center text-center leading-none">
+      <Image
+        src="/images/brand-marcafe-mark.png"
+        alt=""
+        width={477}
+        height={434}
+        className={cn("w-auto object-contain", large ? "h-10" : "h-7")}
+      />
+      <span className={cn("mt-1 font-bold tracking-[0.12em] text-zinc-900", large ? "text-sm" : "text-[11px]")}>
+        MARCAFÈ
+      </span>
+      <span className={cn("mt-0.5 text-[#d0121a]", large ? "text-[11px]" : "text-[8px]")}>
+        Gran Caffè
+      </span>
+    </span>
+  );
+}
+
+function DidiesseMark({ large }: { large?: boolean }) {
+  return (
+    <span className="flex flex-col items-center leading-none">
+      <span className={cn("font-semibold tracking-wide text-[#1d4ed8]", large ? "text-[18px]" : "text-[13px]")}>
+        didiesse
+      </span>
+      <span className="mt-1 flex items-center gap-1">
+        <span className={cn("rounded-full bg-[#1d4ed8]", large ? "size-1.5" : "size-1")} />
+        <span className={cn("rounded-full bg-[#e11d8f]", large ? "size-1.5" : "size-1")} />
+        <span className={cn("rounded-full bg-[#1d4ed8]", large ? "size-1.5" : "size-1")} />
+        <span
+          className={cn(
+            "ml-0.5 font-medium tracking-wide text-[#e11d8f]",
+            large ? "text-[8px]" : "text-[6px]"
+          )}
+        >
+          l&apos;espresso in cialde
         </span>
-        <span className="block text-[10px] tracking-[0.2em] text-zinc-500">gourmet</span>
       </span>
-    );
-  }
+    </span>
+  );
+}
 
-  if (name === "Casadio") {
+const rasterLogos: Record<string, { src: string; width: number; height: number }> = {
+  "Eureka 1920": { src: "/images/brand-eureka.png", width: 891, height: 906 },
+  "puly CAFF": { src: "/images/brand-pulycaff.png", width: 329, height: 227 },
+};
+
+export function BrandMark({
+  name,
+  className,
+  size = "md",
+}: {
+  name: string;
+  className?: string;
+  size?: "md" | "lg";
+}) {
+  const large = size === "lg";
+
+  if (name === "Catcher Gourmet") return <CatcherMark large={large} />;
+  if (name === "Casadio") return <CasadioMark large={large} />;
+  if (name === "Slayer") return <SlayerMark large={large} />;
+  if (name === "La Nuova Era") return <LaNuovaEraMark large={large} />;
+  if (name === "Marcafé") return <MarcafeMark large={large} />;
+  if (name === "didiesse") return <DidiesseMark large={large} />;
+
+  const logo = rasterLogos[name];
+  if (logo) {
     return (
-      <span className="text-center leading-tight">
-        <span className="mx-auto mb-1 flex size-8 items-center justify-center rounded-full border border-zinc-800 text-[10px]">
-          ◯
-        </span>
-        <span className="block text-[11px] font-semibold tracking-[0.12em]">CASADIO</span>
-        <span className="block text-[8px] tracking-wide text-zinc-500">BOLOGNA - 1958</span>
+      <span className={cn("inline-flex items-center justify-center bg-white", className)}>
+        <Image
+          src={logo.src}
+          alt={name}
+          width={logo.width}
+          height={logo.height}
+          className={cn("w-auto object-contain", large ? "h-24" : "h-[4.5rem]")}
+        />
       </span>
     );
-  }
-
-  if (name === "Eureka 1920") {
-    return (
-      <span className="flex size-14 items-center justify-center bg-[#c1121f] text-center text-[9px] leading-tight font-bold tracking-wide text-white">
-        EUREKA
-        <br />
-        1920
-      </span>
-    );
-  }
-
-  if (name === "Slayer") {
-    return (
-      <span className="text-center leading-tight">
-        <span className="block text-sm font-bold tracking-[0.28em] text-zinc-900">SLAYER</span>
-        <span className="block text-[8px] tracking-[0.18em] text-zinc-500">espresso machines</span>
-      </span>
-    );
-  }
-
-  if (name === "La Nuova Era") {
-    return (
-      <span className="text-center leading-tight">
-        <span className="block text-[10px] font-semibold tracking-wide">La Nuova Era</span>
-        <span className="block text-[8px] tracking-[0.12em] text-zinc-500">COFFEE MACHINES</span>
-      </span>
-    );
-  }
-
-  if (name === "Marcafé") {
-    return (
-      <span className="text-center leading-tight">
-        <span className="block text-sm font-bold tracking-[0.12em] text-[#c1121f]">MARCAFÉ</span>
-        <span className="block text-[9px] tracking-wide text-zinc-500">Gran Caffè</span>
-      </span>
-    );
-  }
-
-  if (name === "puly CAFF") {
-    return (
-      <span className="border border-[#1d4ed8] px-2 py-1 text-center leading-tight">
-        <span className="block text-[9px] font-bold text-[#c1121f]">plus</span>
-        <span className="block text-xs font-bold tracking-wide text-[#1d4ed8]">puly CAFF</span>
-      </span>
-    );
-  }
-
-  if (name === "didiesse") {
-    return (
-      <span className="text-center leading-tight">
-        <span className="text-sm font-semibold tracking-wide text-[#2563eb]">
-          didiesse<span className="text-pink-500">.</span>
-        </span>
-        <span className="mt-0.5 block text-[8px] text-zinc-400">l&apos;espresso in cialde</span>
-      </span>
-    );
-  }
-
-  if (name === "BeanXpress") {
-    return <span className="text-sm font-semibold tracking-wide">BEANXPRESS</span>;
-  }
-
-  if (name === "Adelaar") {
-    return (
-      <span className="text-center leading-tight">
-        <span className="block text-sm font-semibold tracking-[0.2em]">ADELAAR</span>
-        <span className="block text-[9px] text-zinc-500">Coffee &amp; Beyond...</span>
-      </span>
-    );
-  }
-
-  if (name === "Doge") {
-    return <span className="text-sm font-bold tracking-[0.2em]">DOGE</span>;
   }
 
   return <span className="text-sm font-semibold tracking-wide">{name}</span>;

@@ -48,7 +48,7 @@ export function EspressoMachinesPage({
   }, [brand, groupCount, sort, use]);
 
   return (
-    <main className="flex-1 bg-white">
+    <main className="flex-1 bg-[#f6f1e8]">
       <section className="mx-auto max-w-[1180px] px-5 py-10 md:px-8 md:py-12">
         <h1 className="font-serif text-[2.35rem] font-bold tracking-tight text-[#3d2416] md:text-5xl">
           {espressoCatalogCopy.title}

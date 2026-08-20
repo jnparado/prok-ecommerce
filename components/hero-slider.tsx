@@ -22,8 +22,8 @@ export function HeroSlider() {
   }, [goTo, index]);
 
   return (
-    <section className="relative bg-[#f0eee9] px-4 pb-4 md:px-6">
-      <div className="relative mx-auto h-[52vh] min-h-[360px] max-h-[640px] w-full max-w-[1280px] overflow-hidden rounded-t-2xl md:h-[60vh]">
+    <section className="relative bg-[#eadfce] px-4 pt-8 pb-8 md:px-6">
+      <div className="relative mx-auto h-[52vh] min-h-[360px] max-h-[640px] w-full max-w-[1280px] overflow-hidden rounded-2xl border border-black/5 bg-black shadow-[0_10px_32px_rgba(0,0,0,0.18)] md:h-[60vh]">
         {heroSlides.map((item, i) => (
           <div
             key={item.src}
@@ -37,17 +37,22 @@ export function HeroSlider() {
               alt={item.alt}
               fill
               preload={i === 0}
-              className="object-cover object-center"
+              className={cn(
+                "object-center",
+                "fit" in item && item.fit === "contain"
+                  ? "object-contain brightness-110"
+                  : "object-cover"
+              )}
               sizes="100vw"
             />
           </div>
         ))}
 
         <div className="pointer-events-none absolute inset-x-0 bottom-[14%] z-10 flex flex-col items-center px-4 text-center sm:bottom-[16%]">
-          <h1 className="font-serif text-[28px] font-medium text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.45)] sm:text-4xl md:text-5xl">
+          <h1 className="font-serif text-[28px] font-medium text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-4xl md:text-5xl">
             {slide.title}
           </h1>
-          <p className="mt-1 font-serif text-2xl font-bold tracking-[0.28em] text-zinc-900 sm:text-3xl">
+          <p className="mt-1 font-serif text-2xl font-bold tracking-[0.28em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-3xl">
             {slide.brand}
           </p>
           <Link
@@ -74,22 +79,22 @@ export function HeroSlider() {
         >
           <ChevronRight className="size-9 stroke-[1.1]" />
         </button>
-      </div>
 
-      <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2.5">
-        {heroSlides.map((item, i) => (
-          <button
-            key={item.src}
-            type="button"
-            aria-label={`Go to slide ${i + 1}`}
-            aria-current={i === index}
-            onClick={() => goTo(i)}
-            className={cn(
-              "size-2.5 rounded-full transition-colors",
-              i === index ? "bg-zinc-500" : "bg-zinc-300 hover:bg-zinc-400"
-            )}
-          />
-        ))}
+        <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2.5">
+          {heroSlides.map((item, i) => (
+            <button
+              key={item.src}
+              type="button"
+              aria-label={`Go to slide ${i + 1}`}
+              aria-current={i === index}
+              onClick={() => goTo(i)}
+              className={cn(
+                "size-2.5 rounded-full transition-colors",
+                i === index ? "bg-white" : "bg-white/45 hover:bg-white/70"
+              )}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

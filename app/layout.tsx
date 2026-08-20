@@ -31,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-[#f3eee6]">
+      <body className="flex min-h-full flex-col bg-[#f6f1e8]">
         <SiteHeader />
         <div className="flex min-h-0 flex-1 flex-col">{children}</div>
         <SiteFooter />
