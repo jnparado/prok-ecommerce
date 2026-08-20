@@ -43,29 +43,14 @@ function CatcherMark({ large }: { large?: boolean }) {
 
 function CasadioMark({ large }: { large?: boolean }) {
   return (
-    <span className="flex flex-col items-center text-center leading-none">
-      <svg
-        viewBox="0 0 64 64"
-        className={cn(large ? "size-12" : "size-8")}
-        aria-hidden="true"
-      >
-        <circle cx="32" cy="32" r="29" fill="none" stroke="#111" strokeWidth="2" />
-        <circle cx="32" cy="30" r="10" fill="#111" />
-        <path
-          d="M18 38c4 10 24 10 28 0"
-          fill="none"
-          stroke="#111"
-          strokeWidth="2"
-        />
-        <circle cx="28" cy="28" r="1.6" fill="#fff" />
-        <circle cx="36" cy="28" r="1.6" fill="#fff" />
-      </svg>
-      <span className={cn("mt-1 font-bold tracking-[0.16em] text-zinc-900", large ? "text-sm" : "text-[11px]")}>
-        CASADIO
-      </span>
-      <span className={cn("mt-0.5 tracking-[0.14em] text-zinc-500", large ? "text-[9px]" : "text-[7px]")}>
-        BOLOGNA - 1958
-      </span>
+    <span className="inline-flex items-center justify-center bg-white">
+      <Image
+        src="/images/brand-casadio.png"
+        alt="Casadio"
+        width={89}
+        height={129}
+        className={cn("w-auto object-contain", large ? "h-24" : "h-[4.5rem]")}
+      />
     </span>
   );
 }
