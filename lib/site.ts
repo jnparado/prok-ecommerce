@@ -64,23 +64,17 @@ export const navItems = [
     href: "/coffee",
     mega: "catalog",
     children: [
-      { label: "For Espresso", href: "/coffee?category=beans&brew=espresso" },
-      { label: "For Manual Brew", href: "/coffee?category=beans&brew=manual" },
-      { label: "For Drip Coffee Machine Beans", href: "/coffee?category=beans&brew=drip" },
-      { label: "Green Coffee Beans", href: "/coffee?category=beans&brew=green" },
+      { label: "Roasted Coffee Beans", href: "/coffee?category=beans" },
+      { label: "Pods", href: "/coffee?category=pods" },
     ],
-    extras: [
-      { label: "Cold Brew", href: "/coffee?category=beans&brew=cold-brew" },
-      { label: "Drip Packs", href: "/coffee?category=beans&brew=drip-packs" },
-      { label: "Capsules", href: "/coffee?category=pods" },
-    ],
+    extras: [],
     featured: [
       {
         src: "",
         name: "Marcafé",
         alt: "Marcafé Gran Caffè",
-        href: "/coffee",
-        cta: "View Marcafe Catalog >",
+        href: "/coffee?category=beans",
+        cta: "View Roasted Coffee",
       },
     ],
   },
@@ -107,7 +101,7 @@ export const navItems = [
   { label: "Cleaning Solution", href: "/cleaning-solution" },
   { label: "Barista Training", href: "/training" },
   { label: "Services", href: "/services" },
-  { label: "News & Events", href: "/#news" },
+  { label: "News & Events", href: "/news-events" },
   { label: "Contact Us", href: "/#contact" },
 ] as const;
 
@@ -651,18 +645,38 @@ export const coffeeCatalogCopy = {
     "Discover our premium collection of coffee machines, grinders, and specialty coffee selections. Each product is carefully curated for quality and performance.",
 } as const;
 
+export const coffeeTabCopy: Record<
+  string,
+  { title: string; description: string; selection: string }
+> = {
+  beans: {
+    title: "Roasted Coffee Beans",
+    description:
+      "1kg Marcafé blends for espresso bar and cafe service — roasted in Italy and packed for the professional counter.",
+    selection: "Roasted Coffee Beans",
+  },
+  pods: {
+    title: "Pods",
+    description:
+      "Marcafé cialde and decaf pods for office and hospitality — portioned, consistent, and ready for the machine.",
+    selection: "Pods selection",
+  },
+};
+
 export const coffeeCategories = [
   {
     slug: "beans",
     title: "Roasted Coffee Beans",
     caption: "Evaluate coffee from Restaurant dinning experience >",
     src: "/images/marcafe-roasted-beans.png",
+    overlay: "orange",
   },
   {
     slug: "pods",
     title: "Pods",
     caption: "Fuel productivity delight on your office >",
     src: "/images/marcafe-pods.png",
+    overlay: "white",
   },
 ] as const;
 
@@ -671,29 +685,57 @@ export const coffeeProducts = [
     name: "Idillio",
     brand: "Marcafé",
     category: "beans",
+    detail: "1000g · Arabica 100%",
     brews: ["espresso", "manual"],
-    src: "/images/product-marcafe-idillio.png",
+    src: "/images/product-marcafe-idillio.jpg",
   },
   {
-    name: "Classico",
+    name: "Miscela Speciale",
     brand: "Marcafé",
     category: "beans",
-    brews: ["manual", "drip", "drip-packs"],
-    src: "/images/product-marcafe-classico.png",
+    detail: "1000g · Vending",
+    brews: ["espresso", "drip"],
+    src: "/images/product-marcafe-miscela-speciale.jpg",
+  },
+  {
+    name: "Crema Bar Super",
+    brand: "Marcafé",
+    category: "beans",
+    detail: "1000g · Espresso Bar",
+    brews: ["espresso"],
+    src: "/images/product-marcafe-crema-bar-super.jpg",
   },
   {
     name: "Diamante",
     brand: "Marcafé",
-    category: "pods",
-    brews: ["espresso", "cold-brew"],
-    src: "/images/product-marcafe-diamante.png",
+    category: "beans",
+    detail: "1000g · Espresso Bar",
+    brews: ["espresso", "manual"],
+    src: "/images/product-marcafe-diamante.jpg",
   },
   {
-    name: "Espresso Capsules",
+    name: "Caffè Decaffeinato",
     brand: "Marcafé",
     category: "pods",
-    brews: ["capsules"],
-    src: "/images/product-marcafe-capsules.png",
+    detail: "72 sachets · 504g",
+    brews: ["espresso"],
+    src: "/images/product-marcafe-decaffeinato.jpg",
+  },
+  {
+    name: "Perla Nera Special",
+    brand: "Marcafé",
+    category: "pods",
+    detail: "100 pods",
+    brews: ["espresso"],
+    src: "/images/product-marcafe-perla-nera.jpg",
+  },
+  {
+    name: "Cuor di Caffè",
+    brand: "Marcafé",
+    category: "pods",
+    detail: "50 compostable pods",
+    brews: ["espresso"],
+    src: "/images/product-marcafe-cuor-di-caffe.jpg",
   },
 ] as const;
 
@@ -939,10 +981,13 @@ export const brandCatalog = [
   { name: "Mignon Drawer", brand: "Eureka 1920", src: "/images/product-eureka-mignon-drawer.jpg" },
   { name: "Disko Auto Tamper", brand: "Eureka 1920", src: "/images/product-eureka-disko-tamper.jpg" },
   { name: "Casadio On Demand", brand: "Casadio", src: "/images/product-casadio-grinder.png" },
-  { name: "Idillio", brand: "Marcafé", src: "/images/product-marcafe-idillio.png" },
-  { name: "Classico", brand: "Marcafé", src: "/images/product-marcafe-classico.png" },
-  { name: "Diamante", brand: "Marcafé", src: "/images/product-marcafe-diamante.png" },
-  { name: "Espresso Capsules", brand: "Marcafé", src: "/images/product-marcafe-capsules.png" },
+  { name: "Idillio", brand: "Marcafé", src: "/images/product-marcafe-idillio.jpg" },
+  { name: "Miscela Speciale", brand: "Marcafé", src: "/images/product-marcafe-miscela-speciale.jpg" },
+  { name: "Crema Bar Super", brand: "Marcafé", src: "/images/product-marcafe-crema-bar-super.jpg" },
+  { name: "Diamante", brand: "Marcafé", src: "/images/product-marcafe-diamante.jpg" },
+  { name: "Caffè Decaffeinato", brand: "Marcafé", src: "/images/product-marcafe-decaffeinato.jpg" },
+  { name: "Perla Nera Special", brand: "Marcafé", src: "/images/product-marcafe-perla-nera.jpg" },
+  { name: "Cuor di Caffè", brand: "Marcafé", src: "/images/product-marcafe-cuor-di-caffe.jpg" },
   { name: "SLAYER EP", brand: "Slayer", src: "/images/product-slayer-ep.png" },
   { name: "SLAYER SG", brand: "Slayer", src: "/images/product-slayer-sg.png" },
   { name: "STEAM-LP-standard-2GR", brand: "Slayer", src: "/images/product-steam-lp-2gr.png" },

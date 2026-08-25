@@ -2,18 +2,14 @@
 
 import { useMemo, useState } from "react";
 import Image from "@/components/media-image";
-import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
-import { BrandMark } from "@/components/brand-mark";
 import {
   brandCatalog,
   brandCatalogCopy,
-  brandPageHref,
   brandSlug,
   navItems,
 } from "@/lib/site";
-import { cn } from "@/lib/utils";
 
 type SortKey = "default" | "az" | "za";
 
@@ -56,27 +52,6 @@ export function BrandsPage({ brand }: { brand?: string }) {
             ? `All ${selectedBrand} products in the Prokrate catalog.`
             : brandCatalogCopy.description}
         </p>
-
-        <div className="mt-8 flex items-stretch gap-2 overflow-x-auto pb-1">
-          {brandNames.map((name) => {
-            const slug = brandSlug(name);
-            const active = brand === slug;
-            return (
-              <Link
-                key={name}
-                href={active ? "/brands" : brandPageHref(name)}
-                aria-current={active ? "page" : undefined}
-                className={cn(
-                  "flex min-h-[120px] min-w-[108px] flex-1 items-center justify-center rounded-xl bg-white px-2 py-4 ring-1 ring-[#eadfce] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(80,50,20,0.12)]",
-                  active && "ring-2 ring-[#8b5a2b] shadow-[0_12px_24px_rgba(80,50,20,0.12)]"
-                )}
-              >
-                <BrandMark name={name} size="lg" />
-                <span className="sr-only">{name}</span>
-              </Link>
-            );
-          })}
-        </div>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <label htmlFor="brand-sort" className="text-sm text-zinc-700">

@@ -6,7 +6,13 @@ import Image from "@/components/media-image";
 import { newArrivals } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
-export function NewArrival() {
+export function NewArrival({
+  title,
+  description,
+}: {
+  title?: string | null;
+  description?: string | null;
+}) {
   const [index, setIndex] = useState(0);
   const item = newArrivals[index];
 
@@ -14,9 +20,9 @@ export function NewArrival() {
     <section className="bg-[#fff9f2] px-4 py-14 md:px-8 md:py-16">
       <div className="mx-auto max-w-[1100px]">
         <div className="text-center">
-          <h2 className="font-serif text-3xl text-[#8b5a2b] md:text-4xl">New Arrival</h2>
+          <h2 className="font-serif text-3xl text-[#8b5a2b] md:text-4xl">{title || "New Arrival"}</h2>
           <p className="mt-2 text-sm text-zinc-500">
-            Our most loved selections by coffee connoisseurs
+            {description || "Our most loved selections by coffee connoisseurs"}
           </p>
         </div>
 

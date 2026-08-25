@@ -1,12 +1,41 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "@/components/media-image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
+import { isPublished, mapNewsRow, uniqueByTitle, type NewsCard } from "@/lib/cms/public";
 import { newsItems } from "@/lib/site";
+import { createClient } from "@/lib/supabase/client";
+
+const fallbackNews: NewsCard[] = newsItems.map((item, index) => ({
+  id: `fallback-news-${index}`,
+  featured: item.featured,
+  tag: item.tag,
+  date: item.date,
+  title: item.title,
+  excerpt: item.excerpt,
+  href: item.href,
+  src: item.src,
+  alt: item.alt,
+}));
 
 export function LatestNews() {
-  const featured = newsItems.find((item) => item.featured) ?? newsItems[0];
-  const rest = newsItems.filter((item) => item !== featured);
+  const [items, setItems] = useState<NewsCard[]>(fallbackNews);
+
+  useEffect(() => {
+    const supabase = createClient();
+    void (async () => {
+      const { data } = await supabase.from("news").select("*").order("sort_order");
+      const rows = ((data ?? []) as Record<string, unknown>[]).filter(isPublished);
+      if (rows.length) setItems(uniqueByTitle(rows.map(mapNewsRow)));
+    })();
+  }, []);
+
+  const featured = items.find((item) => item.featured) ?? items[0];
+  const rest = items.filter((item) => item.id !== featured?.id);
+  if (!featured) return null;
 
   return (
     <section id="news" className="bg-[#f6f1e8] px-4 py-16 md:px-8 md:py-20">
@@ -60,7 +89,7 @@ export function LatestNews() {
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           {rest.map((item) => (
             <Link
-              key={item.title}
+              key={item.id}
               href={item.href}
               className="group overflow-hidden rounded-2xl bg-white shadow-[6px_12px_28px_rgba(80,50,20,0.08)] transition-transform duration-300 hover:-translate-y-0.5"
             >
@@ -78,9 +107,7 @@ export function LatestNews() {
                   <span className="rounded-full bg-[#c4a484] px-3 py-1 text-[10px] font-semibold tracking-[0.12em] text-white uppercase">
                     {item.tag}
                   </span>
-                  <span className="text-xs tracking-wide text-zinc-400 uppercase">
-                    {item.date}
-                  </span>
+                  <span className="text-xs tracking-wide text-zinc-400 uppercase">{item.date}</span>
                 </div>
                 <h3 className="mt-3 font-serif text-xl text-zinc-800">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-zinc-500">{item.excerpt}</p>

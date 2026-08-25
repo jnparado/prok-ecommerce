@@ -1,23 +1,43 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "@/components/media-image";
+import Link from "next/link";
 
+import { isPublished, mapTrainingRow, type TrainingCard } from "@/lib/cms/public";
 import { trainingCourses } from "@/lib/site";
+import { createClient } from "@/lib/supabase/client";
+
+const fallbackCourses: TrainingCard[] = trainingCourses.map((course, index) => ({
+  id: `fallback-training-${index}`,
+  title: course.title,
+  description: course.description,
+  src: course.src,
+}));
 
 export function TrainingPage({ query = "" }: { query?: string }) {
   const [value, setValue] = useState(query);
   const [search, setSearch] = useState(query);
+  const [courses, setCourses] = useState<TrainingCard[]>(fallbackCourses);
 
-  const courses = useMemo(() => {
+  useEffect(() => {
+    const supabase = createClient();
+    void (async () => {
+      const { data } = await supabase.from("training_courses").select("*").order("sort_order");
+      const rows = ((data ?? []) as Record<string, unknown>[]).filter(isPublished);
+      if (rows.length) setCourses(rows.map(mapTrainingRow));
+    })();
+  }, []);
+
+  const visible = useMemo(() => {
     const term = search.trim().toLowerCase();
-    if (!term) return [...trainingCourses];
-    return trainingCourses.filter(
+    if (!term) return courses;
+    return courses.filter(
       (course) =>
         course.title.toLowerCase().includes(term) ||
         course.description.toLowerCase().includes(term)
     );
-  }, [search]);
+  }, [courses, search]);
 
   return (
     <main className="flex-1 bg-[#f6f1e8]">
@@ -68,13 +88,10 @@ export function TrainingPage({ query = "" }: { query?: string }) {
           </form>
         </div>
 
-        {courses.length ? (
+        {visible.length ? (
           <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {courses.map((course) => (
-              <article
-                key={course.title}
-                className="overflow-hidden rounded-xl border border-zinc-200 bg-white"
-              >
+            {visible.map((course) => (
+              <article key={course.id} className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
                 <div className="relative aspect-[16/9] bg-[#f6efe6]">
                   <Image
                     src={course.src}
@@ -85,10 +102,37 @@ export function TrainingPage({ query = "" }: { query?: string }) {
                   />
                 </div>
                 <div className="px-5 py-5">
-                  <h2 className="font-serif text-3xl font-bold text-[#c0392b]">
-                    {course.title}
-                  </h2>
+                  {course.category ? (
+                    <p className="text-xs tracking-[0.14em] text-[#8b5a2b] uppercase">{course.category}</p>
+                  ) : null}
+                  <h2 className="font-serif text-3xl font-bold text-[#c0392b]">{course.title}</h2>
                   <p className="mt-2 text-sm text-zinc-400">{course.description}</p>
+                  {course.overview ? <p className="mt-3 text-sm leading-relaxed text-zinc-600">{course.overview}</p> : null}
+                  {course.learning_outcomes ? (
+                    <p className="mt-3 text-sm text-zinc-500">
+                      <span className="font-medium text-zinc-700">You will learn: </span>
+                      {course.learning_outcomes}
+                    </p>
+                  ) : null}
+                  {course.requirements ? (
+                    <p className="mt-2 text-sm text-zinc-500">
+                      <span className="font-medium text-zinc-700">Requirements: </span>
+                      {course.requirements}
+                    </p>
+                  ) : null}
+                  <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-zinc-500">
+                    {course.duration ? <span>{course.duration}</span> : null}
+                    {course.schedule ? <span>{course.schedule}</span> : null}
+                    {course.instructor ? <span>{course.instructor}</span> : null}
+                    {course.location ? <span>{course.location}</span> : null}
+                    {course.price != null ? <span>₱ {course.price.toLocaleString("en-PH")}</span> : null}
+                  </div>
+                  {course.enrollment_href ? (
+                    <Link href={course.enrollment_href} className="mt-4 inline-block text-sm font-medium text-[#82502a] hover:underline">
+                      Register
+                    </Link>
+                  ) : null}
+                  {course.contact_info ? <p className="mt-2 text-xs text-zinc-400">{course.contact_info}</p> : null}
                 </div>
               </article>
             ))}

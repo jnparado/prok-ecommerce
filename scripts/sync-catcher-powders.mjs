@@ -78,15 +78,23 @@ const brands = await brandRes.json();
 const brandId = brands?.[0]?.id;
 if (!brandId) throw new Error("Catcher Gourmet brand not found in Supabase");
 
-const del = await fetch(`${url}/rest/v1/products?slug=eq.mocha-mix`, {
-  method: "DELETE",
-  headers,
-});
-if (!del.ok) {
-  throw new Error(`Delete mocha mix: ${del.status} ${await del.text()}`);
+const existingRes = await fetch(
+  `${url}/rest/v1/products?flavour_tab=eq.powder&select=slug,name`,
+  { headers: { ...headers, Accept: "application/json" } }
+);
+if (!existingRes.ok) {
+  throw new Error(`Fetch powder products: ${existingRes.status} ${await existingRes.text()}`);
+}
+const existing = await existingRes.json();
+const existingSlugs = new Set(existing.map((row) => row.slug));
+
+const fresh = products.filter((item) => !existingSlugs.has(item.slug));
+if (fresh.length === 0) {
+  console.log(`skipped ${products.length} powder mixes already in Supabase`);
+  process.exit(0);
 }
 
-const rows = products.map((item) => ({
+const rows = fresh.map((item) => ({
   name: item.name,
   slug: item.slug,
   image_src: `/images/${item.file}`,
@@ -109,4 +117,4 @@ if (!upsert.ok) {
 }
 
 const saved = await upsert.json();
-console.log(`saved ${saved.length} powder mix products`);
+console.log(`saved ${saved.length} new powder mix products; skipped ${products.length - fresh.length} duplicates`);

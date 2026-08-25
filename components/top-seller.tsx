@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 type SortKey = "newest" | "amount" | "name";
 type FilterKey = "all" | "Espresso Machines" | "Grinder";
 
-export function TopSeller() {
+export function TopSeller({ title }: { title?: string | null }) {
   const [sort, setSort] = useState<SortKey>("newest");
   const [filter, setFilter] = useState<FilterKey>("all");
   const [newOnly, setNewOnly] = useState(false);
@@ -71,7 +71,7 @@ export function TopSeller() {
       <div className="mx-auto max-w-[1100px]">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h2 className="text-xl font-medium text-zinc-700">Top Seller</h2>
+            <h2 className="text-xl font-medium text-zinc-700">{title || "Top Seller"}</h2>
             <p className="mt-1 text-sm text-zinc-400">
               {results.length} {results.length === 1 ? "result" : "results"}
             </p>

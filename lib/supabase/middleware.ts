@@ -28,6 +28,19 @@ export async function updateSession(request: NextRequest) {
     },
   });
 
-  await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const path = request.nextUrl.pathname;
+  const isAdminApp = path.startsWith("/admin") && path !== "/admin/login";
+
+  if (isAdminApp && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin/login";
+    url.searchParams.set("next", path);
+    return NextResponse.redirect(url);
+  }
+
   return supabaseResponse;
 }

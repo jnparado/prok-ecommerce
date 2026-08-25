@@ -5,11 +5,11 @@ import { valueProps } from "@/lib/site";
 
 const icons = [ShieldCheck, Truck, Heart];
 
-export function ValueProps() {
+export function ValueProps({ imageSrc }: { imageSrc?: string | null }) {
   return (
     <section className="relative overflow-hidden">
       <Image
-        src="/images/training-hero.png"
+        src={imageSrc || "/images/training-hero.png"}
         alt=""
         fill
         className="object-cover"

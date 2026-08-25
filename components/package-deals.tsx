@@ -15,7 +15,13 @@ function peso(value: number) {
 const featured = packageDeals.find((deal) => deal.featured)!;
 const bundles = packageDeals.filter((deal) => !deal.featured);
 
-export function PackageDeals() {
+export function PackageDeals({
+  title,
+  description,
+}: {
+  title?: string | null;
+  description?: string | null;
+}) {
   const [selected, setSelected] = useState(0);
   const chosen =
     "packages" in featured ? featured.packages[selected] : undefined;
@@ -28,10 +34,10 @@ export function PackageDeals() {
             Café starter bundles
           </p>
           <h2 className="mt-2 font-serif text-3xl text-zinc-800 md:text-[2.35rem]">
-            Package Deals
+            {title || "Package Deals"}
           </h2>
           <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-zinc-500">
-            Machine, grinder, training, and freebies — real packages you can inquire on today.
+            {description || "Machine, grinder, training, and freebies — real packages you can inquire on today."}
           </p>
         </div>
 

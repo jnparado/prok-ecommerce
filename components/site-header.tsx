@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, Search, User, X } from "lucide-react";
 
 import { BrandMark } from "@/components/brand-mark";
+import { CoffeeMenu } from "@/components/coffee-menu";
 import { EspressoMachineMenu } from "@/components/espresso-machine-menu";
 import { SiteLogo } from "@/components/site-logo";
 import { Button } from "@/components/ui/button";
@@ -197,7 +198,7 @@ export function SiteHeader() {
 
         <div className="ml-auto flex items-center gap-4">
           <Link
-            href="/#contact"
+            href="/admin/login"
             className="hidden items-center gap-2 text-[13px] font-medium text-[#222222] hover:text-[#82502a] md:inline-flex"
           >
             <User className="size-[22px] stroke-[1.6]" />
@@ -249,13 +250,22 @@ export function SiteHeader() {
         </div>
       ) : null}
 
+      {openItem && isCatalogMega(openItem) && openItem.label === "Coffee" ? (
+        <div className="absolute inset-x-0 top-full shadow-[0_18px_40px_rgba(80,50,20,0.12)]">
+          <CoffeeMenu onNavigate={close} />
+        </div>
+      ) : null}
+
       {openItem && isCatalogMega(openItem) && openItem.label === "Espresso Machines" ? (
         <div className="absolute inset-x-0 top-full border-t border-[#cbb392] shadow-[0_18px_40px_rgba(80,50,20,0.12)]">
           <EspressoMachineMenu onNavigate={close} />
         </div>
       ) : null}
 
-      {openItem && isCatalogMega(openItem) && openItem.label !== "Espresso Machines" ? (
+      {openItem &&
+      isCatalogMega(openItem) &&
+      openItem.label !== "Espresso Machines" &&
+      openItem.label !== "Coffee" ? (
         <div className="absolute inset-x-0 top-full border-t border-[#cbb392] bg-[#fffaf4] shadow-[0_18px_40px_rgba(80,50,20,0.12)]">
           <div className="mx-auto max-w-[1440px] px-8 py-8 lg:px-10 lg:py-10">
             <div className="flex flex-wrap gap-16 lg:gap-28">
@@ -359,7 +369,7 @@ export function SiteHeader() {
         <div className="flex max-h-[70vh] flex-col overflow-y-auto px-4 py-3">
           <div className="mb-2 flex flex-col gap-3 border-b border-[#be9f79] pb-3">
             <Link
-              href="/#contact"
+              href="/admin/login"
               className="inline-flex items-center gap-2 text-sm font-medium text-[#222222]"
               onClick={close}
             >
