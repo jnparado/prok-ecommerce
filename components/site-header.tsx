@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   brandPageHref,
-  headerNavGroups,
+  headerNavOrder,
   navDisplayLabel,
   navItems,
   navItemsByLabels,
@@ -24,10 +24,7 @@ type NavItem = (typeof navItems)[number];
 type CatalogMega = Extract<NavItem, { mega: "catalog" }>;
 type BrandsMega = Extract<NavItem, { mega: "brands" }>;
 
-const primaryLeft = navItemsByLabels(headerNavGroups.primaryLeft);
-const primaryRight = navItemsByLabels(headerNavGroups.primaryRight);
-const secondaryLeft = navItemsByLabels(headerNavGroups.secondaryLeft);
-const secondaryRight = navItemsByLabels(headerNavGroups.secondaryRight);
+const desktopNav = navItemsByLabels(headerNavOrder);
 
 function hasChildren(
   item: NavItem
@@ -188,53 +185,16 @@ export function SiteHeader() {
       </div>
 
       <nav className="hidden lg:block">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-8 px-10 pt-1">
-          <div className="flex min-w-0 flex-wrap items-center gap-2">
-            {primaryLeft.map((item) => (
-              <NavLink
-                key={item.label}
-                item={item}
-                isOpen={mega === item.label}
-                isActive={pathMatches(pathname, item.href)}
-                onOpen={() => openNavItem(item)}
-              />
-            ))}
-          </div>
-          <div className="flex shrink-0 items-center gap-2">
-            {primaryRight.map((item) => (
-              <NavLink
-                key={item.label}
-                item={item}
-                isOpen={mega === item.label}
-                isActive={pathMatches(pathname, item.href)}
-                onOpen={() => openNavItem(item)}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-8 px-10 pt-2 pb-4">
-          <div className="flex items-center gap-2">
-            {secondaryLeft.map((item) => (
-              <NavLink
-                key={item.label}
-                item={item}
-                isOpen={mega === item.label}
-                isActive={pathMatches(pathname, item.href)}
-                onOpen={() => openNavItem(item)}
-              />
-            ))}
-          </div>
-          <div className="flex items-center gap-2">
-            {secondaryRight.map((item) => (
-              <NavLink
-                key={item.label}
-                item={item}
-                isOpen={mega === item.label}
-                isActive={pathMatches(pathname, item.href)}
-                onOpen={() => openNavItem(item)}
-              />
-            ))}
-          </div>
+        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center gap-2 px-10 pt-1 pb-4">
+          {desktopNav.map((item) => (
+            <NavLink
+              key={item.label}
+              item={item}
+              isOpen={mega === item.label}
+              isActive={pathMatches(pathname, item.href)}
+              onOpen={() => openNavItem(item)}
+            />
+          ))}
         </div>
       </nav>
 
@@ -373,7 +333,7 @@ export function SiteHeader() {
               Admin Login
             </Link>
           </div>
-          {navItems.map((item) => (
+          {desktopNav.map((item) => (
             <div key={item.label} className="border-b border-[#cbb392]/70 last:border-b-0">
               <Link
                 href={item.href}

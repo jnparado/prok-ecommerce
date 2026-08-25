@@ -111,23 +111,30 @@ export const navItems = [
   { label: "Contact Us", href: "/#contact" },
 ] as const;
 
+export const headerNavOrder = [
+  "Home",
+  "About Us",
+  "Brands",
+  "Espresso Machines",
+  "Grinders",
+  "Coffee",
+  "Flavours",
+  "Cleaning Solution",
+  "Barista Training",
+  "Services",
+  "News & Events",
+  "Contact Us",
+] as const;
+
+/** @deprecated Prefer headerNavOrder — kept for any leftover imports */
 export const headerNavGroups = {
-  primaryLeft: [
-    "Home",
-    "Espresso Machines",
-    "Grinders",
-    "Coffee",
-    "Flavours",
-    "Brands",
-    "Cleaning Solution",
-  ],
-  primaryRight: ["Barista Training", "News & Events"],
-  secondaryLeft: ["Services", "Contact Us"],
-  secondaryRight: ["About Us"],
+  primaryLeft: headerNavOrder,
+  primaryRight: [],
+  secondaryLeft: [],
+  secondaryRight: [],
 } as const;
 
 export function navDisplayLabel(label: string) {
-  if (label === "Contact Us") return "Contact";
   return label;
 }
 

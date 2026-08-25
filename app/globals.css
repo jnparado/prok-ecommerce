@@ -50,6 +50,8 @@
   --animate-marquee: marquee 38s linear infinite;
   --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-machine-float: machine-float 4.8s ease-in-out infinite;
+  --animate-scale-in: scale-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-soft-pulse: soft-pulse 3.6s ease-in-out infinite;
 }
 
 @keyframes marquee {
@@ -82,9 +84,34 @@
   }
 }
 
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.75;
+    transform: scale(1.06);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
-  .animate-machine-float {
+  .animate-machine-float,
+  .animate-scale-in,
+  .animate-soft-pulse {
     animation: none !important;
   }
 }
