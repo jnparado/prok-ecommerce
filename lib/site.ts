@@ -126,12 +126,19 @@ export const headerNavOrder = [
   "Contact Us",
 ] as const;
 
-/** @deprecated Prefer headerNavOrder — kept for any leftover imports */
-export const headerNavGroups = {
-  primaryLeft: headerNavOrder,
-  primaryRight: [],
-  secondaryLeft: [],
-  secondaryRight: [],
+export const headerNavLayout = {
+  row1Left: [
+    "Home",
+    "About Us",
+    "Brands",
+    "Espresso Machines",
+    "Grinders",
+    "Coffee",
+    "Flavours",
+  ],
+  row1Right: ["Cleaning Solution", "Barista Training"],
+  row2Left: ["Services", "News & Events"],
+  row2Right: ["Contact Us"],
 } as const;
 
 export function navDisplayLabel(label: string) {
@@ -690,22 +697,75 @@ export const coffeeProducts = [
   },
 ] as const;
 
+export const flavourCatalogCopy = {
+  title: "Flavours",
+  description:
+    "Catcher Gourmet syrups, sauces, and powdered mixes for cafes and beverage programs — built for consistent flavour, clean pours, and a bar that looks the part.",
+  shopHeading: "Shop Flavours",
+  shopCaption: "Choose a flavour family",
+} as const;
+
+export const flavourTabCopy: Record<
+  string,
+  { title: string; description: string; selection: string }
+> = {
+  syrups: {
+    title: "Syrups",
+    description:
+      "Flavoured syrups for coffee, mocktails, and dessert drinks — from classic 750ml bottles to gourmet cafe pours.",
+    selection: "Syrups selection",
+  },
+  sauce: {
+    title: "Sauce",
+    description:
+      "Thick gourmet sauces and fruity toppings for lattes, desserts, and ice cream — ready for the bar and the pastry case.",
+    selection: "Sauce selection",
+  },
+  powder: {
+    title: "Powdered Mix",
+    description:
+      "Barista powdered mixes for lattes, frappes, smoothies, and hot chocolate — Catcher Gourmet 1kg bags ready for the bar.",
+    selection: "Powdered Mix selection",
+  },
+};
+
 export const flavourCategories = [
-  { slug: "syrups", label: "Syrups", src: "/images/syrup-irish-cream.png" },
-  { slug: "sauce", label: "Sauce", src: "/images/flavour-sauce.png" },
-  { slug: "powder", label: "Powdered Mix", src: "/images/flavour-powder.png" },
+  { slug: "syrups", label: "Syrups", src: "/images/syrup-irish-cream.jpg", padded: true },
+  { slug: "sauce", label: "Sauce", src: "/images/flavour-sauce.png", padded: false },
+  { slug: "powder", label: "Powdered Mix", src: "/images/flavour-powder.png", padded: false },
 ] as const;
 
 export const flavourProducts = [
-  { name: "Almond", tab: "syrups", src: "/images/syrup-almond.png" },
-  { name: "Irish Cream", tab: "syrups", src: "/images/syrup-irish-cream.png" },
-  { name: "Macadamia", tab: "syrups", src: "/images/syrup-macadamia.png" },
-  { name: "Caramel", tab: "syrups", src: "/images/syrup-caramel.png" },
-  { name: "Vanilla", tab: "syrups", src: "/images/syrup-vanilla.png" },
-  { name: "Caramel Sauce", tab: "sauce", src: "/images/flavour-sauce.png" },
-  { name: "Chocolate Sauce", tab: "sauce", src: "/images/product-sauce-chocolate.png" },
-  { name: "White Chocolate Mix", tab: "powder", src: "/images/flavour-powder.png" },
-  { name: "Mocha Mix", tab: "powder", src: "/images/product-powder-mocha.png" },
+  { name: "Chocolate", tab: "syrups", src: "/images/syrup-chocolate.png" },
+  { name: "White Chocolate", tab: "syrups", src: "/images/syrup-white-chocolate.png" },
+  { name: "Hazelnut", tab: "syrups", src: "/images/syrup-hazelnut.jpg" },
+  { name: "Caramel", tab: "syrups", src: "/images/syrup-caramel-2l.jpg" },
+  { name: "Matcha", tab: "syrups", src: "/images/syrup-matcha.jpg" },
+  { name: "Salted Caramel", tab: "syrups", src: "/images/syrup-salted-caramel.jpg" },
+  { name: "Pistachio", tab: "syrups", src: "/images/syrup-pistachio.jpg" },
+  { name: "Earl Grey", tab: "syrups", src: "/images/syrup-earl-grey.jpg" },
+  { name: "Irish Cream", tab: "syrups", src: "/images/syrup-irish-cream.jpg" },
+  { name: "Almond", tab: "sauce", src: "/images/sauce-almond.jpg" },
+  { name: "Irish Cream", tab: "sauce", src: "/images/sauce-irish-cream.jpg" },
+  { name: "Macadamia Nut", tab: "sauce", src: "/images/sauce-macadamia-nut.jpg" },
+  { name: "Vanilla", tab: "sauce", src: "/images/sauce-vanilla.jpg" },
+  { name: "Caramel", tab: "sauce", src: "/images/sauce-caramel.jpg" },
+  { name: "Peach Fruity Sauce", tab: "sauce", src: "/images/sauce-fruity-peach.png" },
+  { name: "Blackcurrant Fruity Sauce", tab: "sauce", src: "/images/sauce-fruity-blackcurrant.png" },
+  { name: "Blueberry Fruity Sauce", tab: "sauce", src: "/images/sauce-fruity-blueberry.png" },
+  { name: "Pink Guava Fruity Sauce", tab: "sauce", src: "/images/sauce-fruity-pink-guava.png" },
+  { name: "Mango Fruity Sauce", tab: "sauce", src: "/images/sauce-fruity-mango.png" },
+  { name: "Strawberry Fruity Sauce", tab: "sauce", src: "/images/sauce-fruity-strawberry.png" },
+  { name: "Crème Smoothies", tab: "powder", src: "/images/powder-creme-smoothies.jpg" },
+  { name: "Matcha Latte", tab: "powder", src: "/images/powder-matcha-latte.jpg" },
+  { name: "Crème Chocolate", tab: "powder", src: "/images/powder-creme-chocolate.jpg" },
+  { name: "Crème Vanilla Mix", tab: "powder", src: "/images/powder-creme-vanilla.jpg" },
+  { name: "Chai Tea Latte", tab: "powder", src: "/images/powder-chai-tea-latte.jpg" },
+  { name: "Crème Frappe Mix", tab: "powder", src: "/images/powder-creme-frappe.jpg" },
+  { name: "White Chocolate Mix", tab: "powder", src: "/images/powder-white-chocolate.jpg" },
+  { name: "Crème Yogurt Mix", tab: "powder", src: "/images/powder-creme-yogurt.jpg" },
+  { name: "Classic Chocolate", tab: "powder", src: "/images/powder-classic-chocolate.jpg" },
+  { name: "Bellagio Chocolate", tab: "powder", src: "/images/powder-bellagio-chocolate.jpg" },
 ] as const;
 
 export const cleaningCatalogCopy = {
@@ -835,15 +895,36 @@ export const brandCatalogCopy = {
 } as const;
 
 export const brandCatalog = [
-  { name: "Almond", brand: "Catcher Gourmet", src: "/images/syrup-almond.png" },
-  { name: "Irish Cream", brand: "Catcher Gourmet", src: "/images/syrup-irish-cream.png" },
-  { name: "Macadamia", brand: "Catcher Gourmet", src: "/images/syrup-macadamia.png" },
-  { name: "Caramel", brand: "Catcher Gourmet", src: "/images/syrup-caramel.png" },
-  { name: "Vanilla", brand: "Catcher Gourmet", src: "/images/syrup-vanilla.png" },
-  { name: "Caramel Sauce", brand: "Catcher Gourmet", src: "/images/flavour-sauce.png" },
-  { name: "Chocolate Sauce", brand: "Catcher Gourmet", src: "/images/product-sauce-chocolate.png" },
-  { name: "White Chocolate Mix", brand: "Catcher Gourmet", src: "/images/flavour-powder.png" },
-  { name: "Mocha Mix", brand: "Catcher Gourmet", src: "/images/product-powder-mocha.png" },
+  { name: "Chocolate", brand: "Catcher Gourmet", src: "/images/syrup-chocolate.png" },
+  { name: "White Chocolate", brand: "Catcher Gourmet", src: "/images/syrup-white-chocolate.png" },
+  { name: "Hazelnut", brand: "Catcher Gourmet", src: "/images/syrup-hazelnut.jpg" },
+  { name: "Caramel", brand: "Catcher Gourmet", src: "/images/syrup-caramel-2l.jpg" },
+  { name: "Matcha", brand: "Catcher Gourmet", src: "/images/syrup-matcha.jpg" },
+  { name: "Salted Caramel", brand: "Catcher Gourmet", src: "/images/syrup-salted-caramel.jpg" },
+  { name: "Pistachio", brand: "Catcher Gourmet", src: "/images/syrup-pistachio.jpg" },
+  { name: "Earl Grey", brand: "Catcher Gourmet", src: "/images/syrup-earl-grey.jpg" },
+  { name: "Irish Cream", brand: "Catcher Gourmet", src: "/images/syrup-irish-cream.jpg" },
+  { name: "Almond Sauce", brand: "Catcher Gourmet", src: "/images/sauce-almond.jpg" },
+  { name: "Irish Cream Sauce", brand: "Catcher Gourmet", src: "/images/sauce-irish-cream.jpg" },
+  { name: "Macadamia Nut Sauce", brand: "Catcher Gourmet", src: "/images/sauce-macadamia-nut.jpg" },
+  { name: "Vanilla Sauce", brand: "Catcher Gourmet", src: "/images/sauce-vanilla.jpg" },
+  { name: "Caramel Sauce", brand: "Catcher Gourmet", src: "/images/sauce-caramel.jpg" },
+  { name: "Peach Fruity Sauce", brand: "Catcher Gourmet", src: "/images/sauce-fruity-peach.png" },
+  { name: "Blackcurrant Fruity Sauce", brand: "Catcher Gourmet", src: "/images/sauce-fruity-blackcurrant.png" },
+  { name: "Blueberry Fruity Sauce", brand: "Catcher Gourmet", src: "/images/sauce-fruity-blueberry.png" },
+  { name: "Pink Guava Fruity Sauce", brand: "Catcher Gourmet", src: "/images/sauce-fruity-pink-guava.png" },
+  { name: "Mango Fruity Sauce", brand: "Catcher Gourmet", src: "/images/sauce-fruity-mango.png" },
+  { name: "Strawberry Fruity Sauce", brand: "Catcher Gourmet", src: "/images/sauce-fruity-strawberry.png" },
+  { name: "Crème Smoothies", brand: "Catcher Gourmet", src: "/images/powder-creme-smoothies.jpg" },
+  { name: "Matcha Latte", brand: "Catcher Gourmet", src: "/images/powder-matcha-latte.jpg" },
+  { name: "Crème Chocolate", brand: "Catcher Gourmet", src: "/images/powder-creme-chocolate.jpg" },
+  { name: "Crème Vanilla Mix", brand: "Catcher Gourmet", src: "/images/powder-creme-vanilla.jpg" },
+  { name: "Chai Tea Latte", brand: "Catcher Gourmet", src: "/images/powder-chai-tea-latte.jpg" },
+  { name: "Crème Frappe Mix", brand: "Catcher Gourmet", src: "/images/powder-creme-frappe.jpg" },
+  { name: "White Chocolate Mix", brand: "Catcher Gourmet", src: "/images/powder-white-chocolate.jpg" },
+  { name: "Crème Yogurt Mix", brand: "Catcher Gourmet", src: "/images/powder-creme-yogurt.jpg" },
+  { name: "Classic Chocolate", brand: "Catcher Gourmet", src: "/images/powder-classic-chocolate.jpg" },
+  { name: "Bellagio Chocolate", brand: "Catcher Gourmet", src: "/images/powder-bellagio-chocolate.jpg" },
   { name: "Casadio Compact", brand: "Casadio", src: "/images/product-casadio-compact.png" },
   { name: "UNDICI WD 2G", brand: "Casadio", src: "/images/product-undici-wd-2g.png" },
   { name: "Bravo", brand: "Eureka 1920", src: "/images/product-eureka-bravo.png" },

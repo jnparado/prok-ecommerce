@@ -1,12 +1,15 @@
-import Image from "next/image";
+import Image from "@/components/media-image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
-function MachinePlate({ label }: { label: string }) {
+function MachinePlate({ label, delay = 0 }: { label: string; delay?: number }) {
   return (
-    <span className="absolute top-5 left-5 border border-white/85 px-3 py-1.5 text-[11px] font-medium tracking-[0.32em] text-white uppercase md:top-6 md:left-6">
+    <span
+      className="absolute top-5 left-5 animate-fade-up border border-white/85 px-3 py-1.5 text-[11px] font-medium tracking-[0.32em] text-white uppercase transition-[letter-spacing,background-color] duration-500 group-hover:bg-white/10 group-hover:tracking-[0.4em] md:top-6 md:left-6"
+      style={{ animationDelay: `${delay}ms` }}
+    >
       {label}
     </span>
   );
@@ -23,6 +26,7 @@ function Tile({
   sizes,
   fit = "cover",
   plate,
+  delay = 0,
   children,
 }: {
   id?: string;
@@ -35,8 +39,11 @@ function Tile({
   sizes: string;
   fit?: "cover" | "contain";
   plate?: string;
+  delay?: number;
   children?: ReactNode;
 }) {
+  const captionText = caption.replace(/\s*>\s*$/, "").trim();
+
   return (
     <Link
       id={id}
@@ -59,17 +66,40 @@ function Tile({
       />
       <div
         className={cn(
-          "absolute inset-0",
+          "absolute inset-0 transition-colors duration-500",
           fit === "contain"
-            ? "bg-gradient-to-t from-black/80 via-black/20 to-black/35"
-            : "bg-black/45"
+            ? "bg-gradient-to-t from-black/80 via-black/20 to-black/35 group-hover:from-black/88"
+            : "bg-black/45 group-hover:bg-black/55"
         )}
       />
-      {plate ? <MachinePlate label={plate} /> : null}
+      {plate ? <MachinePlate label={plate} delay={delay} /> : null}
       {children}
       <div className="absolute inset-x-0 bottom-0 p-5 text-white md:p-6">
-        <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{title}</h2>
-        <p className="mt-2 max-w-md text-sm text-white/90">{caption}</p>
+        <h2 className="overflow-hidden text-3xl font-bold tracking-tight md:text-4xl">
+          <span
+            className="block animate-text-reveal"
+            style={{ animationDelay: `${delay + 80}ms` }}
+          >
+            <span className="block transition-transform duration-500 ease-out group-hover:-translate-y-1">
+              {title}
+            </span>
+          </span>
+        </h2>
+        <p
+          className="mt-2 flex max-w-md items-center text-sm text-white/90 animate-fade-up"
+          style={{ animationDelay: `${delay + 180}ms` }}
+        >
+          <span className="transition-colors duration-500 group-hover:text-white">
+            {captionText}
+          </span>
+          <span
+            aria-hidden
+            className="ml-1 inline-block transition-transform duration-500 ease-out group-hover:translate-x-2"
+          >
+            &gt;
+          </span>
+        </p>
+        <span className="mt-3 block h-px w-0 bg-white/85 transition-all duration-500 ease-out group-hover:w-16" />
       </div>
     </Link>
   );
@@ -90,6 +120,7 @@ export function FeaturedSection() {
             caption="Discover our premium collection of coffee machines >"
             sizes="(min-width: 1024px) 60vw, 100vw"
             fit="contain"
+            delay={0}
           />
           <Tile
             id="hotel"
@@ -99,6 +130,7 @@ export function FeaturedSection() {
             title="For Hotel"
             caption="Indulge your guest exquisite coffee select from our machine selection >"
             sizes="(min-width: 1024px) 60vw, 100vw"
+            delay={120}
           />
         </div>
 
@@ -113,6 +145,7 @@ export function FeaturedSection() {
             caption="Evaluate coffee from Restaurant dinning experience >"
             sizes="(min-width: 1024px) 40vw, 100vw"
             fit="contain"
+            delay={60}
           />
           <Tile
             id="office"
@@ -122,6 +155,7 @@ export function FeaturedSection() {
             title="For Office"
             caption="Fuel productivity delight on your office >"
             sizes="(min-width: 1024px) 40vw, 100vw"
+            delay={180}
           />
           <Tile
             id="homes"
@@ -131,6 +165,7 @@ export function FeaturedSection() {
             title="For Homes"
             caption="Evaluate coffee from home >"
             sizes="(min-width: 1024px) 40vw, 100vw"
+            delay={240}
           />
         </div>
       </div>

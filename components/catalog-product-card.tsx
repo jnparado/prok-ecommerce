@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/media-image";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";

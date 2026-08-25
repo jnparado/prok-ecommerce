@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/media-image";
 
 import { machineServicesCopy } from "@/lib/site";
 

@@ -171,6 +171,26 @@ to anon, authenticated, service_role;
 grant insert on table public.inquiries to anon, authenticated, service_role;
 grant select, update, delete on table public.inquiries to service_role;
 
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'images',
+  'images',
+  true,
+  15728640,
+  array['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/svg+xml', 'image/avif']
+)
+on conflict (id) do update
+set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Public read images" on storage.objects;
+create policy "Public read images"
+on storage.objects
+for select
+using (bucket_id = 'images');
+
 insert into public.brands (name, slug, sort_order) values
   ('Catcher Gourmet', 'catcher-gourmet', 1),
   ('Casadio', 'casadio', 2),
@@ -241,6 +261,9 @@ from (
 join public.brands b on b.slug = v.brand_slug
 on conflict (slug) do nothing;
 
+delete from public.products
+where slug in ('almond', 'irish-cream', 'macadamia', 'caramel', 'vanilla', 'mocha-mix');
+
 insert into public.products (
   name, slug, brand_id, category, image_src, flavour_tab
 )
@@ -248,18 +271,43 @@ select
   v.name, v.slug, b.id, v.category, v.image_src, v.flavour_tab
 from (
   values
-    ('Almond', 'almond', 'catcher-gourmet', 'flavour', '/images/syrup-almond.png', 'syrups'),
-    ('Irish Cream', 'irish-cream', 'catcher-gourmet', 'flavour', '/images/syrup-irish-cream.png', 'syrups'),
-    ('Macadamia', 'macadamia', 'catcher-gourmet', 'flavour', '/images/syrup-macadamia.png', 'syrups'),
-    ('Caramel', 'caramel', 'catcher-gourmet', 'flavour', '/images/syrup-caramel.png', 'syrups'),
-    ('Vanilla', 'vanilla', 'catcher-gourmet', 'flavour', '/images/syrup-vanilla.png', 'syrups'),
-    ('Caramel Sauce', 'caramel-sauce', 'catcher-gourmet', 'flavour', '/images/flavour-sauce.png', 'sauce'),
-    ('Chocolate Sauce', 'chocolate-sauce', 'catcher-gourmet', 'flavour', '/images/product-sauce-chocolate.png', 'sauce'),
-    ('White Chocolate Mix', 'white-chocolate-mix', 'catcher-gourmet', 'flavour', '/images/flavour-powder.png', 'powder'),
-    ('Mocha Mix', 'mocha-mix', 'catcher-gourmet', 'flavour', '/images/product-powder-mocha.png', 'powder')
+    ('Chocolate', 'chocolate-syrup', 'catcher-gourmet', 'flavour', '/images/syrup-chocolate.png', 'syrups'),
+    ('White Chocolate', 'white-chocolate-syrup', 'catcher-gourmet', 'flavour', '/images/syrup-white-chocolate.png', 'syrups'),
+    ('Hazelnut', 'hazelnut-syrup', 'catcher-gourmet', 'flavour', '/images/syrup-hazelnut.jpg', 'syrups'),
+    ('Caramel', 'caramel-2l-syrup', 'catcher-gourmet', 'flavour', '/images/syrup-caramel-2l.jpg', 'syrups'),
+    ('Matcha', 'matcha-syrup', 'catcher-gourmet', 'flavour', '/images/syrup-matcha.jpg', 'syrups'),
+    ('Salted Caramel', 'salted-caramel-syrup', 'catcher-gourmet', 'flavour', '/images/syrup-salted-caramel.jpg', 'syrups'),
+    ('Pistachio', 'pistachio-syrup', 'catcher-gourmet', 'flavour', '/images/syrup-pistachio.jpg', 'syrups'),
+    ('Earl Grey', 'earl-grey-syrup', 'catcher-gourmet', 'flavour', '/images/syrup-earl-grey.jpg', 'syrups'),
+    ('Irish Cream', 'irish-cream-syrup', 'catcher-gourmet', 'flavour', '/images/syrup-irish-cream.jpg', 'syrups'),
+    ('Almond', 'almond-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-almond.jpg', 'sauce'),
+    ('Irish Cream', 'irish-cream-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-irish-cream.jpg', 'sauce'),
+    ('Macadamia Nut', 'macadamia-nut-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-macadamia-nut.jpg', 'sauce'),
+    ('Vanilla', 'vanilla-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-vanilla.jpg', 'sauce'),
+    ('Caramel', 'caramel-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-caramel.jpg', 'sauce'),
+    ('Peach Fruity Sauce', 'peach-fruity-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-fruity-peach.png', 'sauce'),
+    ('Blackcurrant Fruity Sauce', 'blackcurrant-fruity-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-fruity-blackcurrant.png', 'sauce'),
+    ('Blueberry Fruity Sauce', 'blueberry-fruity-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-fruity-blueberry.png', 'sauce'),
+    ('Pink Guava Fruity Sauce', 'pink-guava-fruity-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-fruity-pink-guava.png', 'sauce'),
+    ('Mango Fruity Sauce', 'mango-fruity-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-fruity-mango.png', 'sauce'),
+    ('Strawberry Fruity Sauce', 'strawberry-fruity-sauce', 'catcher-gourmet', 'flavour', '/images/sauce-fruity-strawberry.png', 'sauce'),
+    ('Crème Smoothies', 'creme-smoothies', 'catcher-gourmet', 'flavour', '/images/powder-creme-smoothies.jpg', 'powder'),
+    ('Matcha Latte', 'matcha-latte-mix', 'catcher-gourmet', 'flavour', '/images/powder-matcha-latte.jpg', 'powder'),
+    ('Crème Chocolate', 'creme-chocolate', 'catcher-gourmet', 'flavour', '/images/powder-creme-chocolate.jpg', 'powder'),
+    ('Crème Vanilla Mix', 'creme-vanilla-mix', 'catcher-gourmet', 'flavour', '/images/powder-creme-vanilla.jpg', 'powder'),
+    ('Chai Tea Latte', 'chai-tea-latte', 'catcher-gourmet', 'flavour', '/images/powder-chai-tea-latte.jpg', 'powder'),
+    ('Crème Frappe Mix', 'creme-frappe-mix', 'catcher-gourmet', 'flavour', '/images/powder-creme-frappe.jpg', 'powder'),
+    ('White Chocolate Mix', 'white-chocolate-mix', 'catcher-gourmet', 'flavour', '/images/powder-white-chocolate.jpg', 'powder'),
+    ('Crème Yogurt Mix', 'creme-yogurt-mix', 'catcher-gourmet', 'flavour', '/images/powder-creme-yogurt.jpg', 'powder'),
+    ('Classic Chocolate', 'classic-chocolate', 'catcher-gourmet', 'flavour', '/images/powder-classic-chocolate.jpg', 'powder'),
+    ('Bellagio Chocolate', 'bellagio-chocolate', 'catcher-gourmet', 'flavour', '/images/powder-bellagio-chocolate.jpg', 'powder')
 ) as v(name, slug, brand_slug, category, image_src, flavour_tab)
 join public.brands b on b.slug = v.brand_slug
-on conflict (slug) do nothing;
+on conflict (slug) do update
+set
+  name = excluded.name,
+  image_src = excluded.image_src,
+  flavour_tab = excluded.flavour_tab;
 
 insert into public.package_deals (
   id, brand_id, title, subtitle, image_src, image_alt, featured,

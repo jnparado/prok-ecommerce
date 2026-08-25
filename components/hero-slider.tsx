@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/media-image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 

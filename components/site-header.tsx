@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image from "@/components/media-image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, Search, User, X } from "lucide-react";
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   brandPageHref,
+  headerNavLayout,
   headerNavOrder,
   navDisplayLabel,
   navItems,
@@ -24,7 +25,11 @@ type NavItem = (typeof navItems)[number];
 type CatalogMega = Extract<NavItem, { mega: "catalog" }>;
 type BrandsMega = Extract<NavItem, { mega: "brands" }>;
 
-const desktopNav = navItemsByLabels(headerNavOrder);
+const row1Left = navItemsByLabels(headerNavLayout.row1Left);
+const row1Right = navItemsByLabels(headerNavLayout.row1Right);
+const row2Left = navItemsByLabels(headerNavLayout.row2Left);
+const row2Right = navItemsByLabels(headerNavLayout.row2Right);
+const mobileNav = navItemsByLabels(headerNavOrder);
 
 function hasChildren(
   item: NavItem
@@ -72,8 +77,10 @@ function NavLink({
         href={item.href}
         aria-current={isActive ? "page" : undefined}
         className={cn(
-          "inline-flex items-center gap-1 rounded-full border border-[#c4a882] bg-[#eadfce] px-4 py-1.5 text-[14px] font-medium tracking-[-0.01em] whitespace-nowrap text-neutral-800 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-[#8b5a2b] hover:bg-[#8b5a2b] hover:text-white hover:shadow-[0_8px_18px_rgba(80,50,20,0.18)]",
-          highlighted && "border-[#8b5a2b] bg-[#8b5a2b] text-white"
+          "inline-flex items-center gap-1 rounded-full border px-4 py-[7px] text-[15px] font-medium tracking-[-0.01em] whitespace-nowrap transition-colors",
+          highlighted
+            ? "border-[#82502a] bg-[#82502a] text-white"
+            : "border-[#be9f79] bg-[#e7dbc8] text-[#222222] hover:border-[#82502a] hover:bg-[#82502a] hover:text-white"
         )}
       >
         {navDisplayLabel(item.label)}
@@ -90,12 +97,40 @@ function NavLink({
   );
 }
 
+function NavCluster({
+  items,
+  mega,
+  pathname,
+  onOpen,
+}: {
+  items: NavItem[];
+  mega: string | null;
+  pathname: string;
+  onOpen: (item: NavItem) => void;
+}) {
+  if (items.length === 0) return null;
+
+  return (
+    <div className="flex flex-nowrap items-center gap-x-2">
+      {items.map((item) => (
+        <NavLink
+          key={item.label}
+          item={item}
+          isOpen={mega === item.label}
+          isActive={pathMatches(pathname, item.href)}
+          onOpen={() => onOpen(item)}
+        />
+      ))}
+    </div>
+  );
+}
+
 function SearchForm({ className }: { className?: string }) {
   const [query, setQuery] = useState("");
 
   return (
     <form
-      className={cn("flex min-w-0", className)}
+      className={cn("flex min-w-0 overflow-hidden rounded-lg", className)}
       onSubmit={(event) => {
         event.preventDefault();
         document.getElementById("espresso-machines")?.scrollIntoView({
@@ -110,13 +145,13 @@ function SearchForm({ className }: { className?: string }) {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="What are you looking for?"
-          className="h-11 min-w-0 flex-1 rounded-none rounded-l-sm border-0 bg-white px-4 text-[15px] shadow-none placeholder:text-neutral-400 focus-visible:border-transparent focus-visible:ring-0"
+          className="h-11 min-w-0 flex-1 rounded-none border-0 bg-white px-4 text-[15px] shadow-none placeholder:text-neutral-400 focus-visible:border-transparent focus-visible:ring-0"
         />
       </label>
       <Button
         type="submit"
         aria-label="Search"
-        className="size-11 shrink-0 rounded-none rounded-r-sm border-0 bg-[#165c38] text-white hover:bg-[#124c2e]"
+        className="size-11 shrink-0 rounded-none border-0 bg-[#1a633a] text-white hover:bg-[#164f2e]"
       >
         <Search className="size-5" />
       </Button>
@@ -152,18 +187,18 @@ export function SiteHeader() {
 
   return (
     <header
-      className="sticky top-0 z-50 bg-[#d7c1a4] text-neutral-900 shadow-[0_8px_24px_rgba(80,50,20,0.08)]"
+      className="sticky top-0 z-50 bg-[#d3b99b] text-neutral-900 shadow-[0_8px_24px_rgba(80,50,20,0.08)]"
       onMouseLeave={() => setMega(null)}
     >
       <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-4 py-3 sm:px-6 lg:gap-8 lg:px-10 lg:py-5">
         <SiteLogo className="min-w-0 shrink-0 [&_img]:h-10 sm:[&_img]:h-11 lg:[&_img]:h-12" />
 
-        <SearchForm className="hidden max-w-[640px] flex-1 md:flex" />
+        <SearchForm className="hidden max-w-[760px] flex-1 md:flex" />
 
-        <div className="ml-auto flex items-center gap-4 lg:gap-6">
+        <div className="ml-auto flex items-center gap-4">
           <Link
             href="/#contact"
-            className="hidden items-center gap-2 text-sm font-semibold text-neutral-800 hover:text-[#165c38] md:inline-flex"
+            className="hidden items-center gap-2 text-[13px] font-medium text-[#222222] hover:text-[#82502a] md:inline-flex"
           >
             <User className="size-[22px] stroke-[1.6]" />
             Admin Login
@@ -185,16 +220,15 @@ export function SiteHeader() {
       </div>
 
       <nav className="hidden lg:block">
-        <div className="mx-auto flex max-w-[1440px] flex-wrap items-center gap-2 px-10 pt-1 pb-4">
-          {desktopNav.map((item) => (
-            <NavLink
-              key={item.label}
-              item={item}
-              isOpen={mega === item.label}
-              isActive={pathMatches(pathname, item.href)}
-              onOpen={() => openNavItem(item)}
-            />
-          ))}
+        <div className="mx-auto max-w-[1440px] px-4 pb-4 sm:px-6 lg:px-10">
+          <div className="flex items-center justify-between gap-10">
+            <NavCluster items={row1Left} mega={mega} pathname={pathname} onOpen={openNavItem} />
+            <NavCluster items={row1Right} mega={mega} pathname={pathname} onOpen={openNavItem} />
+          </div>
+          <div className="mt-1.5 flex items-center justify-between gap-10">
+            <NavCluster items={row2Left} mega={mega} pathname={pathname} onOpen={openNavItem} />
+            <NavCluster items={row2Right} mega={mega} pathname={pathname} onOpen={openNavItem} />
+          </div>
         </div>
       </nav>
 
@@ -318,35 +352,37 @@ export function SiteHeader() {
 
       <div
         className={cn(
-          "border-t border-[#cbb392] bg-[#d7c1a4] lg:hidden",
+          "border-t border-[#be9f79] bg-[#d3b99b] lg:hidden",
           mobileOpen ? "block" : "hidden"
         )}
       >
         <div className="flex max-h-[70vh] flex-col overflow-y-auto px-4 py-3">
-          <div className="mb-2 flex flex-col gap-3 border-b border-[#cbb392] pb-3">
+          <div className="mb-2 flex flex-col gap-3 border-b border-[#be9f79] pb-3">
             <Link
               href="/#contact"
-              className="inline-flex items-center gap-2 text-sm font-semibold"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[#222222]"
               onClick={close}
             >
               <User className="size-5 stroke-[1.6]" />
               Admin Login
             </Link>
           </div>
-          {desktopNav.map((item) => (
-            <div key={item.label} className="border-b border-[#cbb392]/70 last:border-b-0">
+          {mobileNav.map((item) => (
+            <div key={item.label} className="py-1.5">
               <Link
                 href={item.href}
                 aria-current={pathMatches(pathname, item.href) ? "page" : undefined}
                 className={cn(
-                  "flex items-center justify-between py-3 text-sm font-semibold",
-                  pathMatches(pathname, item.href) ? "text-[#8b5a2b]" : "text-neutral-800"
+                  "flex items-center justify-between rounded-full border px-4 py-2.5 text-sm font-medium",
+                  pathMatches(pathname, item.href)
+                    ? "border-[#82502a] bg-[#82502a] text-white"
+                    : "border-[#be9f79] bg-[#e7dbc8] text-[#222222]"
                 )}
                 onClick={close}
               >
                 {navDisplayLabel(item.label)}
                 {hasDropdown(item) ? (
-                  <ChevronDown className="size-4 text-neutral-500" />
+                  <ChevronDown className="size-4 text-current" />
                 ) : null}
               </Link>
               {hasChildren(item)

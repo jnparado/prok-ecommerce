@@ -1,15 +1,19 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Image from "next/image";
+import Image from "@/components/media-image";
+import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
+import { BrandMark } from "@/components/brand-mark";
 import {
   brandCatalog,
   brandCatalogCopy,
+  brandPageHref,
   brandSlug,
   navItems,
 } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 type SortKey = "default" | "az" | "za";
 
@@ -45,11 +49,34 @@ export function BrandsPage({ brand }: { brand?: string }) {
     <main className="flex-1 bg-[#f6f1e8]">
       <section className="mx-auto max-w-[1180px] px-5 py-10 md:px-8 md:py-12">
         <h1 className="font-serif text-[2.35rem] font-bold tracking-tight text-[#3d2416] md:text-5xl">
-          {brandCatalogCopy.title}
+          {selectedBrand ?? brandCatalogCopy.title}
         </h1>
         <p className="mt-4 max-w-[58ch] text-[15px] leading-7 text-zinc-400">
-          {brandCatalogCopy.description}
+          {selectedBrand
+            ? `All ${selectedBrand} products in the Prokrate catalog.`
+            : brandCatalogCopy.description}
         </p>
+
+        <div className="mt-8 flex items-stretch gap-2 overflow-x-auto pb-1">
+          {brandNames.map((name) => {
+            const slug = brandSlug(name);
+            const active = brand === slug;
+            return (
+              <Link
+                key={name}
+                href={active ? "/brands" : brandPageHref(name)}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "flex min-h-[120px] min-w-[108px] flex-1 items-center justify-center rounded-xl bg-white px-2 py-4 ring-1 ring-[#eadfce] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(80,50,20,0.12)]",
+                  active && "ring-2 ring-[#8b5a2b] shadow-[0_12px_24px_rgba(80,50,20,0.12)]"
+                )}
+              >
+                <BrandMark name={name} size="lg" />
+                <span className="sr-only">{name}</span>
+              </Link>
+            );
+          })}
+        </div>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <label htmlFor="brand-sort" className="text-sm text-zinc-700">

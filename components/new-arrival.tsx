@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image from "@/components/media-image";
 
 import { newArrivals } from "@/lib/site";
 import { cn } from "@/lib/utils";
