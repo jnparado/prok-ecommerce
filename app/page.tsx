@@ -14,10 +14,10 @@ export default function Home() {
     <main className="flex-1 bg-[#f6f1e8]">
       <HeroSlider />
       <FeaturedSection />
+      <ProductGallery />
       <NewArrival />
       <ValueProps />
       <PackageDeals />
-      <ProductGallery />
       <TopSeller />
       <ServicesBanner />
       <LatestNews />

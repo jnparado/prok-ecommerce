@@ -18,6 +18,7 @@ export function SiteLogo({
           alt="Prokrate International Trading Corporation"
           width={654}
           height={124}
+          priority
           className="h-11 w-auto sm:h-12 lg:h-[52px]"
         />
       ) : (

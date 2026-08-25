@@ -4,6 +4,14 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
+function MachinePlate({ label }: { label: string }) {
+  return (
+    <span className="absolute top-5 left-5 border border-white/85 px-3 py-1.5 text-[11px] font-medium tracking-[0.32em] text-white uppercase md:top-6 md:left-6">
+      {label}
+    </span>
+  );
+}
+
 function Tile({
   id,
   href,
@@ -13,6 +21,8 @@ function Tile({
   caption,
   className,
   sizes,
+  fit = "cover",
+  plate,
   children,
 }: {
   id?: string;
@@ -23,22 +33,39 @@ function Tile({
   caption: string;
   className?: string;
   sizes: string;
+  fit?: "cover" | "contain";
+  plate?: string;
   children?: ReactNode;
 }) {
   return (
     <Link
       id={id}
       href={href}
-      className={cn("group relative min-h-[220px] overflow-hidden", className)}
+      className={cn(
+        "group relative min-h-[220px] overflow-hidden",
+        fit === "contain" && "bg-[#1a1a1a]",
+        className
+      )}
     >
       <Image
         src={src}
         alt={alt}
         fill
-        className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+        className={cn(
+          "transition-transform duration-700 group-hover:scale-[1.04]",
+          fit === "contain" ? "object-contain p-6 md:p-8" : "object-cover"
+        )}
         sizes={sizes}
       />
-      <div className="absolute inset-0 bg-black/45" />
+      <div
+        className={cn(
+          "absolute inset-0",
+          fit === "contain"
+            ? "bg-gradient-to-t from-black/80 via-black/20 to-black/35"
+            : "bg-black/45"
+        )}
+      />
+      {plate ? <MachinePlate label={plate} /> : null}
       {children}
       <div className="absolute inset-x-0 bottom-0 p-5 text-white md:p-6">
         <h2 className="text-3xl font-bold tracking-tight md:text-4xl">{title}</h2>
@@ -56,11 +83,13 @@ export function FeaturedSection() {
           <Tile
             id="cafe"
             href="/espresso-machines?use=cafe"
-            src="/images/cafe-interior.png"
-            alt="Modern cafe interior"
+            src="/images/product-la-nuova-era-anniversario.png"
+            alt="La Nuova Era Anniversario espresso machine for cafes"
             title="Cafe"
+            plate="Cafe"
             caption="Discover our premium collection of coffee machines >"
             sizes="(min-width: 1024px) 60vw, 100vw"
+            fit="contain"
           />
           <Tile
             id="hotel"
@@ -77,21 +106,14 @@ export function FeaturedSection() {
           <Tile
             id="restaurant"
             href="/espresso-machines?use=restaurant"
-            src="/images/helios-grinder.png"
-            alt="Helios 75 grinder for restaurants"
+            src="/images/product-casadio-nettuno-a3.jpg"
+            alt="Casadio Nettuno A3 espresso machine for restaurants"
             title="Restaurant"
+            plate="Restaurant"
             caption="Evaluate coffee from Restaurant dinning experience >"
             sizes="(min-width: 1024px) 40vw, 100vw"
-          >
-            <div id="grinders" className="absolute top-5 right-5 max-w-[180px] text-right text-white">
-              <p className="text-xs font-semibold tracking-[0.14em] uppercase">
-                Helios 75 Grinder
-              </p>
-              <p className="mt-2 hidden text-[11px] leading-relaxed text-white/80 lg:block">
-                Commercial on-demand grinding built for high-volume service.
-              </p>
-            </div>
-          </Tile>
+            fit="contain"
+          />
           <Tile
             id="office"
             href="/espresso-machines?use=office"

@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { featuredProducts } from "@/lib/site";
+import { dreamCafeShopTiles, featuredProducts } from "@/lib/site";
 
 function formatPeso(value: number) {
-  return `₱ ${value.toLocaleString("en-US", {
+  return `₱${value.toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
@@ -12,43 +12,64 @@ function formatPeso(value: number) {
 
 export function ProductGallery() {
   return (
-    <section className="bg-[#f6f1e8] px-4 pb-16 md:px-8">
-      <div className="mx-auto max-w-[1180px] rounded-2xl bg-[#fff9f2] px-5 py-12 sm:px-8 md:px-10 md:py-16">
-        <div className="text-center">
-          <h2 className="font-serif text-3xl text-zinc-800 md:text-[2.15rem]">
-            Start your dream cafe business
-          </h2>
-          <p className="mt-3 text-sm text-zinc-500">
-            Our most loved selections by coffee connoisseurs
-          </p>
-        </div>
+    <section className="bg-[#f6f1e8] px-4 py-12 md:px-8 md:py-16">
+      <div className="mx-auto max-w-[1240px]">
+        <h2 className="text-center text-2xl font-bold tracking-tight text-neutral-900 md:text-[1.85rem]">
+          Start your dream cafe business
+        </h2>
 
-        <div className="mt-10 grid grid-cols-1 gap-x-7 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {featuredProducts.map((product) => (
-            <Link
-              key={product.name}
-              href="/espresso-machines"
-              className="group flex flex-col"
-            >
-              <div className="relative aspect-square w-full overflow-hidden bg-white shadow-[0_1px_8px_rgba(0,0,0,0.06)]">
+        <div className="mt-8 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(200px,0.28fr)] lg:gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+            {featuredProducts.map((product) => (
+              <Link
+                key={product.name}
+                href={product.href}
+                className="group flex flex-col border border-[#e6ddd0] bg-white p-3 transition-shadow duration-300 hover:shadow-[0_10px_24px_rgba(80,50,20,0.1)] sm:p-4"
+              >
+                <div className="relative aspect-square w-full overflow-hidden bg-white">
+                  <Image
+                    src={product.src}
+                    alt={product.name}
+                    fill
+                    className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.04] sm:p-3"
+                    sizes="(min-width: 1024px) 18vw, (min-width: 640px) 22vw, 45vw"
+                  />
+                </div>
+                <h3 className="mt-3 text-[15px] font-bold leading-snug text-neutral-900">
+                  {product.name}
+                </h3>
+                <p className="mt-1 text-sm text-zinc-400">{product.brand}</p>
+                <p className="mt-2 text-[15px] font-bold text-neutral-900">
+                  {formatPeso(product.price)}
+                </p>
+              </Link>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 lg:gap-4">
+            {dreamCafeShopTiles.map((tile) => (
+              <Link
+                key={tile.label}
+                href={tile.href}
+                className="group relative min-h-[180px] overflow-hidden lg:min-h-0"
+              >
                 <Image
-                  src={product.src}
-                  alt={product.name}
+                  src={tile.src}
+                  alt={tile.alt}
                   fill
-                  className="object-contain p-5 transition-transform duration-500 group-hover:scale-[1.04]"
-                  sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(min-width: 1024px) 22vw, 50vw"
                 />
-              </div>
-              <span className="mx-auto mt-3 inline-flex items-center rounded-full bg-[#c4a484] px-3 py-1 text-[10px] font-medium tracking-[0.12em] text-white">
-                {product.category}
-              </span>
-              <h3 className="mt-3 text-base font-semibold text-zinc-800">{product.name}</h3>
-              <p className="mt-1 text-xs text-zinc-400">{product.brand}</p>
-              <p className="mt-2 text-sm font-semibold text-zinc-800">
-                {formatPeso(product.price)}
-              </p>
-            </Link>
-          ))}
+                <div className="absolute inset-0 bg-black/45 transition-colors duration-300 group-hover:bg-black/35" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center text-white">
+                  <span className="text-sm font-medium tracking-wide">Shop</span>
+                  <span className="mt-1 text-xl font-bold tracking-tight md:text-2xl">
+                    {tile.label}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>

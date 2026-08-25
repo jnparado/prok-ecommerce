@@ -104,12 +104,38 @@ export const navItems = [
       },
     ],
   },
-  { label: "Cleaning Solution", href: "/#service" },
+  { label: "Cleaning Solution", href: "/cleaning-solution" },
   { label: "Barista Training", href: "/training" },
   { label: "Services", href: "/services" },
   { label: "News & Events", href: "/#news" },
   { label: "Contact Us", href: "/#contact" },
 ] as const;
+
+export const headerNavGroups = {
+  primaryLeft: [
+    "Home",
+    "Espresso Machines",
+    "Grinders",
+    "Coffee",
+    "Flavours",
+    "Brands",
+    "Cleaning Solution",
+  ],
+  primaryRight: ["Barista Training", "News & Events"],
+  secondaryLeft: ["Services", "Contact Us"],
+  secondaryRight: ["About Us"],
+} as const;
+
+export function navDisplayLabel(label: string) {
+  if (label === "Contact Us") return "Contact";
+  return label;
+}
+
+export function navItemsByLabels(labels: readonly string[]) {
+  return labels
+    .map((label) => navItems.find((item) => item.label === label))
+    .filter((item): item is (typeof navItems)[number] => item != null);
+}
 
 export const heroSlides = [
   {
@@ -207,60 +233,83 @@ export const valueProps = [
 
 export const featuredProducts = [
   {
-    name: "Doge Fenix",
-    brand: "DOGE",
+    name: "Anniversario",
+    brand: "La Nuova Era",
     category: "Espresso Machines",
-    price: 2392,
-    src: "/images/product-doge-fenix.png",
+    href: "/espresso-machines",
+    price: 21545,
+    src: "/images/product-la-nuova-era-anniversario.png",
   },
   {
-    name: "Casadio Compact",
+    name: "Nettuno A2",
     brand: "Casadio",
     category: "Espresso Machines",
+    href: "/espresso-machines",
     price: 3425,
-    src: "/images/product-casadio-compact.png",
-  },
-  {
-    name: "UNDICI WD 2G",
-    brand: "DOGE",
-    category: "Espresso Machines",
-    price: 25667,
-    src: "/images/product-undici-wd-2g.png",
-  },
-  {
-    name: "Bravo",
-    brand: "Eureka Grinder",
-    category: "Grinder",
-    price: 34876,
-    src: "/images/product-eureka-bravo.png",
-  },
-  {
-    name: "Firenze 75",
-    brand: "Eureka Grinder",
-    category: "Grinder",
-    price: 23545,
-    src: "/images/product-firenze-75.png",
+    src: "/images/product-casadio-nettuno-a2.jpg",
   },
   {
     name: "SLAYER EP",
-    brand: "SLAYER",
+    brand: "Slayer",
     category: "Espresso Machines",
+    href: "/espresso-machines",
     price: 21545,
     src: "/images/product-slayer-ep.png",
   },
   {
-    name: "SLAYER SG",
-    brand: "SLAYER",
+    name: "Lamille",
+    brand: "La Nuova Era",
     category: "Espresso Machines",
-    price: 65897,
-    src: "/images/product-slayer-sg.png",
+    href: "/espresso-machines",
+    price: 25667,
+    src: "/images/product-la-nuova-era-lamille.jpg",
   },
   {
-    name: "STEAM-LP-standard-2GR",
-    brand: "SLAYER",
-    category: "Espresso Machines",
-    price: 78565,
-    src: "/images/product-steam-lp-2gr.png",
+    name: "Firenze 75",
+    brand: "Eureka 1920",
+    category: "Grinder",
+    href: "/grinders",
+    price: 23545,
+    src: "/images/product-firenze-75.jpg",
+  },
+  {
+    name: "Helios 75",
+    brand: "Eureka 1920",
+    category: "Grinder",
+    href: "/grinders",
+    price: 34876,
+    src: "/images/product-helios-75.jpg",
+  },
+  {
+    name: "Mignon Silenzio",
+    brand: "Eureka 1920",
+    category: "Grinder",
+    href: "/grinders",
+    price: 18990,
+    src: "/images/product-mignon-silenzio.jpg",
+  },
+  {
+    name: "Mignon Turbo",
+    brand: "Eureka 1920",
+    category: "Grinder",
+    href: "/grinders",
+    price: 21450,
+    src: "/images/product-mignon-turbo.jpg",
+  },
+] as const;
+
+export const dreamCafeShopTiles = [
+  {
+    label: "Espresso Machine",
+    href: "/espresso-machines",
+    src: "/images/hero-slayer-steam.png",
+    alt: "Espresso pouring into a cup",
+  },
+  {
+    label: "Coffee Grinder",
+    href: "/grinders",
+    src: "/images/grinder-display.png",
+    alt: "Professional coffee grinder on a cafe counter",
   },
 ] as const;
 
@@ -310,7 +359,7 @@ export const topSellers = [
     brand: "Eureka Grinder",
     category: "Grinder",
     price: 23545,
-    src: "/images/product-firenze-75.png",
+    src: "/images/product-firenze-75.jpg",
     isNew: false,
   },
 ] as const;
@@ -391,43 +440,172 @@ export const espressoMachines = [
     uses: ["cafe", "restaurant", "hotel"],
     src: "/images/product-steam-lp-2gr.png",
   },
+  {
+    name: "Anniversario",
+    brand: "La Nuova Era",
+    groups: 2,
+    uses: ["cafe", "restaurant"],
+    src: "/images/product-la-nuova-era-anniversario.png",
+  },
+  {
+    name: "Nettuno A2",
+    brand: "Casadio",
+    groups: 2,
+    uses: ["cafe", "restaurant", "hotel"],
+    src: "/images/product-casadio-nettuno-a2.jpg",
+  },
+  {
+    name: "Nettuno A3",
+    brand: "Casadio",
+    groups: 2,
+    uses: ["restaurant", "hotel"],
+    src: "/images/product-casadio-nettuno-a3.jpg",
+  },
+  {
+    name: "LA5CENTO",
+    brand: "La Nuova Era",
+    groups: 2,
+    uses: ["cafe", "restaurant", "hotel"],
+    src: "/images/product-la-nuova-era-la5cento.jpg",
+  },
+  {
+    name: "IRON",
+    brand: "La Nuova Era",
+    groups: 2,
+    uses: ["cafe", "restaurant"],
+    src: "/images/product-la-nuova-era-iron.png",
+  },
+  {
+    name: "Altea Root",
+    brand: "La Nuova Era",
+    groups: 2,
+    uses: ["cafe", "restaurant"],
+    src: "/images/product-la-nuova-era-altea-root.png",
+  },
+  {
+    name: "Lamille",
+    brand: "La Nuova Era",
+    groups: 2,
+    uses: ["cafe", "restaurant", "hotel"],
+    src: "/images/product-la-nuova-era-lamille.jpg",
+  },
+  {
+    name: "Nettuno A1",
+    brand: "Casadio",
+    groups: 1,
+    uses: ["cafe", "office", "home"],
+    src: "/images/product-casadio-nettuno-a1.jpg",
+  },
+] as const;
+
+export function espressoMachinesForUse(use?: string) {
+  if (!use) return espressoMachines;
+  return espressoMachines.filter((item) => item.uses.some((value) => value === use));
+}
+
+export const espressoUseLabels: Record<string, string> = {
+  cafe: "Cafe",
+  restaurant: "Restaurant",
+  hotel: "Hotel",
+  office: "Office",
+  home: "Home",
+};
+
+export const espressoShopUses = [
+  { label: "Cafe", slug: "cafe", src: "/images/shop-machine-cafe.jpg" },
+  { label: "Restaurant", slug: "restaurant", src: "/images/shop-machine-restaurant.jpg" },
+  { label: "Hotel", slug: "hotel", src: "/images/shop-machine-hotel.jpg" },
+  { label: "Office", slug: "office", src: "/images/shop-machine-office.jpg" },
+  { label: "Home", slug: "home", src: "/images/shop-machine-home.jpg" },
 ] as const;
 
 export const grinderCatalogCopy = {
-  title: "Grinder",
+  title: "Grinders",
   description:
-    "Discover our premium collection of coffee machines, grinders, and specialty coffee selections. Each product is carefully curated for quality and performance.",
+    "Commercial and home grinders chosen for dose consistency, quiet operation, and a counter that looks the part — from cafe bars to home kitchens.",
 } as const;
 
+export const grinderUseLabels: Record<string, string> = {
+  cafe: "Cafe",
+  restaurant: "Restaurant",
+  hotel: "Hotel",
+  office: "Office",
+  home: "Home",
+};
+
 export const grinderShopUses = [
-  { label: "Cafe", slug: "cafe", src: "/images/shop-grinder-cafe.png" },
-  { label: "Restaurant", slug: "restaurant", src: "/images/shop-grinder-restaurant.png" },
-  { label: "Hotel", slug: "hotel", src: "/images/shop-grinder-hotel.png" },
-  { label: "Office", slug: "office", src: "/images/shop-grinder-office.png" },
-  { label: "Home", slug: "home", src: "/images/shop-grinder-home.png" },
+  { label: "Cafe", slug: "cafe", src: "/images/shop-machine-cafe.jpg" },
+  { label: "Restaurant", slug: "restaurant", src: "/images/shop-machine-restaurant.jpg" },
+  { label: "Hotel", slug: "hotel", src: "/images/shop-machine-hotel.jpg" },
+  { label: "Office", slug: "office", src: "/images/shop-machine-office.jpg" },
+  { label: "Home", slug: "home", src: "/images/shop-machine-home.jpg" },
 ] as const;
 
 export const grinders = [
-  {
-    name: "Bravo",
-    brand: "Eureka 1920",
-    series: "commercial",
-    uses: ["cafe", "restaurant", "hotel"],
-    src: "/images/product-eureka-bravo.png",
-  },
   {
     name: "Firenze 75",
     brand: "Eureka 1920",
     series: "commercial",
     uses: ["cafe", "restaurant", "hotel"],
-    src: "/images/product-firenze-75.png",
+    src: "/images/product-firenze-75.jpg",
+  },
+  {
+    name: "Firenze 85",
+    brand: "Eureka 1920",
+    series: "commercial",
+    uses: ["cafe", "restaurant", "hotel"],
+    src: "/images/product-firenze-85.jpg",
   },
   {
     name: "Helios 75",
     brand: "Eureka 1920",
     series: "commercial",
     uses: ["cafe", "restaurant", "hotel", "office"],
-    src: "/images/product-helios-75.png",
+    src: "/images/product-helios-75.jpg",
+  },
+  {
+    name: "Mignon Silenzio",
+    brand: "Eureka 1920",
+    series: "mignon",
+    uses: ["home", "office"],
+    src: "/images/product-mignon-silenzio.jpg",
+  },
+  {
+    name: "Mignon Turbo",
+    brand: "Eureka 1920",
+    series: "mignon",
+    uses: ["home", "office", "cafe"],
+    src: "/images/product-mignon-turbo.jpg",
+  },
+  {
+    name: "Mignon Zero 65",
+    brand: "Eureka 1920",
+    series: "mignon",
+    uses: ["home", "office", "cafe"],
+    src: "/images/product-mignon-zero-65.jpg",
+  },
+  {
+    name: "Mignon Drawer",
+    brand: "Eureka 1920",
+    series: "mignon",
+    uses: ["home", "office", "cafe"],
+    src: "/images/product-eureka-mignon-drawer.jpg",
+    detail: "Knock box drawer",
+  },
+  {
+    name: "Disko Auto Tamper",
+    brand: "Eureka 1920",
+    series: "commercial",
+    uses: ["cafe", "restaurant", "hotel"],
+    src: "/images/product-eureka-disko-tamper.jpg",
+    detail: "Automatic tamper",
+  },
+  {
+    name: "Bravo",
+    brand: "Eureka 1920",
+    series: "commercial",
+    uses: ["cafe", "restaurant", "hotel"],
+    src: "/images/product-eureka-bravo.png",
   },
   {
     name: "Zenith",
@@ -442,13 +620,6 @@ export const grinders = [
     series: "mignon",
     uses: ["home", "office", "cafe"],
     src: "/images/product-mignon-specialita.png",
-  },
-  {
-    name: "Mignon Silenzio",
-    brand: "Eureka 1920",
-    series: "mignon",
-    uses: ["home", "office"],
-    src: "/images/product-mignon-silenzio.png",
   },
   {
     name: "Casadio On Demand",
@@ -530,6 +701,78 @@ export const flavourProducts = [
   { name: "Mocha Mix", tab: "powder", src: "/images/product-powder-mocha.png" },
 ] as const;
 
+export const cleaningCatalogCopy = {
+  title: "Cleaning Solution",
+  description:
+    "Professional espresso and grinder cleaning products to keep every machine tasting clean, running smooth, and looking ready for service.",
+} as const;
+
+export const cleaningCategories = [
+  { slug: "machine", label: "Machine" },
+  { slug: "milk", label: "Milk System" },
+  { slug: "grinder", label: "Grinder" },
+  { slug: "bar", label: "Bar Care" },
+] as const;
+
+export const cleaningProducts = [
+  {
+    name: "pulyCAFF Plus",
+    brand: "puly CAFF",
+    category: "machine",
+    detail: "Backflush detergent",
+    src: "/images/brand-pulycaff.png",
+  },
+  {
+    name: "pulyCAFF Tabs",
+    brand: "puly CAFF",
+    category: "machine",
+    detail: "Group head tablets",
+    src: "/images/brand-pulycaff.png",
+  },
+  {
+    name: "pulyCAFF Descaler",
+    brand: "puly CAFF",
+    category: "machine",
+    detail: "Limescale remover",
+    src: "/images/brand-pulycaff.png",
+  },
+  {
+    name: "pulyMILK",
+    brand: "puly CAFF",
+    category: "milk",
+    detail: "Milk system cleaner",
+    src: "/images/brand-pulycaff.png",
+  },
+  {
+    name: "pulySTEAM",
+    brand: "puly CAFF",
+    category: "milk",
+    detail: "Steam wand cleaner",
+    src: "/images/brand-pulycaff.png",
+  },
+  {
+    name: "pulyGRIND",
+    brand: "puly CAFF",
+    category: "grinder",
+    detail: "Grinder cleaner",
+    src: "/images/brand-pulycaff.png",
+  },
+  {
+    name: "pulyBAR",
+    brand: "puly CAFF",
+    category: "bar",
+    detail: "Bar surface cleaner",
+    src: "/images/brand-pulycaff.png",
+  },
+  {
+    name: "pulyBRUSH Kit",
+    brand: "puly CAFF",
+    category: "bar",
+    detail: "Group & portafilter brushes",
+    src: "/images/brand-pulycaff.png",
+  },
+] as const;
+
 export const trainingCourses = [
   {
     title: "Barista 101",
@@ -597,11 +840,16 @@ export const brandCatalog = [
   { name: "Casadio Compact", brand: "Casadio", src: "/images/product-casadio-compact.png" },
   { name: "UNDICI WD 2G", brand: "Casadio", src: "/images/product-undici-wd-2g.png" },
   { name: "Bravo", brand: "Eureka 1920", src: "/images/product-eureka-bravo.png" },
-  { name: "Firenze 75", brand: "Eureka 1920", src: "/images/product-firenze-75.png" },
-  { name: "Helios 75", brand: "Eureka 1920", src: "/images/product-helios-75.png" },
+  { name: "Firenze 75", brand: "Eureka 1920", src: "/images/product-firenze-75.jpg" },
+  { name: "Helios 75", brand: "Eureka 1920", src: "/images/product-helios-75.jpg" },
   { name: "Zenith", brand: "Eureka 1920", src: "/images/product-eureka-zenith.png" },
   { name: "Mignon Specialita", brand: "Eureka 1920", src: "/images/product-mignon-specialita.png" },
-  { name: "Mignon Silenzio", brand: "Eureka 1920", src: "/images/product-mignon-silenzio.png" },
+  { name: "Firenze 85", brand: "Eureka 1920", src: "/images/product-firenze-85.jpg" },
+  { name: "Mignon Silenzio", brand: "Eureka 1920", src: "/images/product-mignon-silenzio.jpg" },
+  { name: "Mignon Turbo", brand: "Eureka 1920", src: "/images/product-mignon-turbo.jpg" },
+  { name: "Mignon Zero 65", brand: "Eureka 1920", src: "/images/product-mignon-zero-65.jpg" },
+  { name: "Mignon Drawer", brand: "Eureka 1920", src: "/images/product-eureka-mignon-drawer.jpg" },
+  { name: "Disko Auto Tamper", brand: "Eureka 1920", src: "/images/product-eureka-disko-tamper.jpg" },
   { name: "Casadio On Demand", brand: "Casadio", src: "/images/product-casadio-grinder.png" },
   { name: "Idillio", brand: "Marcafé", src: "/images/product-marcafe-idillio.png" },
   { name: "Classico", brand: "Marcafé", src: "/images/product-marcafe-classico.png" },

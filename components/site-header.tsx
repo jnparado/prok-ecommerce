@@ -4,16 +4,30 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, Search, User, X } from "lucide-react";
 
 import { BrandMark } from "@/components/brand-mark";
+import { EspressoMachineMenu } from "@/components/espresso-machine-menu";
 import { SiteLogo } from "@/components/site-logo";
-import { brandPageHref, brandSlug, navItems } from "@/lib/site";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  brandPageHref,
+  headerNavGroups,
+  navDisplayLabel,
+  navItems,
+  navItemsByLabels,
+} from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 type NavItem = (typeof navItems)[number];
 type CatalogMega = Extract<NavItem, { mega: "catalog" }>;
 type BrandsMega = Extract<NavItem, { mega: "brands" }>;
+
+const primaryLeft = navItemsByLabels(headerNavGroups.primaryLeft);
+const primaryRight = navItemsByLabels(headerNavGroups.primaryRight);
+const secondaryLeft = navItemsByLabels(headerNavGroups.secondaryLeft);
+const secondaryRight = navItemsByLabels(headerNavGroups.secondaryRight);
 
 function hasChildren(
   item: NavItem
@@ -29,41 +43,100 @@ function isBrandsMega(item: NavItem): item is BrandsMega {
   return "mega" in item && item.mega === "brands";
 }
 
-function NavPill({
+function hasDropdown(item: NavItem) {
+  return hasChildren(item) || isCatalogMega(item) || isBrandsMega(item);
+}
+
+function pathMatches(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  const path = href.split("?")[0].split("#")[0];
+  // Homepage anchors like /#news are not dedicated pages
+  if (!path || path === "/") return false;
+  return pathname === path || pathname.startsWith(`${path}/`);
+}
+
+function NavLink({
   item,
   isOpen,
+  isActive,
   onOpen,
 }: {
   item: NavItem;
   isOpen: boolean;
+  isActive: boolean;
   onOpen: () => void;
 }) {
-  const dropdown = hasChildren(item) || isCatalogMega(item) || isBrandsMega(item);
+  const dropdown = hasDropdown(item);
+  const highlighted = isOpen || isActive;
 
   return (
     <div onMouseEnter={onOpen} className="shrink-0">
       <Link
         href={item.href}
+        aria-current={isActive ? "page" : undefined}
         className={cn(
-          "inline-flex items-center gap-1 rounded-full border px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors",
-          isOpen
-            ? "border-[#8b5a2b] bg-[#8b5a2b] text-white"
-            : "border-[#d4c4b0] bg-[#fffaf4]/90 text-zinc-800 hover:bg-white"
+          "inline-flex items-center gap-1 rounded-full border border-[#c4a882] bg-[#eadfce] px-4 py-1.5 text-[14px] font-medium tracking-[-0.01em] whitespace-nowrap text-neutral-800 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.04] hover:border-[#8b5a2b] hover:bg-[#8b5a2b] hover:text-white hover:shadow-[0_8px_18px_rgba(80,50,20,0.18)]",
+          highlighted && "border-[#8b5a2b] bg-[#8b5a2b] text-white"
         )}
       >
-        {item.label}
+        {navDisplayLabel(item.label)}
         {dropdown ? (
-          <ChevronDown className={cn("size-3.5 transition-transform", isOpen && "rotate-180")} />
+          <ChevronDown
+            className={cn(
+              "size-3.5 text-current transition-transform duration-200",
+              isOpen && "rotate-180"
+            )}
+          />
         ) : null}
       </Link>
     </div>
   );
 }
 
+function SearchForm({ className }: { className?: string }) {
+  const [query, setQuery] = useState("");
+
+  return (
+    <form
+      className={cn("flex min-w-0", className)}
+      onSubmit={(event) => {
+        event.preventDefault();
+        document.getElementById("espresso-machines")?.scrollIntoView({
+          behavior: "smooth",
+        });
+      }}
+    >
+      <label className="flex min-w-0 flex-1">
+        <span className="sr-only">Search</span>
+        <Input
+          type="search"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="What are you looking for?"
+          className="h-11 min-w-0 flex-1 rounded-none rounded-l-sm border-0 bg-white px-4 text-[15px] shadow-none placeholder:text-neutral-400 focus-visible:border-transparent focus-visible:ring-0"
+        />
+      </label>
+      <Button
+        type="submit"
+        aria-label="Search"
+        className="size-11 shrink-0 rounded-none rounded-r-sm border-0 bg-[#165c38] text-white hover:bg-[#124c2e]"
+      >
+        <Search className="size-5" />
+      </Button>
+    </form>
+  );
+}
+
+function useFromHref(href: string) {
+  const query = href.split("?")[1];
+  if (!query) return null;
+  return new URLSearchParams(query).get("use");
+}
+
 export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mega, setMega] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
+  const [catalogUse, setCatalogUse] = useState("cafe");
   const pathname = usePathname();
 
   const openItem = navItems.find((item) => item.label === mega);
@@ -73,77 +146,107 @@ export function SiteHeader() {
     setMobileOpen(false);
   }
 
+  function openNavItem(item: NavItem) {
+    setMega(hasDropdown(item) ? item.label : null);
+    if (item.label === "Espresso Machines") {
+      setCatalogUse("cafe");
+    }
+  }
+
   return (
     <header
-      className="sticky top-0 z-50"
-      style={{ backgroundColor: "#eadfce" }}
+      className="sticky top-0 z-50 bg-[#d7c1a4] text-neutral-900 shadow-[0_8px_24px_rgba(80,50,20,0.08)]"
       onMouseLeave={() => setMega(null)}
     >
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-4 pt-6 pb-3.5 lg:px-6">
-        <SiteLogo className="min-w-0" />
+      <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-4 py-3 sm:px-6 lg:gap-8 lg:px-10 lg:py-5">
+        <SiteLogo className="min-w-0 shrink-0 [&_img]:h-10 sm:[&_img]:h-11 lg:[&_img]:h-12" />
 
-        <form
-          className="hidden items-center sm:flex"
-          onSubmit={(event) => {
-            event.preventDefault();
-            document.getElementById("espresso-machines")?.scrollIntoView({ behavior: "smooth" });
-          }}
-        >
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search"
-            className="h-9 w-56 rounded-l border border-zinc-300 bg-white px-3 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 md:w-72 lg:w-[22rem]"
-          />
-          <button
-            type="submit"
-            aria-label="Search"
-            className="inline-flex size-9 items-center justify-center rounded-r bg-[#6b3e24] text-white"
+        <SearchForm className="hidden max-w-[640px] flex-1 md:flex" />
+
+        <div className="ml-auto flex items-center gap-4 lg:gap-6">
+          <Link
+            href="/#contact"
+            className="hidden items-center gap-2 text-sm font-semibold text-neutral-800 hover:text-[#165c38] md:inline-flex"
           >
-            <ArrowRight className="size-4" />
+            <User className="size-[22px] stroke-[1.6]" />
+            Admin Login
+          </Link>
+          <button
+            type="button"
+            className="inline-flex size-10 items-center justify-center text-neutral-800 hover:text-[#165c38] lg:hidden"
+            onClick={() => setMobileOpen((value) => !value)}
+            aria-expanded={mobileOpen}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          >
+            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
-        </form>
-
-        <button
-          type="button"
-          className="inline-flex size-10 items-center justify-center text-zinc-800 lg:hidden"
-          onClick={() => setMobileOpen((value) => !value)}
-          aria-expanded={mobileOpen}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+        </div>
       </div>
 
-      <nav className="hidden w-full px-3 pb-5 lg:block">
-        <div className="mx-auto flex max-w-none flex-nowrap items-center gap-2 overflow-x-auto px-1 xl:justify-start">
-          {navItems.map((item) => (
-            <NavPill
-              key={item.label}
-              item={item}
-              isOpen={mega === item.label || item.href === pathname}
-              onOpen={() =>
-                setMega(
-                  hasChildren(item) || isCatalogMega(item) || isBrandsMega(item)
-                    ? item.label
-                    : null
-                )
-              }
-            />
-          ))}
+      <div className="px-4 pb-3 md:hidden">
+        <SearchForm />
+      </div>
+
+      <nav className="hidden lg:block">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-8 px-10 pt-1">
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            {primaryLeft.map((item) => (
+              <NavLink
+                key={item.label}
+                item={item}
+                isOpen={mega === item.label}
+                isActive={pathMatches(pathname, item.href)}
+                onOpen={() => openNavItem(item)}
+              />
+            ))}
+          </div>
+          <div className="flex shrink-0 items-center gap-2">
+            {primaryRight.map((item) => (
+              <NavLink
+                key={item.label}
+                item={item}
+                isOpen={mega === item.label}
+                isActive={pathMatches(pathname, item.href)}
+                onOpen={() => openNavItem(item)}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-8 px-10 pt-2 pb-4">
+          <div className="flex items-center gap-2">
+            {secondaryLeft.map((item) => (
+              <NavLink
+                key={item.label}
+                item={item}
+                isOpen={mega === item.label}
+                isActive={pathMatches(pathname, item.href)}
+                onOpen={() => openNavItem(item)}
+              />
+            ))}
+          </div>
+          <div className="flex items-center gap-2">
+            {secondaryRight.map((item) => (
+              <NavLink
+                key={item.label}
+                item={item}
+                isOpen={mega === item.label}
+                isActive={pathMatches(pathname, item.href)}
+                onOpen={() => openNavItem(item)}
+              />
+            ))}
+          </div>
         </div>
       </nav>
 
       {openItem && isBrandsMega(openItem) ? (
-        <div className="absolute inset-x-0 top-full border-t border-zinc-300 bg-gradient-to-b from-white to-[#c8c8c8] shadow-md">
-          <div className="mx-auto flex max-w-[1280px] items-stretch gap-2 overflow-visible px-3 py-6 sm:gap-3 sm:px-6 lg:px-8 lg:py-7">
+        <div className="absolute inset-x-0 top-full border-t border-[#cbb392] bg-[#fffaf4] shadow-[0_18px_40px_rgba(80,50,20,0.12)]">
+          <div className="mx-auto flex max-w-[1440px] items-stretch gap-2 overflow-visible px-3 py-6 sm:gap-3 sm:px-6 lg:px-10 lg:py-7">
             {openItem.brands.map((name) => (
               <Link
                 key={name}
                 href={brandPageHref(name)}
                 onClick={close}
-                className="flex min-h-[140px] min-w-0 flex-1 items-center justify-center rounded-xl bg-[#e6e6e6] px-1.5 py-4 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:scale-[1.06] hover:bg-[#f3f3f3] hover:shadow-[0_12px_24px_rgba(0,0,0,0.16)] sm:min-h-[160px] sm:px-2"
+                className="flex min-h-[140px] min-w-0 flex-1 items-center justify-center rounded-xl bg-white px-1.5 py-4 ring-1 ring-[#eadfce] transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1.5 hover:scale-[1.04] hover:shadow-[0_12px_24px_rgba(80,50,20,0.12)] sm:min-h-[160px] sm:px-2"
               >
                 <BrandMark name={name} size="lg" />
               </Link>
@@ -152,30 +255,47 @@ export function SiteHeader() {
         </div>
       ) : null}
 
-      {openItem && isCatalogMega(openItem) ? (
-        <div className="absolute inset-x-0 top-full border-t border-zinc-300 bg-gradient-to-b from-[#f3f3f3] via-white to-[#cfcfcf] shadow-md">
-          <div className="mx-auto max-w-[1280px] px-8 py-8 lg:px-12 lg:py-10">
+      {openItem && isCatalogMega(openItem) && openItem.label === "Espresso Machines" ? (
+        <div className="absolute inset-x-0 top-full border-t border-[#cbb392] shadow-[0_18px_40px_rgba(80,50,20,0.12)]">
+          <EspressoMachineMenu onNavigate={close} />
+        </div>
+      ) : null}
+
+      {openItem && isCatalogMega(openItem) && openItem.label !== "Espresso Machines" ? (
+        <div className="absolute inset-x-0 top-full border-t border-[#cbb392] bg-[#fffaf4] shadow-[0_18px_40px_rgba(80,50,20,0.12)]">
+          <div className="mx-auto max-w-[1440px] px-8 py-8 lg:px-10 lg:py-10">
             <div className="flex flex-wrap gap-16 lg:gap-28">
-              <ul className="space-y-4">
-                {openItem.children.map((child) => (
-                  <li key={child.label}>
-                    <Link
-                      href={child.href}
-                      className="text-[15px] text-zinc-800 hover:text-[#8b5a2b]"
-                      onClick={close}
-                    >
-                      {child.label}
-                    </Link>
-                  </li>
-                ))}
+              <ul className="space-y-1">
+                {openItem.children.map((child) => {
+                  const childUse = useFromHref(child.href);
+                  const active = Boolean(childUse && childUse === catalogUse);
+
+                  return (
+                    <li key={child.label}>
+                      <Link
+                        href={child.href}
+                        className={cn(
+                          "block rounded-md px-1 py-1.5 text-[15px] transition-colors hover:text-[#165c38]",
+                          active ? "font-medium text-[#165c38]" : "text-zinc-700"
+                        )}
+                        onMouseEnter={() => {
+                          if (childUse) setCatalogUse(childUse);
+                        }}
+                        onClick={close}
+                      >
+                        {child.label}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
               {openItem.extras.length > 0 ? (
-                <ul className="space-y-4">
+                <ul className="space-y-1">
                   {openItem.extras.map((child) => (
                     <li key={child.label}>
                       <Link
                         href={child.href}
-                        className="text-[15px] text-zinc-800 hover:text-[#8b5a2b]"
+                        className="block rounded-md px-1 py-1.5 text-[15px] text-zinc-700 transition-colors hover:text-[#165c38]"
                         onClick={close}
                       >
                         {child.label}
@@ -184,24 +304,11 @@ export function SiteHeader() {
                   ))}
                 </ul>
               ) : null}
-              {openItem.label === "Espresso Machines" ? (
-                <ul className="space-y-4">
-                  <li>
-                    <Link
-                      href="/#packages"
-                      className="text-[15px] text-zinc-800 hover:text-[#8b5a2b]"
-                      onClick={close}
-                    >
-                      Package Deals
-                    </Link>
-                  </li>
-                </ul>
-              ) : null}
               {!("brands" in openItem) && openItem.featured.length > 0 ? (
                 <div className="ml-auto flex gap-6">
                   {openItem.featured.map((brand) => (
                     <div key={brand.cta} className="flex w-36 flex-col items-center">
-                      <div className="flex h-[100px] w-36 items-center justify-center rounded-xl bg-[#e6e6e6] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)]">
+                      <div className="flex h-[100px] w-36 items-center justify-center rounded-xl bg-white ring-1 ring-[#eadfce]">
                         {brand.src ? (
                           <div className="relative h-20 w-32">
                             <Image
@@ -218,7 +325,7 @@ export function SiteHeader() {
                       </div>
                       <Link
                         href={brand.href}
-                        className="mt-3 text-center text-sm text-[#8b5a2b] hover:underline"
+                        className="mt-3 text-center text-sm text-[#165c38] hover:underline"
                         onClick={close}
                       >
                         {brand.cta}
@@ -228,33 +335,18 @@ export function SiteHeader() {
                 </div>
               ) : null}
             </div>
-
-            {"brands" in openItem && openItem.brands.length > 0 ? (
-              <div className="mt-10 flex items-stretch gap-3">
-                {openItem.brands.map((name) => (
-                  <Link
-                    key={name}
-                    href={`/espresso-machines?brand=${brandSlug(name)}`}
-                    onClick={close}
-                    className="flex h-[100px] min-w-0 flex-1 items-center justify-center rounded-xl bg-[#e6e6e6] px-2 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all duration-300 ease-out hover:z-10 hover:-translate-y-1 hover:scale-[1.04] hover:bg-[#f3f3f3] hover:shadow-[0_10px_20px_rgba(0,0,0,0.14)]"
-                  >
-                    <BrandMark name={name} size="lg" />
-                  </Link>
-                ))}
-              </div>
-            ) : null}
           </div>
         </div>
       ) : null}
 
       {openItem && hasChildren(openItem) && !isCatalogMega(openItem) && !isBrandsMega(openItem) ? (
-        <div className="absolute inset-x-0 top-full border-t border-[#e2d6c6] bg-[#fffaf4] py-3 shadow-sm">
-          <div className="mx-auto flex max-w-[1280px] gap-6 px-6">
+        <div className="absolute inset-x-0 top-full border-t border-[#cbb392] bg-[#fffaf4] py-3 shadow-[0_18px_40px_rgba(80,50,20,0.12)]">
+          <div className="mx-auto flex max-w-[1440px] gap-6 px-10">
             {openItem.children.map((child) => (
               <Link
                 key={child.label}
                 href={child.href}
-                className="text-sm text-zinc-700 hover:text-[#8b5a2b]"
+                className="text-sm text-zinc-700 hover:text-[#165c38]"
                 onClick={close}
               >
                 {child.label}
@@ -265,20 +357,36 @@ export function SiteHeader() {
       ) : null}
 
       <div
-        className={cn("border-t border-zinc-300 lg:hidden", mobileOpen ? "block" : "hidden")}
-        style={{ backgroundColor: "#eadfce" }}
+        className={cn(
+          "border-t border-[#cbb392] bg-[#d7c1a4] lg:hidden",
+          mobileOpen ? "block" : "hidden"
+        )}
       >
         <div className="flex max-h-[70vh] flex-col overflow-y-auto px-4 py-3">
+          <div className="mb-2 flex flex-col gap-3 border-b border-[#cbb392] pb-3">
+            <Link
+              href="/#contact"
+              className="inline-flex items-center gap-2 text-sm font-semibold"
+              onClick={close}
+            >
+              <User className="size-5 stroke-[1.6]" />
+              Admin Login
+            </Link>
+          </div>
           {navItems.map((item) => (
-            <div key={item.label} className="border-b border-zinc-100 last:border-b-0">
+            <div key={item.label} className="border-b border-[#cbb392]/70 last:border-b-0">
               <Link
                 href={item.href}
-                className="flex items-center justify-between py-3 text-sm font-medium"
+                aria-current={pathMatches(pathname, item.href) ? "page" : undefined}
+                className={cn(
+                  "flex items-center justify-between py-3 text-sm font-semibold",
+                  pathMatches(pathname, item.href) ? "text-[#8b5a2b]" : "text-neutral-800"
+                )}
                 onClick={close}
               >
-                {item.label}
-                {hasChildren(item) || isCatalogMega(item) || isBrandsMega(item) ? (
-                  <ChevronDown className="size-4 text-zinc-400" />
+                {navDisplayLabel(item.label)}
+                {hasDropdown(item) ? (
+                  <ChevronDown className="size-4 text-neutral-500" />
                 ) : null}
               </Link>
               {hasChildren(item)
@@ -286,7 +394,7 @@ export function SiteHeader() {
                     <Link
                       key={child.label}
                       href={child.href}
-                      className="block py-2 pl-3 text-sm text-zinc-500"
+                      className="block py-2 pl-3 text-sm text-neutral-600"
                       onClick={close}
                     >
                       {child.label}
@@ -298,7 +406,7 @@ export function SiteHeader() {
                     <Link
                       key={child.label}
                       href={child.href}
-                      className="block py-2 pl-3 text-sm text-zinc-500"
+                      className="block py-2 pl-3 text-sm text-neutral-600"
                       onClick={close}
                     >
                       {child.label}
@@ -310,7 +418,7 @@ export function SiteHeader() {
                     <Link
                       key={name}
                       href={brandPageHref(name)}
-                      className="block py-2 pl-3 text-sm text-zinc-500"
+                      className="block py-2 pl-3 text-sm text-neutral-600"
                       onClick={close}
                     >
                       {name}
