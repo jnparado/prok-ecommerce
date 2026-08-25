@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "@/components/media-image";
 import { ChevronDown } from "lucide-react";
 
+import { CatalogAd } from "@/components/ads/catalog-ad";
 import {
   brandCatalog,
   brandCatalogCopy,
@@ -73,6 +74,8 @@ export function BrandsPage({ brand }: { brand?: string }) {
         </div>
 
         {items.length ? (
+          <>
+          <CatalogAd />
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {items.map((item, index) => (
               <article
@@ -93,6 +96,7 @@ export function BrandsPage({ brand }: { brand?: string }) {
               </article>
             ))}
           </div>
+          </>
         ) : (
           <p className="mt-12 text-sm text-zinc-400">
             No products listed for {selectedBrand ?? "this brand"} yet.

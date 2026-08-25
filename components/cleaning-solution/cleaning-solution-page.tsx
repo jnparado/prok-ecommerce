@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import Link from "next/link";
 
+import { CatalogAd } from "@/components/ads/catalog-ad";
 import { CatalogProductCard } from "@/components/catalog-product-card";
 import {
   cleaningCatalogCopy,
@@ -91,6 +92,8 @@ export function CleaningSolutionPage({ category }: { category?: string }) {
         </div>
 
         {items.length ? (
+          <>
+          <CatalogAd />
           <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             {items.map((item, index) => (
               <CatalogProductCard
@@ -105,6 +108,7 @@ export function CleaningSolutionPage({ category }: { category?: string }) {
               />
             ))}
           </div>
+          </>
         ) : (
           <p className="mt-12 text-sm text-zinc-400">
             No cleaning products listed for this selection yet.

@@ -8,6 +8,7 @@ import { TopSeller } from "@/components/top-seller";
 import { ServicesBanner } from "@/components/services-banner";
 import { LatestNews } from "@/components/latest-news";
 import { BrandStrip } from "@/components/brand-strip";
+import { AdSlot } from "@/components/ads/ad-slot";
 import { getHomepageSections, sectionOn } from "@/lib/cms/homepage";
 
 export default async function Home() {
@@ -18,6 +19,9 @@ export default async function Home() {
       <HeroSlider />
       {sectionOn(sections, "featured") ? <FeaturedSection /> : null}
       {sectionOn(sections, "gallery") ? <ProductGallery /> : null}
+      <div className="px-4 py-2 md:px-8">
+        <AdSlot placement="home" />
+      </div>
       {sectionOn(sections, "new-arrival") ? (
         <NewArrival title={sections["new-arrival"]?.title} description={sections["new-arrival"]?.description} />
       ) : null}
@@ -37,6 +41,9 @@ export default async function Home() {
           buttonHref={sections.services?.button_href}
         />
       ) : null}
+      <div className="px-4 py-2 md:px-8">
+        <AdSlot placement="article" />
+      </div>
       {sectionOn(sections, "news") ? <LatestNews /> : null}
       {sectionOn(sections, "brands") ? <BrandStrip /> : null}
     </main>

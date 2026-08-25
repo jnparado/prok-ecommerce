@@ -5,6 +5,7 @@ import Image from "@/components/media-image";
 import Link from "next/link";
 import { Headset, Heart, Sun } from "lucide-react";
 
+import { CatalogAd } from "@/components/ads/catalog-ad";
 import { isPublished, mapServiceRow, type ServiceCard } from "@/lib/cms/public";
 import { machineServicesCopy, serviceFeatures, servicePillars } from "@/lib/site";
 import { createClient } from "@/lib/supabase/client";
@@ -66,6 +67,8 @@ export function ServicesPage() {
             })}
           </div>
         </div>
+
+        <CatalogAd />
 
         <div className="mt-12 space-y-12 md:mt-16 md:space-y-16">
           {features.map((item, index) => (

@@ -5,6 +5,7 @@ import Image from "@/components/media-image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
+import { CatalogAd } from "@/components/ads/catalog-ad";
 import { CatalogProductCard } from "@/components/catalog-product-card";
 import {
   coffeeCatalogCopy,
@@ -103,6 +104,8 @@ export function CoffeePage({
         </div>
 
         {items.length ? (
+          <>
+          <CatalogAd />
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {items.map((item, index) => (
               <CatalogProductCard
@@ -117,6 +120,7 @@ export function CoffeePage({
               />
             ))}
           </div>
+          </>
         ) : (
           <p className="mt-12 text-sm text-zinc-400">
             No Marcafé products listed for this selection yet.

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "@/components/media-image";
 import Link from "next/link";
 
+import { AdSlot } from "@/components/ads/ad-slot";
 import { isPublished, mapEventRow, mapNewsRow, uniqueByTitle, type EventCard, type NewsCard } from "@/lib/cms/public";
 import { newsItems } from "@/lib/site";
 import { createClient } from "@/lib/supabase/client";
@@ -65,6 +66,10 @@ export function NewsEventsPage() {
               </div>
             </article>
           ))}
+        </div>
+
+        <div className="mt-10">
+          <AdSlot placement="article" />
         </div>
 
         <h2 className="mt-14 font-serif text-2xl text-[#3d2416]">Events</h2>

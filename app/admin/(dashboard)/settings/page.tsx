@@ -57,6 +57,26 @@ on conflict (user_id) do nothing;`}
           Done
         </Button>
       </div>
+      <div className="rounded-xl border border-[#eadfce] bg-white p-5">
+        <h2 className="font-serif text-xl">Earning ads (Google AdSense)</h2>
+        <p className="mt-2 text-sm text-zinc-500">
+          Ad slots are already on the public site. To start earning, add your AdSense publisher ID to{" "}
+          <code>.env.local</code> and restart the app:
+        </p>
+        <pre className="mt-3 overflow-x-auto rounded-lg bg-[#3d2416] p-3 text-xs text-[#f6efe6]">
+{`NEXT_PUBLIC_ADSENSE_CLIENT=ca-pub-xxxxxxxxxxxxxxxx
+NEXT_PUBLIC_ADSENSE_SLOT_HEADER=
+NEXT_PUBLIC_ADSENSE_SLOT_HOME=
+NEXT_PUBLIC_ADSENSE_SLOT_INFEED=
+NEXT_PUBLIC_ADSENSE_SLOT_ARTICLE=
+NEXT_PUBLIC_ADSENSE_SLOT_FOOTER=`}
+        </pre>
+        <p className="mt-3 text-sm text-zinc-500">
+          Then put the same publisher number in <code>public/ads.txt</code> as{" "}
+          <code>google.com, pub-xxxxxxxxxxxxxxxx, DIRECT, f08c47fec0942fa0</code>.
+          Ads do not show in the admin dashboard.
+        </p>
+      </div>
     </div>
   );
 }

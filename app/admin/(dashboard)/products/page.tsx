@@ -21,9 +21,21 @@ type Product = {
   image_src: string | null;
 };
 
+const categoryLabels: Record<string, string> = {
+  espresso_machine: "Espresso Machines",
+  grinder: "Grinders",
+  coffee: "Coffee",
+  flavour: "Flavours",
+};
+
+function categoryLabel(value: string) {
+  return categoryLabels[value] ?? value.replaceAll("_", " ");
+}
+
 export default function ProductsListPage() {
   const [rows, setRows] = useState<Product[]>([]);
   const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("all");
   const [error, setError] = useState("");
 
   async function load() {
@@ -51,7 +63,12 @@ export default function ProductsListPage() {
     await load();
   }
 
-  const filtered = rows.filter((row) => row.name.toLowerCase().includes(query.toLowerCase()));
+  const categories = Array.from(new Set(rows.map((row) => row.category).filter(Boolean))).sort();
+  const filtered = rows.filter((row) => {
+    const matchesQuery = row.name.toLowerCase().includes(query.toLowerCase());
+    const matchesCategory = category === "all" || row.category === category;
+    return matchesQuery && matchesCategory;
+  });
 
   return (
     <div className="space-y-6">
@@ -65,12 +82,27 @@ export default function ProductsListPage() {
         </Link>
       </div>
       {error ? <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">{error}</p> : null}
-      <Input
-        value={query}
-        onChange={(event) => setQuery(event.target.value)}
-        placeholder="Search products"
-        className="h-10 max-w-sm"
-      />
+      <div className="flex flex-wrap items-center gap-3">
+        <Input
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Search products"
+          className="h-10 max-w-sm"
+        />
+        <select
+          aria-label="Filter by category"
+          value={category}
+          onChange={(event) => setCategory(event.target.value)}
+          className="h-10 rounded-lg border border-[#eadfce] bg-white px-3 text-sm text-[#3d2416]"
+        >
+          <option value="all">All categories</option>
+          {categories.map((item) => (
+            <option key={item} value={item}>
+              {categoryLabel(item)}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="overflow-x-auto rounded-xl border border-[#eadfce] bg-white">
         <table className="w-full min-w-[800px] text-left text-sm">
           <thead className="bg-[#faf6ef] text-[#6b3e24]">
@@ -96,7 +128,7 @@ export default function ProductsListPage() {
                   {row.is_featured ? <span className="ml-2 text-xs text-[#82502a]">Featured</span> : null}
                 </td>
                 <td className="px-4 py-3 text-zinc-500">{row.sku ?? "—"}</td>
-                <td className="px-4 py-3">{row.category}</td>
+                <td className="px-4 py-3">{categoryLabel(row.category)}</td>
                 <td className="px-4 py-3">
                   {row.sale_price != null ? (
                     <>

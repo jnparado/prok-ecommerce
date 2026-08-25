@@ -5,6 +5,7 @@ import Image from "@/components/media-image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 
+import { CatalogAd } from "@/components/ads/catalog-ad";
 import { CatalogProductCard } from "@/components/catalog-product-card";
 import {
   flavourCatalogCopy,
@@ -204,6 +205,8 @@ export function FlavoursPage({ tab }: { tab?: string }) {
         </div>
 
         {items.length ? (
+          <>
+          <CatalogAd />
           <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             {items.map((item, index) => (
               <CatalogProductCard
@@ -218,6 +221,7 @@ export function FlavoursPage({ tab }: { tab?: string }) {
               />
             ))}
           </div>
+          </>
         ) : (
           <p className="mt-12 animate-fade-up text-sm text-zinc-400">
             No flavours listed for this selection yet.

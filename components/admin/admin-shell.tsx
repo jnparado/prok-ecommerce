@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import Image from "@/components/media-image";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -93,9 +94,17 @@ export function AdminShell({
   return (
     <div className="flex min-h-full bg-[#efe6d8]">
       <aside className="sticky top-0 flex h-screen w-[260px] shrink-0 flex-col bg-[#3d2416] text-[#f6efe6]">
-        <div className="border-b border-white/10 px-5 py-5">
-          <p className="text-[11px] tracking-[0.18em] text-[#e7dbc8] uppercase">Prokrate</p>
-          <p className="mt-1 font-serif text-xl">Admin Dashboard</p>
+        <div className="border-b border-white/10 px-4 py-4">
+          <Link href="/admin" className="block rounded-xl bg-[#f6efe6] px-3 py-3">
+            <Image
+              src="/images/logo-prokrate.png"
+              alt="Prokrate International Trading Corporation"
+              width={457}
+              height={124}
+              className="h-10 w-auto"
+            />
+          </Link>
+          <p className="mt-3 px-1 text-[11px] tracking-[0.16em] text-[#e7dbc8] uppercase">Admin Dashboard</p>
         </div>
         <nav className="flex-1 overflow-y-auto px-3 py-4 text-sm">
           {nav.map((item) => {

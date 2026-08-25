@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "@/components/media-image";
 import Link from "next/link";
 
+import { CatalogAd } from "@/components/ads/catalog-ad";
 import { isPublished, mapTrainingRow, type TrainingCard } from "@/lib/cms/public";
 import { trainingCourses } from "@/lib/site";
 import { createClient } from "@/lib/supabase/client";
@@ -89,6 +90,8 @@ export function TrainingPage({ query = "" }: { query?: string }) {
         </div>
 
         {visible.length ? (
+          <>
+          <CatalogAd />
           <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
             {visible.map((course) => (
               <article key={course.id} className="overflow-hidden rounded-xl border border-zinc-200 bg-white">
@@ -137,6 +140,7 @@ export function TrainingPage({ query = "" }: { query?: string }) {
               </article>
             ))}
           </div>
+          </>
         ) : (
           <p className="mt-12 text-sm text-zinc-400">No courses match that search.</p>
         )}
