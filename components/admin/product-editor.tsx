@@ -7,7 +7,7 @@ import { MediaPicker } from "@/components/admin/media-picker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { slugify } from "@/lib/admin/utils";
+import { mediaPublicPath, slugify } from "@/lib/admin/utils";
 import { createClient } from "@/lib/supabase/client";
 
 type Brand = { id: string; name: string };
@@ -57,6 +57,7 @@ export function ProductEditor({ productId }: { productId?: string }) {
   });
   const [variants, setVariants] = useState<Variant[]>([]);
   const [images, setImages] = useState<ExtraImage[]>([]);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -97,7 +98,12 @@ export function ProductEditor({ productId }: { productId?: string }) {
         .select("*")
         .eq("product_id", productId)
         .order("sort_order");
-      setImages((extras.data as ExtraImage[]) ?? []);
+      const gallery = (extras.data as ExtraImage[]) ?? [];
+      if (gallery.length) {
+        setImages(gallery);
+      } else if (data.image_src) {
+        setImages([{ image_src: data.image_src, alt: data.name ?? "", is_primary: true }]);
+      }
       const variantRows = await supabase
         .from("product_variants")
         .select("*")
@@ -107,10 +113,52 @@ export function ProductEditor({ productId }: { productId?: string }) {
     })();
   }, [productId]);
 
+  async function uploadFiles(fileList: FileList | null) {
+    if (!fileList?.length) return;
+    setUploading(true);
+    setError("");
+    const supabase = createClient();
+    const added: ExtraImage[] = [];
+    for (const file of Array.from(fileList)) {
+      const safe = file.name.replace(/[^\w.\-]+/g, "-").toLowerCase();
+      const path = `cms/${Date.now()}-${safe}`;
+      const upload = await supabase.storage.from("images").upload(path, file, {
+        cacheControl: "31536000",
+        upsert: false,
+      });
+      if (upload.error) {
+        setError(upload.error.message);
+        continue;
+      }
+      const src = mediaPublicPath(path);
+      await supabase.from("media").insert({
+        file_name: file.name,
+        storage_path: path,
+        assigned_to: "products",
+        alt: file.name.replace(/\.[^.]+$/, ""),
+      });
+      added.push({
+        image_src: src,
+        alt: file.name.replace(/\.[^.]+$/, ""),
+        is_primary: false,
+      });
+    }
+    setImages((current) => {
+      const next = [...current, ...added];
+      if (next.length && !next.some((item) => item.is_primary)) {
+        next[0] = { ...next[0], is_primary: true };
+      }
+      return next;
+    });
+    setUploading(false);
+  }
+
   async function save(event: FormEvent) {
     event.preventDefault();
     setError("");
     const supabase = createClient();
+    const gallery = images.filter((item) => item.image_src);
+    const primary = gallery.find((item) => item.is_primary) ?? gallery[0];
     const payload = {
       name: form.name,
       slug: form.slug || slugify(form.name),
@@ -121,7 +169,7 @@ export function ProductEditor({ productId }: { productId?: string }) {
       price: form.price === "" ? null : Number(form.price),
       sale_price: form.sale_price === "" ? null : Number(form.sale_price),
       stock: form.stock === "" ? 0 : Number(form.stock),
-      image_src: form.image_src || null,
+      image_src: primary?.image_src || form.image_src || null,
       status: form.status,
       is_featured: form.is_featured,
       is_new: form.is_new,
@@ -145,17 +193,15 @@ export function ProductEditor({ productId }: { productId?: string }) {
     }
 
     await supabase.from("product_images").delete().eq("product_id", id);
-    if (images.length) {
+    if (gallery.length) {
       await supabase.from("product_images").insert(
-        images
-          .filter((item) => item.image_src)
-          .map((item, index) => ({
-            product_id: id,
-            image_src: item.image_src,
-            alt: item.alt,
-            is_primary: item.is_primary || index === 0,
-            sort_order: index,
-          }))
+        gallery.map((item, index) => ({
+          product_id: id,
+          image_src: item.image_src,
+          alt: item.alt,
+          is_primary: item.is_primary || index === 0,
+          sort_order: index,
+        }))
       );
     }
 
@@ -278,73 +324,129 @@ export function ProductEditor({ productId }: { productId?: string }) {
             Top seller
           </label>
         </div>
-        <div className="md:col-span-2">
-          <MediaPicker label="Primary image" value={form.image_src} assignedTo="products" onChange={(image_src) => setForm({ ...form, image_src })} />
         </div>
       </section>
 
-      <section className="space-y-3 rounded-xl border border-[#eadfce] bg-white p-5">
-        <div className="flex items-center justify-between">
-          <h2 className="font-serif text-xl">Product images</h2>
-          <Button type="button" variant="outline" onClick={() => setImages((value) => [...value, { image_src: "", alt: "", is_primary: false }])}>
-            Add image
-          </Button>
-        </div>
-        {images.map((image, index) => (
-          <div key={index} className="grid gap-3 rounded-lg border border-[#eadfce] p-3 md:grid-cols-2">
-            <MediaPicker
-              label={`Image ${index + 1}`}
-              value={image.image_src}
-              assignedTo="products"
-              onChange={(image_src) =>
-                setImages((value) => value.map((item, i) => (i === index ? { ...item, image_src } : item)))
-              }
-            />
-            <div className="space-y-3">
-              <label className="block space-y-1.5">
-                <Label>Alt text</Label>
-                <Input
-                  value={image.alt}
-                  onChange={(event) =>
-                    setImages((value) => value.map((item, i) => (i === index ? { ...item, alt: event.target.value } : item)))
-                  }
-                />
-              </label>
-              <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={image.is_primary}
-                  onChange={(event) =>
-                    setImages((value) =>
-                      value.map((item, i) => ({ ...item, is_primary: i === index ? event.target.checked : false }))
-                    )
-                  }
-                />
-                Primary image
-              </label>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  disabled={index === 0}
-                  onClick={() =>
-                    setImages((value) => {
-                      const next = [...value];
-                      [next[index - 1], next[index]] = [next[index], next[index - 1]];
-                      return next;
-                    })
-                  }
-                >
-                  Move up
-                </Button>
-                <Button type="button" variant="destructive" size="sm" onClick={() => setImages((value) => value.filter((_, i) => i !== index))}>
-                  Delete
-                </Button>
-              </div>
-            </div>
+      <section className="space-y-4 rounded-xl border border-[#eadfce] bg-white p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="font-serif text-xl">Product images</h2>
+            <p className="mt-1 text-sm text-zinc-500">
+              Upload several photos at once. Mark one as primary for the catalog thumbnail.
+            </p>
           </div>
-        ))}
+          <div className="flex flex-wrap gap-2">
+            <label className="inline-flex h-9 cursor-pointer items-center rounded-lg bg-[#82502a] px-3 text-sm text-white">
+              {uploading ? "Uploading…" : "Upload images"}
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                disabled={uploading}
+                onChange={(event) => {
+                  void uploadFiles(event.target.files);
+                  event.target.value = "";
+                }}
+              />
+            </label>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setImages((value) => [...value, { image_src: "", alt: "", is_primary: false }])}
+            >
+              Add image slot
+            </Button>
+          </div>
+        </div>
+        {images.length === 0 ? (
+          <label className="flex min-h-40 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-[#be9f79] bg-[#faf6ef] px-4 text-center text-sm text-[#6b3e24]">
+            <span className="font-medium">Drop or choose multiple images</span>
+            <span className="mt-1 text-xs text-zinc-500">JPG, PNG, or WebP. First upload becomes the primary image.</span>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              className="hidden"
+              disabled={uploading}
+              onChange={(event) => {
+                void uploadFiles(event.target.files);
+                event.target.value = "";
+              }}
+            />
+          </label>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {images.map((image, index) => (
+              <div key={`${image.image_src}-${index}`} className="grid gap-3 rounded-lg border border-[#eadfce] p-3">
+                <MediaPicker
+                  label={image.is_primary ? `Image ${index + 1} (primary)` : `Image ${index + 1}`}
+                  value={image.image_src}
+                  assignedTo="products"
+                  onChange={(image_src) =>
+                    setImages((value) => value.map((item, i) => (i === index ? { ...item, image_src } : item)))
+                  }
+                />
+                <label className="block space-y-1.5">
+                  <Label>Alt text</Label>
+                  <Input
+                    value={image.alt}
+                    onChange={(event) =>
+                      setImages((value) => value.map((item, i) => (i === index ? { ...item, alt: event.target.value } : item)))
+                    }
+                  />
+                </label>
+                <div className="flex flex-wrap items-center gap-2">
+                  <label className="mr-auto flex items-center gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={image.is_primary}
+                      onChange={(event) =>
+                        setImages((value) =>
+                          value.map((item, i) => ({ ...item, is_primary: i === index ? event.target.checked : false }))
+                        )
+                      }
+                    />
+                    Primary image
+                  </label>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={index === 0}
+                    onClick={() =>
+                      setImages((value) => {
+                        const next = [...value];
+                        [next[index - 1], next[index]] = [next[index], next[index - 1]];
+                        return next;
+                      })
+                    }
+                  >
+                    Move up
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    disabled={index === images.length - 1}
+                    onClick={() =>
+                      setImages((value) => {
+                        const next = [...value];
+                        [next[index + 1], next[index]] = [next[index], next[index + 1]];
+                        return next;
+                      })
+                    }
+                  >
+                    Move down
+                  </Button>
+                  <Button type="button" variant="destructive" size="sm" onClick={() => setImages((value) => value.filter((_, i) => i !== index))}>
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="space-y-3 rounded-xl border border-[#eadfce] bg-white p-5">
