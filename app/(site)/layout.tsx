@@ -10,13 +10,9 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
     <>
       <AdsenseLoader />
       <SiteHeader />
-      <div className="bg-[#f6f1e8] px-3 py-3 md:px-5">
-        <AdSlot placement="header" />
-      </div>
+      <AdSlot placement="header" className="px-3 py-3 md:px-5" />
       <div className="flex min-h-0 flex-1 flex-col">{children}</div>
-      <div className="bg-[#f6f1e8] px-3 py-3 md:px-5">
-        <AdSlot placement="footer" />
-      </div>
+      <AdSlot placement="footer" className="px-3 py-3 md:px-5" />
       <SiteFooter />
     </>
   );

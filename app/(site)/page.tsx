@@ -19,9 +19,7 @@ export default async function Home() {
       <HeroSlider />
       {sectionOn(sections, "featured") ? <FeaturedSection /> : null}
       {sectionOn(sections, "gallery") ? <ProductGallery /> : null}
-      <div className="px-4 py-2 md:px-8">
-        <AdSlot placement="home" />
-      </div>
+      <AdSlot placement="home" className="px-4 py-2 md:px-8" />
       {sectionOn(sections, "new-arrival") ? (
         <NewArrival title={sections["new-arrival"]?.title} description={sections["new-arrival"]?.description} />
       ) : null}
@@ -41,9 +39,7 @@ export default async function Home() {
           buttonHref={sections.services?.button_href}
         />
       ) : null}
-      <div className="px-4 py-2 md:px-8">
-        <AdSlot placement="article" />
-      </div>
+      <AdSlot placement="article" className="px-4 py-2 md:px-8" />
       {sectionOn(sections, "news") ? <LatestNews /> : null}
       {sectionOn(sections, "brands") ? <BrandStrip /> : null}
     </main>

@@ -41,6 +41,8 @@ export function AdSlot({
     }
   }, [client, slot]);
 
+  if (!client) return null;
+
   return (
     <aside
       className={cn("w-full", className)}
@@ -49,25 +51,14 @@ export function AdSlot({
       <p className="mb-1.5 text-center text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
         Advertisement
       </p>
-      {client ? (
-        <ins
-          className={cn("adsbygoogle block overflow-hidden rounded-xl", minHeight[placement])}
-          style={{ display: "block" }}
-          data-ad-client={client}
-          data-ad-slot={slot || undefined}
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-      ) : (
-        <div
-          className={cn(
-            "flex items-center justify-center rounded-xl border border-dashed border-[#be9f79] bg-[#fff9f2] px-4 text-center text-sm text-[#8b5a2b]",
-            minHeight[placement]
-          )}
-        >
-          Ad space ready — add <code className="mx-1">NEXT_PUBLIC_ADSENSE_CLIENT</code> to start earning
-        </div>
-      )}
+      <ins
+        className={cn("adsbygoogle block overflow-hidden rounded-xl", minHeight[placement])}
+        style={{ display: "block" }}
+        data-ad-client={client}
+        data-ad-slot={slot || undefined}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
     </aside>
   );
 }

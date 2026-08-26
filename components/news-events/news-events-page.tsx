@@ -68,9 +68,7 @@ export function NewsEventsPage() {
           ))}
         </div>
 
-        <div className="mt-10">
-          <AdSlot placement="article" />
-        </div>
+        <AdSlot placement="article" className="mt-10" />
 
         <h2 className="mt-14 font-serif text-2xl text-[#3d2416]">Events</h2>
         {events.length ? (

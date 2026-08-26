@@ -324,7 +324,6 @@ export function ProductEditor({ productId }: { productId?: string }) {
             Top seller
           </label>
         </div>
-        </div>
       </section>
 
       <section className="space-y-4 rounded-xl border border-[#eadfce] bg-white p-5">
