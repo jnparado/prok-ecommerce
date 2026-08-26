@@ -388,7 +388,7 @@ export function brandPageHref(name: string) {
 export const espressoCatalogCopy = {
   title: "Espresso Machines",
   description:
-    "Discover our premium collection of coffee machines, grinders, and specialty coffee selections. Each product is carefully curated for quality and performance.",
+    "Commercial and home espresso machines chosen for flavor, steam, and a counter that looks the part — from cafe bars to hotel lobbies and home kitchens.",
 } as const;
 
 export const espressoMachines = [
@@ -519,6 +519,59 @@ export const espressoUseLabels: Record<string, string> = {
   home: "Home",
 };
 
+export const espressoBrandCategories = [
+  { label: "Casadio", slug: "casadio" },
+  { label: "Slayer", slug: "slayer" },
+  { label: "La Nuova Era", slug: "la-nuova-era" },
+  { label: "Didiesse", slug: "didiesse" },
+] as const;
+
+export const espressoDirectory = [
+  {
+    title: "Espresso Machines",
+    href: "/espresso-machines",
+    src: "/images/product-undici-wd-2g.png",
+    alt: "Professional espresso machine",
+    links: [
+      { label: "La Nuova Era", href: "/espresso-machines?brand=la-nuova-era" },
+      { label: "Casadio", href: "/espresso-machines?brand=casadio" },
+      { label: "Slayer", href: "/espresso-machines?brand=slayer" },
+      { label: "Didiesse", href: "/espresso-machines?brand=didiesse" },
+    ],
+  },
+  {
+    title: "Eureka Grinder",
+    href: "/grinders",
+    src: "/images/product-mignon-silenzio.png",
+    alt: "Eureka Mignon coffee grinder",
+    links: [
+      { label: "Eureka Mignon Series", href: "/grinders?series=mignon" },
+      { label: "Eureka Commercial Series", href: "/grinders?series=commercial" },
+    ],
+  },
+  {
+    title: "Gourmet Catcher",
+    href: "/flavours",
+    src: "/images/flavour-sauce.png",
+    alt: "Catcher Gourmet syrups and sauces",
+    links: [
+      { label: "Syrups", href: "/flavours?tab=syrups" },
+      { label: "Sauce", href: "/flavours?tab=sauce" },
+      { label: "Powdered Mix", href: "/flavours?tab=powder" },
+    ],
+  },
+  {
+    title: "Marcafe",
+    href: "/coffee",
+    src: "/images/marcafe-roasted-beans.png",
+    alt: "Marcafé roasted coffee bags",
+    links: [
+      { label: "Roasted Coffee Beans", href: "/coffee?category=beans" },
+      { label: "Pods", href: "/coffee?category=pods" },
+    ],
+  },
+] as const;
+
 export const espressoShopUses = [
   { label: "Cafe", slug: "cafe", src: "/images/shop-machine-cafe.jpg" },
   { label: "Restaurant", slug: "restaurant", src: "/images/shop-machine-restaurant.jpg" },
@@ -641,8 +694,9 @@ export const grinders = [
 export const coffeeCatalogCopy = {
   title: "Roasted Coffee Product",
   shopHeading: "Shop Roasted Coffee Beans",
+  shopCaption: "Choose beans or pods",
   description:
-    "Discover our premium collection of coffee machines, grinders, and specialty coffee selections. Each product is carefully curated for quality and performance.",
+    "Italian roasted beans and pods for espresso bars, offices, and home — packed for flavour, consistency, and a counter that looks the part.",
 } as const;
 
 export const coffeeTabCopy: Record<
@@ -780,18 +834,18 @@ export const flavourCategories = [
 export const flavourProducts = [
   { name: "Chocolate", tab: "syrups", src: "/images/syrup-chocolate.png" },
   { name: "White Chocolate", tab: "syrups", src: "/images/syrup-white-chocolate.png" },
-  { name: "Hazelnut", tab: "syrups", src: "/images/syrup-hazelnut.jpg" },
-  { name: "Caramel", tab: "syrups", src: "/images/syrup-caramel-2l.jpg" },
-  { name: "Matcha", tab: "syrups", src: "/images/syrup-matcha.jpg" },
-  { name: "Salted Caramel", tab: "syrups", src: "/images/syrup-salted-caramel.jpg" },
-  { name: "Pistachio", tab: "syrups", src: "/images/syrup-pistachio.jpg" },
-  { name: "Earl Grey", tab: "syrups", src: "/images/syrup-earl-grey.jpg" },
-  { name: "Irish Cream", tab: "syrups", src: "/images/syrup-irish-cream.jpg" },
-  { name: "Almond", tab: "sauce", src: "/images/sauce-almond.jpg" },
-  { name: "Irish Cream", tab: "sauce", src: "/images/sauce-irish-cream.jpg" },
-  { name: "Macadamia Nut", tab: "sauce", src: "/images/sauce-macadamia-nut.jpg" },
-  { name: "Vanilla", tab: "sauce", src: "/images/sauce-vanilla.jpg" },
-  { name: "Caramel", tab: "sauce", src: "/images/sauce-caramel.jpg" },
+  { name: "Hazelnut", tab: "syrups", src: "/images/syrup-hazelnut.png" },
+  { name: "Caramel", tab: "syrups", src: "/images/syrup-caramel-2l.png" },
+  { name: "Matcha", tab: "syrups", src: "/images/syrup-matcha.png" },
+  { name: "Salted Caramel", tab: "syrups", src: "/images/syrup-salted-caramel.png" },
+  { name: "Pistachio", tab: "syrups", src: "/images/syrup-pistachio.png" },
+  { name: "Earl Grey", tab: "syrups", src: "/images/syrup-earl-grey.png" },
+  { name: "Irish Cream", tab: "syrups", src: "/images/syrup-irish-cream.png" },
+  { name: "Almond", tab: "sauce", src: "/images/sauce-almond.png" },
+  { name: "Irish Cream", tab: "sauce", src: "/images/sauce-irish-cream.png" },
+  { name: "Macadamia Nut", tab: "sauce", src: "/images/sauce-macadamia-nut.png" },
+  { name: "Vanilla", tab: "sauce", src: "/images/sauce-vanilla.png" },
+  { name: "Caramel", tab: "sauce", src: "/images/sauce-caramel.png" },
   { name: "Peach Fruity Sauce", tab: "sauce", src: "/images/sauce-fruity-peach.png" },
   { name: "Blackcurrant Fruity Sauce", tab: "sauce", src: "/images/sauce-fruity-blackcurrant.png" },
   { name: "Blueberry Fruity Sauce", tab: "sauce", src: "/images/sauce-fruity-blueberry.png" },

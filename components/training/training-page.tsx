@@ -49,17 +49,17 @@ export function TrainingPage({ query = "" }: { query?: string }) {
             alt="Barista training at an espresso bar"
             fill
             preload
-            className="object-cover"
+            className="object-cover animate-ken-burns"
             sizes="(min-width: 1180px) 1180px, 100vw"
           />
         </div>
 
         <div className="mt-8 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <h1 className="font-serif text-3xl font-semibold tracking-tight text-zinc-800 md:text-4xl">
+            <h1 className="animate-fade-up font-serif text-3xl font-semibold tracking-tight text-zinc-800 md:text-4xl">
               Available Courses
             </h1>
-            <p className="mt-2 text-sm text-zinc-400">
+            <p className="mt-2 animate-fade-up text-sm text-zinc-400 [animation-delay:90ms]">
               Find the perfect course to advance your coffee expertise
             </p>
           </div>

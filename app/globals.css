@@ -58,6 +58,7 @@
   --animate-hero-copy: hero-copy 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-cta-shine: cta-shine 2.8s ease-in-out infinite;
   --animate-slide-progress: slide-progress 6s linear both;
+  --animate-peek-up: peek-up 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes marquee {
@@ -167,6 +168,17 @@
   }
 }
 
+@keyframes peek-up {
+  from {
+    opacity: 0;
+    transform: translateY(64px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes slide-progress {
   from {
     transform: scaleX(0);
@@ -185,6 +197,7 @@
   .animate-ken-burns,
   .animate-reveal-up,
   .animate-hero-copy,
+  .animate-peek-up,
   .animate-cta-shine,
   .animate-slide-progress,
   .animate-marquee {
@@ -266,9 +279,9 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-clip;
   }
   html {
-    @apply font-sans;
+    @apply font-sans overflow-x-clip;
   }
 }

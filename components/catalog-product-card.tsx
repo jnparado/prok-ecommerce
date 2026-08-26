@@ -1,4 +1,5 @@
 import Image from "@/components/media-image";
+import NextImage from "next/image";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -10,6 +11,7 @@ export function CatalogProductCard({
   brand,
   detail,
   preload,
+  local,
   index = 0,
   sizes = "(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 45vw",
 }: {
@@ -19,9 +21,12 @@ export function CatalogProductCard({
   brand?: string;
   detail?: string;
   preload?: boolean;
+  local?: boolean;
   index?: number;
   sizes?: string;
 }) {
+  const ImageTag = local ? NextImage : Image;
+
   return (
     <Card
       className={cn(
@@ -30,22 +35,25 @@ export function CatalogProductCard({
       style={{ animationDelay: `${Math.min(index, 12) * 70}ms` }}
     >
       <div className="relative min-h-0 flex-1 overflow-hidden bg-[#faf6ef]">
-        <Image
+        <ImageTag
           src={src}
           alt={alt ?? name}
           fill
           preload={preload}
-          className="object-contain p-4 pt-6 transition-transform duration-700 ease-out group-hover:scale-110"
+          className={cn(
+            "object-contain p-2 pt-4 transition-transform duration-700 ease-out group-hover:scale-110 sm:p-4 sm:pt-6",
+            local && "drop-shadow-[0_16px_22px_rgba(80,50,20,0.14)]"
+          )}
           sizes={sizes}
         />
       </div>
-      <CardContent className="px-4 pt-3 pb-5">
+      <CardContent className="px-2 pt-2 pb-4 sm:px-4 sm:pt-3 sm:pb-5">
         {brand ? (
-          <p className="text-[11px] font-medium tracking-[0.16em] text-[#8b5a2b] uppercase">
+          <p className="text-[10px] font-medium tracking-[0.16em] text-[#8b5a2b] uppercase sm:text-[11px]">
             {brand}
           </p>
         ) : null}
-        <p className="mt-1 text-[15px] font-medium text-[#3d2416]">{name}</p>
+        <p className="mt-1 text-[13px] font-medium text-[#3d2416] transition-colors duration-300 group-hover:text-[#8b5a2b] sm:text-[15px]">{name}</p>
         {detail ? <p className="mt-1 text-xs text-zinc-500">{detail}</p> : null}
       </CardContent>
     </Card>

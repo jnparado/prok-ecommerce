@@ -3,12 +3,22 @@
 import { useMemo, useState } from "react";
 import Image from "@/components/media-image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 
 import { CatalogAd } from "@/components/ads/catalog-ad";
+import { BrandStrip } from "@/components/brand-strip";
 import { CatalogProductCard } from "@/components/catalog-product-card";
 import {
+  catalogHeroFloatLeft,
+  catalogHeroFloatRight,
+  CollectionBanner,
+} from "@/components/collection-banner";
+import { EspressoDirectory } from "@/components/espresso-machines/espresso-directory";
+import { HomeReveal } from "@/components/home-reveal";
+import {
   brandSlug,
+  espressoBrandCategories,
   espressoCatalogCopy,
   espressoMachines,
   espressoShopUses,
@@ -18,8 +28,38 @@ import { cn } from "@/lib/utils";
 
 type SortKey = "default" | "az" | "za";
 
-function hrefForUse(slug: string) {
-  return `/espresso-machines?use=${slug}`;
+const heroMachines = [
+  {
+    src: "/images/hero-espresso-slayer.png",
+    alt: "Slayer EP espresso machine",
+    className: catalogHeroFloatRight,
+    delay: "0ms",
+    local: true,
+  },
+  {
+    src: "/images/hero-espresso-compact.png",
+    alt: "Casadio Compact espresso machine",
+    className: catalogHeroFloatLeft,
+    delay: "180ms",
+    local: true,
+  },
+] as const;
+
+function catalogHref({
+  use,
+  group,
+  brand,
+}: {
+  use?: string;
+  group?: string;
+  brand?: string;
+}) {
+  const params = new URLSearchParams();
+  if (use) params.set("use", use);
+  if (group) params.set("group", group);
+  if (brand) params.set("brand", brand);
+  const query = params.toString();
+  return query ? `/espresso-machines?${query}` : "/espresso-machines";
 }
 
 export function EspressoMachinesPage({
@@ -32,9 +72,12 @@ export function EspressoMachinesPage({
   brand?: string;
 }) {
   const [sort, setSort] = useState<SortKey>("default");
+  const router = useRouter();
   const groupCount = group === "1" || group === "2" ? Number(group) : undefined;
   const useLabel = use ? espressoUseLabels[use] : undefined;
   const activeShop = espressoShopUses.find((item) => item.slug === use);
+  const brandLabel = espressoBrandCategories.find((item) => item.slug === brand)?.label;
+  const activeBrand = brandLabel ? brand : undefined;
 
   const items = useMemo(() => {
     const next = espressoMachines.filter((item) => {
@@ -44,7 +87,7 @@ export function EspressoMachinesPage({
       if (groupCount && item.groups !== groupCount) {
         return false;
       }
-      if (brand && brandSlug(item.brand) !== brand) {
+      if (activeBrand && brandSlug(item.brand) !== activeBrand) {
         return false;
       }
       return true;
@@ -57,7 +100,7 @@ export function EspressoMachinesPage({
       next.sort((a, b) => b.name.localeCompare(a.name));
     }
     return next;
-  }, [brand, groupCount, sort, use]);
+  }, [activeBrand, groupCount, sort, use]);
 
   const title = useLabel
     ? `Machines for ${useLabel}`
@@ -66,56 +109,43 @@ export function EspressoMachinesPage({
       : espressoCatalogCopy.title;
 
   return (
-    <main className="flex-1 bg-[#f6f1e8]">
-      <section className="relative overflow-hidden">
-        {activeShop ? (
-          <div className="pointer-events-none absolute inset-0 opacity-[0.18]">
-            <Image
-              src={activeShop.src}
-              alt=""
-              fill
-              className="object-cover"
-              sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#f6f1e8]/70 via-[#f6f1e8]/92 to-[#f6f1e8]" />
-          </div>
-        ) : null}
-
-        <div className="relative mx-auto max-w-[1240px] px-5 pt-10 pb-6 md:px-8 md:pt-14">
-          <p className="animate-fade-up text-xs font-semibold tracking-[0.28em] text-[#8b5a2b] uppercase">
-            Prokrate Collection
-          </p>
-          <h1 className="mt-3 animate-fade-up font-serif text-4xl font-bold tracking-tight text-[#3d2416] md:text-[3.25rem]">
-            {title}
-          </h1>
-          <p className="mt-4 max-w-[54ch] animate-fade-up text-[15px] leading-7 text-zinc-600 [animation-delay:80ms]">
-            {useLabel
-              ? `Professional espresso machines chosen for ${useLabel.toLowerCase()} service — built for flavor, steam, and a counter that looks the part.`
-              : espressoCatalogCopy.description}
-          </p>
-        </div>
-      </section>
+    <main className="flex-1 overflow-hidden bg-[#f6f1e8]">
+      <CollectionBanner
+        title={title}
+        description={
+          useLabel
+            ? `Professional espresso machines chosen for ${useLabel.toLowerCase()} service — built for flavor, steam, and a counter that looks the part.`
+            : espressoCatalogCopy.description
+        }
+        floats={heroMachines}
+        overlaySrc={activeShop?.src}
+      />
 
       <section className="relative mx-auto max-w-[1240px] px-5 md:px-8">
-        <div className="animate-fade-up rounded-[28px] bg-[#fff9f2] px-4 py-8 shadow-[0_18px_40px_rgba(80,50,20,0.06)] ring-1 ring-[#eadfce] md:px-10 md:py-10 [animation-delay:120ms]">
-          <h2 className="text-center font-serif text-2xl font-bold text-[#1a7a72] md:text-[1.85rem]">
+        <div className="animate-scale-in rounded-[28px] bg-[#fff9f2]/95 px-4 py-8 shadow-[0_18px_40px_rgba(80,50,20,0.08)] ring-1 ring-[#eadfce] backdrop-blur-sm md:px-10 md:py-10 [animation-delay:140ms]">
+          <h2 className="animate-fade-up text-center font-serif text-2xl font-bold text-[#1a7a72] md:text-[1.85rem] [animation-delay:200ms]">
             Shop Machine
           </h2>
-          <p className="mt-2 text-center text-sm text-zinc-500">
+          <p className="mt-2 animate-fade-up text-center text-sm text-zinc-500 [animation-delay:260ms]">
             Choose where the machine will live
           </p>
-          <div className="mt-8 flex flex-wrap items-start justify-center gap-x-8 gap-y-8 md:gap-x-12">
-            {espressoShopUses.map((item) => {
+          <div className="-mx-1 mt-8 flex flex-nowrap items-start justify-start gap-x-6 overflow-x-auto px-1 pb-2 sm:mx-0 sm:flex-wrap sm:justify-center sm:gap-x-8 sm:overflow-visible sm:px-0 sm:pb-0 md:gap-x-12">
+            {espressoShopUses.map((item, index) => {
               const active = use === item.slug;
               return (
                 <Link
                   key={item.slug}
-                  href={active ? "/espresso-machines" : hrefForUse(item.slug)}
-                  className="group flex w-[132px] flex-col items-center gap-3 sm:w-[148px]"
+                  href={
+                    active
+                      ? catalogHref({ brand: activeBrand })
+                      : catalogHref({ use: item.slug, brand: activeBrand })
+                  }
+                  className="group flex w-[132px] shrink-0 animate-fade-up flex-col items-center gap-3 sm:w-[148px]"
+                  style={{ animationDelay: `${280 + index * 80}ms` }}
                 >
                   <span
                     className={cn(
-                      "relative block size-[132px] overflow-hidden rounded-full shadow-[0_12px_28px_rgba(80,50,20,0.14)] ring-4 ring-white transition-all duration-500 group-hover:-translate-y-1 group-hover:scale-[1.04] sm:size-[148px]",
+                      "relative block size-[132px] overflow-hidden rounded-full shadow-[0_12px_28px_rgba(80,50,20,0.14)] ring-4 ring-white transition-all duration-500 group-hover:-translate-y-1.5 group-hover:scale-[1.05] group-hover:shadow-[0_18px_36px_rgba(80,50,20,0.22)] sm:size-[148px]",
                       active && "ring-[#c4783a] ring-offset-4 ring-offset-[#fff9f2]"
                     )}
                   >
@@ -126,12 +156,12 @@ export function EspressoMachinesPage({
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       sizes="148px"
                     />
-                    <span className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
+                    <span className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </span>
                   <span
                     className={cn(
-                      "text-[15px] font-bold tracking-wide",
-                      active ? "text-[#8b5a2b]" : "text-[#c4783a]"
+                      "text-[15px] font-bold tracking-wide transition-colors duration-300",
+                      active ? "text-[#8b5a2b]" : "text-[#c4783a] group-hover:text-[#8b5a2b]"
                     )}
                   >
                     {item.label}
@@ -143,22 +173,25 @@ export function EspressoMachinesPage({
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1240px] px-5 py-10 md:px-8 md:py-14">
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[#eadfce] pb-5">
+      <HomeReveal>
+      <section className="mx-auto max-w-[1240px] px-4 py-8 sm:px-5 md:px-8 md:py-14">
+        <div className="flex flex-col gap-4 border-b border-[#eadfce] pb-5 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
           <div>
-            <h2 className="font-serif text-2xl font-bold text-[#3d2416] md:text-3xl">
+            <h2 className="font-serif text-xl font-bold text-[#3d2416] sm:text-2xl md:text-3xl">
               {useLabel ? `${useLabel} selection` : "The collection"}
             </h2>
             <p className="mt-1 text-sm text-zinc-500">
               {items.length} {items.length === 1 ? "machine" : "machines"}
+              {brandLabel ? ` · ${brandLabel}` : ""}
               {groupCount ? ` · ${groupCount === 1 ? "single" : "double"} group` : ""}
             </p>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:contents">
             <Link
-              href={use ? `/espresso-machines?use=${use}&group=1` : "/espresso-machines?group=1"}
+              href={catalogHref({ use, group: groupCount === 1 ? undefined : "1", brand: activeBrand })}
               className={cn(
-                "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
+                "inline-flex h-9 items-center justify-center rounded-full px-3 text-center text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 sm:px-4",
                 groupCount === 1
                   ? "bg-[#8b5a2b] text-white"
                   : "bg-white text-[#5c3a22] ring-1 ring-[#eadfce] hover:bg-[#eadfce]"
@@ -167,9 +200,9 @@ export function EspressoMachinesPage({
               Single Group
             </Link>
             <Link
-              href={use ? `/espresso-machines?use=${use}&group=2` : "/espresso-machines?group=2"}
+              href={catalogHref({ use, group: groupCount === 2 ? undefined : "2", brand: activeBrand })}
               className={cn(
-                "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
+                "inline-flex h-9 items-center justify-center rounded-full px-3 text-center text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 sm:px-4",
                 groupCount === 2
                   ? "bg-[#8b5a2b] text-white"
                   : "bg-white text-[#5c3a22] ring-1 ring-[#eadfce] hover:bg-[#eadfce]"
@@ -177,15 +210,37 @@ export function EspressoMachinesPage({
             >
               Double Group
             </Link>
+            </div>
+            <label htmlFor="espresso-brand" className="sr-only">
+              Category
+            </label>
+            <div className="relative min-w-0 flex-1 sm:flex-none">
+              <select
+                id="espresso-brand"
+                value={activeBrand ?? ""}
+                onChange={(event) =>
+                  router.push(catalogHref({ use, group, brand: event.target.value || undefined }))
+                }
+                className="h-9 w-full min-w-0 appearance-none rounded-full border border-[#eadfce] bg-white px-4 pr-9 text-sm text-zinc-600 outline-none focus:border-[#c4a882] sm:w-[170px]"
+              >
+                <option value="">Category</option>
+                {espressoBrandCategories.map((item) => (
+                  <option key={item.slug} value={item.slug}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute top-1/2 right-3 size-3.5 -translate-y-1/2 text-zinc-500" />
+            </div>
             <label htmlFor="espresso-sort" className="sr-only">
               Sort by
             </label>
-            <div className="relative">
+            <div className="relative min-w-0 flex-1 sm:flex-none">
               <select
                 id="espresso-sort"
                 value={sort}
                 onChange={(event) => setSort(event.target.value as SortKey)}
-                className="h-9 min-w-[170px] appearance-none rounded-full border border-[#eadfce] bg-white px-4 pr-9 text-sm text-zinc-600 outline-none focus:border-[#c4a882]"
+                className="h-9 w-full min-w-0 appearance-none rounded-full border border-[#eadfce] bg-white px-4 pr-9 text-sm text-zinc-600 outline-none focus:border-[#c4a882] sm:w-[170px]"
               >
                 <option value="default">Featured</option>
                 <option value="az">Name A–Z</option>
@@ -199,7 +254,7 @@ export function EspressoMachinesPage({
         {items.length ? (
           <>
           <CatalogAd />
-          <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
             {items.map((item, index) => (
               <CatalogProductCard
                 key={item.name}
@@ -220,6 +275,15 @@ export function EspressoMachinesPage({
           </p>
         )}
       </section>
+      </HomeReveal>
+
+      <HomeReveal delay={80}>
+      <section className="relative mx-auto max-w-[1240px] px-4 pb-8 sm:px-5 md:px-8 md:pb-14">
+        <EspressoDirectory />
+      </section>
+      </HomeReveal>
+
+      <BrandStrip />
     </main>
   );
 }

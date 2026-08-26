@@ -83,7 +83,7 @@ export function EspressoMachineMenu({
           </ul>
         </div>
 
-        <div className="mt-10 flex items-stretch gap-3">
+        <div className="mt-10 grid grid-cols-2 gap-2 sm:flex sm:items-stretch sm:gap-3">
           {brands.map((name) => (
             <Link
               key={name}

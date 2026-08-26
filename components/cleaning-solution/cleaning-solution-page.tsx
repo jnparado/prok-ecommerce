@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { CatalogAd } from "@/components/ads/catalog-ad";
 import { CatalogProductCard } from "@/components/catalog-product-card";
+import { CollectionBanner } from "@/components/collection-banner";
 import {
   cleaningCatalogCopy,
   cleaningCategories,
@@ -23,19 +24,16 @@ export function CleaningSolutionPage({ category }: { category?: string }) {
   }, [activeCategory]);
 
   return (
-    <main className="flex-1 bg-[#f6f1e8]">
-      <section className="mx-auto max-w-[1180px] px-5 py-10 md:px-8 md:py-12">
-        <p className="text-xs font-semibold tracking-[0.28em] text-[#8b5a2b] uppercase">
-          Care & Maintenance
-        </p>
-        <h1 className="mt-3 font-serif text-[2.35rem] font-bold tracking-tight text-[#3d2416] md:text-5xl">
-          {cleaningCatalogCopy.title}
-        </h1>
-        <p className="mt-4 max-w-[58ch] text-[15px] leading-7 text-zinc-500">
-          {cleaningCatalogCopy.description}
-        </p>
+    <main className="flex-1 overflow-hidden bg-[#f6f1e8]">
+      <CollectionBanner
+        title={cleaningCatalogCopy.title}
+        description={cleaningCatalogCopy.description}
+        eyebrow="Care & Maintenance"
+      />
 
-        <div className="mt-12 rounded-[28px] bg-[#fff9f2] px-4 py-8 shadow-[0_18px_40px_rgba(80,50,20,0.06)] ring-1 ring-[#eadfce] md:px-10 md:py-10">
+      <section className="mx-auto max-w-[1180px] px-5 pb-10 md:px-8 md:pb-12">
+
+        <div className="mt-4 animate-scale-in rounded-[28px] bg-[#fff9f2] px-4 py-8 shadow-[0_18px_40px_rgba(80,50,20,0.06)] ring-1 ring-[#eadfce] md:px-10 md:py-10">
           <h2 className="text-center font-serif text-2xl font-bold text-[#1a7a72] md:text-[1.85rem]">
             Shop by use
           </h2>

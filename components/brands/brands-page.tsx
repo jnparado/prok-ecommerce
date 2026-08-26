@@ -5,6 +5,7 @@ import Image from "@/components/media-image";
 import { ChevronDown } from "lucide-react";
 
 import { CatalogAd } from "@/components/ads/catalog-ad";
+import { CollectionBanner } from "@/components/collection-banner";
 import {
   brandCatalog,
   brandCatalogCopy,
@@ -43,16 +44,18 @@ export function BrandsPage({ brand }: { brand?: string }) {
   }, [brand, sort]);
 
   return (
-    <main className="flex-1 bg-[#f6f1e8]">
-      <section className="mx-auto max-w-[1180px] px-5 py-10 md:px-8 md:py-12">
-        <h1 className="font-serif text-[2.35rem] font-bold tracking-tight text-[#3d2416] md:text-5xl">
-          {selectedBrand ?? brandCatalogCopy.title}
-        </h1>
-        <p className="mt-4 max-w-[58ch] text-[15px] leading-7 text-zinc-400">
-          {selectedBrand
+    <main className="flex-1 overflow-hidden bg-[#f6f1e8]">
+      <CollectionBanner
+        title={selectedBrand ?? brandCatalogCopy.title}
+        description={
+          selectedBrand
             ? `All ${selectedBrand} products in the Prokrate catalog.`
-            : brandCatalogCopy.description}
-        </p>
+            : brandCatalogCopy.description
+        }
+        eyebrow="Prokrate Collection"
+      />
+
+      <section className="mx-auto max-w-[1180px] px-5 pb-10 md:px-8 md:pb-12">
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <label htmlFor="brand-sort" className="text-sm text-zinc-700">
@@ -63,7 +66,7 @@ export function BrandsPage({ brand }: { brand?: string }) {
               id="brand-sort"
               value={sort}
               onChange={(event) => setSort(event.target.value as SortKey)}
-              className="h-10 min-w-[220px] appearance-none rounded-md border border-zinc-300 bg-white px-3 pr-9 text-sm text-zinc-500 outline-none focus:border-zinc-400"
+              className="h-10 w-full min-w-0 appearance-none rounded-md border border-zinc-300 bg-white px-3 pr-9 text-sm text-zinc-500 outline-none focus:border-zinc-400 sm:w-[220px]"
             >
               <option value="default">Choose an option...</option>
               <option value="az">Name A–Z</option>

@@ -5,7 +5,7 @@ export function BrandStrip() {
   const loop = [...brandLogos, ...brandLogos];
 
   return (
-    <section className="overflow-hidden border-y border-[#e8ddd0] bg-[#fff9f2] py-10">
+    <section className="overflow-hidden border-y border-[#e8ddd0] py-10">
       <div className="flex w-max animate-marquee items-center gap-16 pr-16 hover:[animation-play-state:paused]">
         {loop.map((brand, i) => (
           <a

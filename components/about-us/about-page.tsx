@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import { BrandMark } from "@/components/brand-mark";
+import { CollectionBanner } from "@/components/collection-banner";
 import { aboutCopy, brandLogos } from "@/lib/site";
 
 const serviceIcons = [
@@ -28,21 +29,15 @@ const serviceIcons = [
 
 export function AboutPage() {
   return (
-    <main className="flex-1 bg-[#f6f1e8]">
-      <section className="mx-auto max-w-[860px] space-y-8 px-4 py-12 md:px-6 md:py-16">
-        <article className="rounded-[15px] bg-white px-10 py-12 text-center shadow-[8px_12px_28px_rgba(0,0,0,0.12)] md:px-16 md:py-14">
-          <p className="text-sm font-normal tracking-[0.08em] text-[#800000] uppercase">
-            About
-          </p>
-          <h1 className="mt-1 text-3xl font-bold tracking-tight text-black uppercase md:text-4xl">
-            Our Company
-          </h1>
-          <p className="mx-auto mt-6 max-w-[62ch] text-[15px] leading-7 text-zinc-700">
-            {aboutCopy.company}
-          </p>
-        </article>
+    <main className="flex-1 overflow-hidden bg-[#f6f1e8]">
+      <CollectionBanner
+        title="Our Company"
+        description={aboutCopy.company}
+        eyebrow="About"
+      />
 
-        <article className="rounded-[15px] bg-white px-10 py-12 text-center shadow-[8px_12px_28px_rgba(0,0,0,0.12)] md:px-16 md:py-14">
+      <section className="mx-auto max-w-[860px] space-y-8 px-4 py-8 md:px-6 md:py-10">
+        <article className="animate-scale-in rounded-[15px] bg-white px-5 py-8 text-center shadow-[8px_12px_28px_rgba(0,0,0,0.12)] sm:px-10 sm:py-12 md:px-16 md:py-14">
           <h2 className="flex flex-wrap items-baseline justify-center gap-x-2 text-2xl font-bold tracking-tight text-black uppercase md:text-[1.85rem]">
             Your Coffee Essentials
             <span className="text-sm font-normal tracking-[0.08em] text-[#800000] md:text-base">

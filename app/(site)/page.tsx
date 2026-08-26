@@ -20,7 +20,13 @@ export default async function Home() {
       <HeroSlider />
       {sectionOn(sections, "featured") ? (
         <HomeReveal>
-          <FeaturedSection />
+          <FeaturedSection
+            cafeSrc={sections["featured-cafe"]?.image_src}
+            hotelSrc={sections["featured-hotel"]?.image_src}
+            restaurantSrc={sections["featured-restaurant"]?.image_src}
+            officeSrc={sections["featured-office"]?.image_src}
+            homesSrc={sections["featured-homes"]?.image_src}
+          />
         </HomeReveal>
       ) : null}
       {sectionOn(sections, "gallery") ? (

@@ -188,7 +188,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className="sticky top-0 z-50 bg-[#d3b99b] text-neutral-900 shadow-[0_8px_24px_rgba(80,50,20,0.08)]"
+      className="sticky top-0 z-50 overflow-x-clip bg-[#d3b99b] text-neutral-900 shadow-[0_8px_24px_rgba(80,50,20,0.08)]"
       onMouseLeave={() => setMega(null)}
     >
       <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-4 py-3 sm:px-6 lg:gap-8 lg:px-10 lg:py-5">
@@ -251,7 +251,7 @@ export function SiteHeader() {
       ) : null}
 
       {openItem && isCatalogMega(openItem) && openItem.label === "Coffee" ? (
-        <div className="absolute inset-x-0 top-full shadow-[0_18px_40px_rgba(80,50,20,0.12)]">
+        <div className="absolute inset-x-0 top-full border-t border-[#cbb392] shadow-[0_18px_40px_rgba(80,50,20,0.12)]">
           <CoffeeMenu onNavigate={close} />
         </div>
       ) : null}

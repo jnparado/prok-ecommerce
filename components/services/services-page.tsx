@@ -41,13 +41,13 @@ export function ServicesPage() {
             alt="Espresso machine in a service workshop"
             fill
             preload
-            className="object-cover"
+            className="object-cover animate-ken-burns"
             sizes="(min-width: 1180px) 1180px, 100vw"
           />
           <div className="absolute inset-0 bg-black/50" />
           <div className="relative flex min-h-[320px] flex-col items-center justify-center px-6 py-16 text-center md:min-h-[420px]">
-            <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">{machineServicesCopy.title}</h1>
-            <p className="mt-4 max-w-[52ch] text-[15px] leading-7 text-white/95">{machineServicesCopy.body}</p>
+            <h1 className="animate-fade-up text-4xl font-bold tracking-tight text-white md:text-5xl">{machineServicesCopy.title}</h1>
+            <p className="mt-4 max-w-[52ch] animate-fade-up text-[15px] leading-7 text-white/95 [animation-delay:90ms]">{machineServicesCopy.body}</p>
           </div>
         </div>
 

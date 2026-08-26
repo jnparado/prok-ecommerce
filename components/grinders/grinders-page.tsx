@@ -8,6 +8,11 @@ import { ChevronDown } from "lucide-react";
 import { CatalogAd } from "@/components/ads/catalog-ad";
 import { CatalogProductCard } from "@/components/catalog-product-card";
 import {
+  catalogHeroFloatLeft,
+  catalogHeroFloatRight,
+  CollectionBanner,
+} from "@/components/collection-banner";
+import {
   brandSlug,
   grinderCatalogCopy,
   grinderShopUses,
@@ -19,20 +24,20 @@ import { cn } from "@/lib/utils";
 type SortKey = "default" | "az" | "za";
 type SeriesKey = "default" | "mignon" | "commercial";
 
-const heroFloats = [
+const heroGrinders = [
   {
-    src: "/images/product-firenze-75.jpg",
+    src: "/images/hero-grinder-firenze.png",
     alt: "Eureka Firenze 75 grinder",
-    className:
-      "right-[4%] top-8 hidden h-[220px] w-[170px] lg:block xl:right-[8%] xl:h-[250px] xl:w-[190px]",
+    className: catalogHeroFloatRight,
     delay: "0ms",
+    local: true,
   },
   {
-    src: "/images/product-mignon-silenzio.jpg",
+    src: "/images/hero-grinder-silenzio.png",
     alt: "Eureka Mignon Silenzio grinder",
-    className:
-      "right-[18%] top-[42%] hidden h-[150px] w-[120px] xl:block",
+    className: catalogHeroFloatLeft,
     delay: "180ms",
+    local: true,
   },
 ] as const;
 
@@ -109,64 +114,16 @@ export function GrindersPage({
 
   return (
     <main className="flex-1 overflow-hidden bg-[#f6f1e8]">
-      <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 left-[-8%] size-[420px] rounded-full bg-[#e8d5b8]/55 blur-3xl animate-soft-pulse" />
-          <div className="absolute top-10 right-[-6%] size-[360px] rounded-full bg-[#c4a882]/25 blur-3xl animate-soft-pulse [animation-delay:1.2s]" />
-          <div className="absolute bottom-0 left-[35%] size-[280px] rounded-full bg-[#1a7a72]/10 blur-3xl" />
-        </div>
-
-        {activeShop ? (
-          <div className="pointer-events-none absolute inset-0 opacity-[0.2] transition-opacity duration-700">
-            <Image
-              src={activeShop.src}
-              alt=""
-              fill
-              className="object-cover"
-              sizes="100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#f6f1e8]/65 via-[#f6f1e8]/90 to-[#f6f1e8]" />
-          </div>
-        ) : (
-          heroFloats.map((item) => (
-            <div
-              key={item.src}
-              className={cn(
-                "pointer-events-none absolute animate-fade-up",
-                item.className
-              )}
-              style={{ animationDelay: item.delay }}
-            >
-              <div className="relative h-full w-full animate-machine-float">
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  fill
-                  className="object-contain drop-shadow-[0_24px_40px_rgba(80,50,20,0.18)]"
-                  sizes="190px"
-                />
-              </div>
-            </div>
-          ))
-        )}
-
-        <div className="relative mx-auto max-w-[1240px] px-5 pt-10 pb-6 md:px-8 md:pt-14 md:pb-8">
-          <p className="animate-fade-up text-xs font-semibold tracking-[0.28em] text-[#8b5a2b] uppercase">
-            Prokrate Collection
-          </p>
-          <h1
-            key={title}
-            className="mt-3 max-w-[14ch] animate-fade-up font-serif text-4xl font-bold tracking-tight text-[#3d2416] md:text-[3.25rem]"
-          >
-            {title}
-          </h1>
-          <p className="mt-4 max-w-[52ch] animate-fade-up text-[15px] leading-7 text-zinc-600 [animation-delay:90ms]">
-            {useLabel
-              ? `Professional grinders chosen for ${useLabel.toLowerCase()} service — built for dose consistency, quiet operation, and a counter that looks the part.`
-              : grinderCatalogCopy.description}
-          </p>
-        </div>
-      </section>
+      <CollectionBanner
+        title={title}
+        description={
+          useLabel
+            ? `Professional grinders chosen for ${useLabel.toLowerCase()} service — built for dose consistency, quiet operation, and a counter that looks the part.`
+            : grinderCatalogCopy.description
+        }
+        floats={heroGrinders}
+        overlaySrc={activeShop?.src}
+      />
 
       <section className="relative mx-auto max-w-[1240px] px-5 md:px-8">
         <div className="animate-scale-in rounded-[28px] bg-[#fff9f2]/95 px-4 py-8 shadow-[0_18px_40px_rgba(80,50,20,0.08)] ring-1 ring-[#eadfce] backdrop-blur-sm md:px-10 md:py-10 [animation-delay:140ms]">
@@ -176,19 +133,19 @@ export function GrindersPage({
           <p className="mt-2 animate-fade-up text-center text-sm text-zinc-500 [animation-delay:260ms]">
             Choose where the grinder will live
           </p>
-          <div className="mt-8 flex flex-wrap items-start justify-center gap-x-8 gap-y-8 md:gap-x-12">
+          <div className="-mx-1 mt-8 flex flex-nowrap items-start justify-start gap-x-6 overflow-x-auto px-1 pb-2 sm:mx-0 sm:flex-wrap sm:justify-center sm:gap-x-8 sm:overflow-visible sm:px-0 sm:pb-0 md:gap-x-12">
             {grinderShopUses.map((item, index) => {
               const active = use === item.slug;
               return (
                 <Link
                   key={item.slug}
                   href={active ? "/grinders" : hrefForUse(item.slug)}
-                  className="group flex w-[132px] animate-fade-up flex-col items-center gap-3 sm:w-[148px]"
-                  style={{ animationDelay: `${280 + index * 70}ms` }}
+                  className="group flex w-[132px] shrink-0 animate-fade-up flex-col items-center gap-3 sm:w-[148px]"
+                  style={{ animationDelay: `${280 + index * 80}ms` }}
                 >
                   <span
                     className={cn(
-                      "relative block size-[132px] overflow-hidden rounded-full shadow-[0_12px_28px_rgba(80,50,20,0.14)] ring-4 ring-white transition-all duration-500 group-hover:-translate-y-1.5 group-hover:scale-[1.05] group-hover:shadow-[0_18px_36px_rgba(80,50,20,0.2)] sm:size-[148px]",
+                      "relative block size-[132px] overflow-hidden rounded-full shadow-[0_12px_28px_rgba(80,50,20,0.14)] ring-4 ring-white transition-all duration-500 group-hover:-translate-y-1.5 group-hover:scale-[1.05] group-hover:shadow-[0_18px_36px_rgba(80,50,20,0.22)] sm:size-[148px]",
                       active && "ring-[#c4783a] ring-offset-4 ring-offset-[#fff9f2]"
                     )}
                   >
@@ -199,7 +156,7 @@ export function GrindersPage({
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       sizes="148px"
                     />
-                    <span className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    <span className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </span>
                   <span
                     className={cn(
@@ -260,7 +217,7 @@ export function GrindersPage({
                 id="grinder-sort"
                 value={sort}
                 onChange={(event) => setSort(event.target.value as SortKey)}
-                className="h-9 min-w-[170px] appearance-none rounded-full border border-[#eadfce] bg-white px-4 pr-9 text-sm text-zinc-600 outline-none transition-colors focus:border-[#c4a882]"
+                className="h-9 w-full min-w-0 appearance-none rounded-full border border-[#eadfce] bg-white px-4 pr-9 text-sm text-zinc-600 outline-none transition-colors focus:border-[#c4a882] sm:w-[170px]"
               >
                 <option value="default">Featured</option>
                 <option value="az">Name A–Z</option>
@@ -274,7 +231,7 @@ export function GrindersPage({
         {items.length ? (
           <>
           <CatalogAd />
-          <div className="mt-8 grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
             {items.map((item, index) => (
               <CatalogProductCard
                 key={`${item.name}-${seriesSort}-${use ?? "all"}`}

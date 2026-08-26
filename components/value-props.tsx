@@ -23,7 +23,7 @@ export function ValueProps({ imageSrc }: { imageSrc?: string | null }) {
           return (
             <article
               key={item.title}
-              className="flex h-[100px] flex-col items-center justify-center rounded-xl border border-white px-4 text-center transition-transform duration-500 hover:-translate-y-1 hover:bg-white/10"
+              className="flex min-h-[100px] flex-col items-center justify-center rounded-xl border border-white px-4 py-3 text-center transition-transform duration-500 hover:-translate-y-1 hover:bg-white/10"
               style={{ animationDelay: `${i * 90}ms` }}
             >
               <Icon className="size-5 stroke-[1.4] text-white" />

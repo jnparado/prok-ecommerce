@@ -5,6 +5,7 @@ import Image from "@/components/media-image";
 import Link from "next/link";
 
 import { AdSlot } from "@/components/ads/ad-slot";
+import { CollectionBanner } from "@/components/collection-banner";
 import { isPublished, mapEventRow, mapNewsRow, uniqueByTitle, type EventCard, type NewsCard } from "@/lib/cms/public";
 import { newsItems } from "@/lib/site";
 import { createClient } from "@/lib/supabase/client";
@@ -38,11 +39,13 @@ export function NewsEventsPage() {
   }, []);
 
   return (
-    <main className="flex-1 bg-[#f6f1e8]">
-      <section className="mx-auto max-w-[1180px] px-5 py-10 md:px-8 md:py-14">
-        <p className="text-xs font-semibold tracking-[0.22em] text-[#8b5a2b] uppercase">Prokrate</p>
-        <h1 className="mt-2 font-serif text-4xl text-[#3d2416]">News & Events</h1>
-        <p className="mt-2 max-w-xl text-sm text-zinc-500">Trade shows, academy dates, and stories from the bar.</p>
+    <main className="flex-1 overflow-hidden bg-[#f6f1e8]">
+      <CollectionBanner
+        title="News & Events"
+        description="Trade shows, academy dates, and stories from the bar."
+        eyebrow="Prokrate"
+      />
+      <section className="mx-auto max-w-[1180px] px-5 pb-10 md:px-8 md:pb-14">
 
         <h2 className="mt-12 font-serif text-2xl text-[#3d2416]">News</h2>
         <div className="mt-6 grid gap-6 md:grid-cols-2">
