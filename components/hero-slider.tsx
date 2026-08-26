@@ -66,13 +66,15 @@ export function HeroSlider() {
   if (!slide) return null;
 
   return (
-    <section className="relative bg-[#eadfce] px-3 pt-6 pb-8 md:px-5 md:pt-8">
-      <div className="relative mx-auto h-[68vh] min-h-[460px] max-h-[860px] w-full max-w-[1440px] overflow-hidden rounded-2xl border border-black/5 bg-black shadow-[0_10px_32px_rgba(0,0,0,0.18)] md:h-[78vh]">
+    <section className="relative overflow-hidden bg-[#eadfce] px-3 pt-6 pb-8 md:px-5 md:pt-8">
+      <div className="pointer-events-none absolute -top-24 left-[-8%] size-[420px] rounded-full bg-[#c4a882]/35 blur-3xl animate-soft-pulse" />
+      <div className="pointer-events-none absolute top-16 right-[-10%] size-[360px] rounded-full bg-[#8b5a2b]/20 blur-3xl animate-soft-pulse [animation-delay:1.4s]" />
+      <div className="relative mx-auto h-[68vh] min-h-[460px] max-h-[860px] w-full max-w-[1440px] overflow-hidden rounded-2xl border border-black/5 bg-black shadow-[0_18px_50px_rgba(80,50,20,0.28)] md:h-[78vh]">
         {slides.map((item, i) => (
           <div
             key={`${item.src}-${i}`}
             className={cn(
-              "absolute inset-0 transition-opacity duration-700",
+              "absolute inset-0 transition-opacity duration-1000",
               i === index ? "opacity-100" : "pointer-events-none opacity-0"
             )}
           >
@@ -83,28 +85,42 @@ export function HeroSlider() {
               preload={i === 0}
               className={cn(
                 "object-center",
-                item.fit === "contain" ? "object-contain brightness-110" : "object-cover"
+                item.fit === "contain" ? "object-contain brightness-110" : "object-cover",
+                i === index && "animate-ken-burns"
               )}
               sizes="100vw"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-black/25" />
           </div>
         ))}
 
         <div className="pointer-events-none absolute inset-x-0 bottom-[12%] z-10 flex flex-col items-center px-4 text-center sm:bottom-[14%]">
-          <h1 className="font-serif text-4xl font-medium text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1
+            key={`${slide.title}-${index}`}
+            className="animate-hero-copy font-serif text-4xl font-medium text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-5xl md:text-6xl lg:text-7xl"
+          >
             {slide.title}
           </h1>
-          <p className="mt-2 font-serif text-3xl font-bold tracking-[0.28em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-4xl md:text-5xl">
+          <p
+            key={`${slide.brand}-${index}`}
+            className="mt-2 animate-hero-copy font-serif text-3xl font-bold tracking-[0.28em] text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.75)] sm:text-4xl md:text-5xl [animation-delay:120ms]"
+          >
             {slide.brand}
           </p>
           {slide.subtitle ? (
-            <p className="mt-2 max-w-[40ch] text-sm text-white/90">{slide.subtitle}</p>
+            <p
+              key={`${slide.subtitle}-${index}`}
+              className="mt-2 max-w-[40ch] animate-hero-copy text-sm text-white/90 [animation-delay:200ms]"
+            >
+              {slide.subtitle}
+            </p>
           ) : null}
           <Link
             href={slide.button_href || "/espresso-machines"}
-            className="pointer-events-auto mt-6 inline-flex h-12 items-center justify-center bg-[#7a4f32] px-12 text-base font-medium tracking-wide text-white transition-colors hover:bg-[#643f28] sm:h-14 sm:px-14 sm:text-lg"
+            className="pointer-events-auto relative mt-6 inline-flex h-12 items-center justify-center overflow-hidden bg-[#7a4f32] px-12 text-base font-medium tracking-wide text-white shadow-[0_10px_28px_rgba(122,79,50,0.45)] transition-all duration-300 hover:scale-[1.04] hover:bg-[#643f28] hover:shadow-[0_14px_36px_rgba(122,79,50,0.55)] sm:h-14 sm:px-14 sm:text-lg"
           >
-            {slide.button_label || "Shop Now"}
+            <span className="absolute inset-0 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-cta-shine" />
+            <span className="relative">{slide.button_label || "Shop Now"}</span>
           </Link>
         </div>
 
@@ -112,7 +128,7 @@ export function HeroSlider() {
           type="button"
           onClick={() => goTo(index - 1)}
           aria-label="Previous slide"
-          className="absolute top-1/2 left-2 z-10 -translate-y-1/2 p-2 text-orange-500 transition-colors hover:text-orange-600 sm:left-5"
+          className="absolute top-1/2 left-2 z-10 -translate-y-1/2 rounded-full bg-black/20 p-2 text-orange-500 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-black/35 hover:text-orange-600 sm:left-5"
         >
           <ChevronLeft className="size-12 stroke-[1.5] sm:size-14" />
         </button>
@@ -120,12 +136,12 @@ export function HeroSlider() {
           type="button"
           onClick={() => goTo(index + 1)}
           aria-label="Next slide"
-          className="absolute top-1/2 right-2 z-10 -translate-y-1/2 p-2 text-orange-500 transition-colors hover:text-orange-600 sm:right-5"
+          className="absolute top-1/2 right-2 z-10 -translate-y-1/2 rounded-full bg-black/20 p-2 text-orange-500 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-black/35 hover:text-orange-600 sm:right-5"
         >
           <ChevronRight className="size-12 stroke-[1.1] sm:size-14" />
         </button>
 
-        <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2.5">
+        <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-2">
           {slides.map((item, i) => (
             <button
               key={`${item.src}-dot-${i}`}
@@ -134,10 +150,14 @@ export function HeroSlider() {
               aria-current={i === index}
               onClick={() => goTo(i)}
               className={cn(
-                "size-3 rounded-full transition-colors sm:size-3.5",
-                i === index ? "bg-white" : "bg-white/45 hover:bg-white/70"
+                "h-1.5 overflow-hidden rounded-full transition-all duration-300",
+                i === index ? "w-10 bg-white/35" : "w-3 bg-white/45 hover:bg-white/70"
               )}
-            />
+            >
+              {i === index ? (
+                <span className="block h-full origin-left rounded-full bg-white animate-slide-progress" />
+              ) : null}
+            </button>
           ))}
         </div>
       </div>

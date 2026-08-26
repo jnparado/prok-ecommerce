@@ -9,6 +9,7 @@ import { ServicesBanner } from "@/components/services-banner";
 import { LatestNews } from "@/components/latest-news";
 import { BrandStrip } from "@/components/brand-strip";
 import { AdSlot } from "@/components/ads/ad-slot";
+import { HomeReveal } from "@/components/home-reveal";
 import { getHomepageSections, sectionOn } from "@/lib/cms/homepage";
 
 export default async function Home() {
@@ -17,31 +18,59 @@ export default async function Home() {
   return (
     <main className="flex-1 bg-[#f6f1e8]">
       <HeroSlider />
-      {sectionOn(sections, "featured") ? <FeaturedSection /> : null}
-      {sectionOn(sections, "gallery") ? <ProductGallery /> : null}
+      {sectionOn(sections, "featured") ? (
+        <HomeReveal>
+          <FeaturedSection />
+        </HomeReveal>
+      ) : null}
+      {sectionOn(sections, "gallery") ? (
+        <HomeReveal delay={80}>
+          <ProductGallery />
+        </HomeReveal>
+      ) : null}
       <AdSlot placement="home" className="px-4 py-2 md:px-8" />
       {sectionOn(sections, "new-arrival") ? (
-        <NewArrival title={sections["new-arrival"]?.title} description={sections["new-arrival"]?.description} />
+        <HomeReveal>
+          <NewArrival title={sections["new-arrival"]?.title} description={sections["new-arrival"]?.description} />
+        </HomeReveal>
       ) : null}
       {sectionOn(sections, "value-props") ? (
-        <ValueProps imageSrc={sections["value-props"]?.image_src} />
+        <HomeReveal>
+          <ValueProps imageSrc={sections["value-props"]?.image_src} />
+        </HomeReveal>
       ) : null}
       {sectionOn(sections, "packages") ? (
-        <PackageDeals title={sections.packages?.title} description={sections.packages?.description} />
+        <HomeReveal>
+          <PackageDeals title={sections.packages?.title} description={sections.packages?.description} />
+        </HomeReveal>
       ) : null}
-      {sectionOn(sections, "top-seller") ? <TopSeller title={sections["top-seller"]?.title} /> : null}
+      {sectionOn(sections, "top-seller") ? (
+        <HomeReveal>
+          <TopSeller title={sections["top-seller"]?.title} />
+        </HomeReveal>
+      ) : null}
       {sectionOn(sections, "services") ? (
-        <ServicesBanner
-          title={sections.services?.title}
-          description={sections.services?.description}
-          imageSrc={sections.services?.image_src}
-          buttonLabel={sections.services?.button_label}
-          buttonHref={sections.services?.button_href}
-        />
+        <HomeReveal>
+          <ServicesBanner
+            title={sections.services?.title}
+            description={sections.services?.description}
+            imageSrc={sections.services?.image_src}
+            buttonLabel={sections.services?.button_label}
+            buttonHref={sections.services?.button_href}
+          />
+        </HomeReveal>
       ) : null}
       <AdSlot placement="article" className="px-4 py-2 md:px-8" />
-      {sectionOn(sections, "news") ? <LatestNews /> : null}
-      {sectionOn(sections, "brands") ? <BrandStrip /> : null}
+      {sectionOn(sections, "news") ? (
+        <HomeReveal>
+          <LatestNews />
+        </HomeReveal>
+      ) : null}
+      {sectionOn(sections, "brands") ? (
+        <HomeReveal>
+          <BrandStrip />
+        </HomeReveal>
+      ) : null}
     </main>
   );
 }

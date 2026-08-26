@@ -52,14 +52,14 @@ export function LatestNews() {
           </p>
         </div>
 
-        <article className="mt-10 overflow-hidden rounded-2xl bg-white shadow-[8px_18px_40px_rgba(80,50,20,0.12)]">
-          <Link href={featured.href} className="grid md:grid-cols-2">
-            <div className="relative min-h-[260px] md:min-h-[380px]">
+        <article className="mt-10 overflow-hidden rounded-2xl bg-white shadow-[8px_18px_40px_rgba(80,50,20,0.12)] transition-shadow duration-500 hover:shadow-[8px_22px_48px_rgba(80,50,20,0.18)]">
+          <Link href={featured.href} className="group grid md:grid-cols-2">
+            <div className="relative min-h-[260px] overflow-hidden md:min-h-[380px]">
               <Image
                 src={featured.src}
                 alt={featured.alt}
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                 sizes="(min-width: 768px) 50vw, 100vw"
               />
             </div>
@@ -91,7 +91,7 @@ export function LatestNews() {
             <Link
               key={item.id}
               href={item.href}
-              className="group overflow-hidden rounded-2xl bg-white shadow-[6px_12px_28px_rgba(80,50,20,0.08)] transition-transform duration-300 hover:-translate-y-0.5"
+              className="group overflow-hidden rounded-2xl bg-white shadow-[6px_12px_28px_rgba(80,50,20,0.08)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[8px_18px_36px_rgba(80,50,20,0.14)]"
             >
               <div className="relative h-48">
                 <Image

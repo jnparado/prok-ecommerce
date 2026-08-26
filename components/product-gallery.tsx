@@ -24,7 +24,7 @@ export function ProductGallery() {
               <Link
                 key={product.name}
                 href={product.href}
-                className="group flex flex-col border border-[#e6ddd0] bg-white p-3 transition-shadow duration-300 hover:shadow-[0_10px_24px_rgba(80,50,20,0.1)] sm:p-4"
+                className="group flex flex-col border border-[#e6ddd0] bg-white p-3 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_16px_32px_rgba(80,50,20,0.14)] sm:p-4"
               >
                 <div className="relative aspect-square w-full overflow-hidden bg-white">
                   <Image

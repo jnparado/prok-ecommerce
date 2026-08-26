@@ -141,14 +141,14 @@ export function TopSeller({ title }: { title?: string | null }) {
                 return (
                   <article
                     key={product.name}
-                    className="flex flex-col rounded-xl border border-zinc-200 bg-white p-5"
+                    className="group flex flex-col rounded-xl border border-zinc-200 bg-white p-5 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_16px_32px_rgba(80,50,20,0.12)]"
                   >
-                    <div className="relative mx-auto aspect-square w-full max-w-[280px]">
+                    <div className="relative mx-auto aspect-square w-full max-w-[280px] overflow-hidden">
                       <Image
                         src={product.src}
                         alt={product.name}
                         fill
-                        className="object-contain"
+                        className="object-contain transition-transform duration-700 group-hover:scale-[1.06]"
                         sizes="(min-width: 768px) 28vw, 80vw"
                       />
                     </div>

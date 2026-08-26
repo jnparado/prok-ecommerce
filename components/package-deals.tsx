@@ -43,12 +43,12 @@ export function PackageDeals({
 
         <article className="mt-10 overflow-hidden rounded-2xl bg-white shadow-[8px_18px_40px_rgba(80,50,20,0.12)]">
           <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="relative min-h-[280px] bg-zinc-100 lg:min-h-[520px]">
+            <div className="relative min-h-[280px] overflow-hidden bg-zinc-100 lg:min-h-[520px]">
               <Image
                 src={featured.src}
                 alt={featured.alt}
                 fill
-                className="object-cover object-top"
+                className="object-cover object-top transition-transform duration-700 hover:scale-[1.03]"
                 sizes="(min-width: 1024px) 55vw, 100vw"
               />
             </div>

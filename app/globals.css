@@ -53,6 +53,11 @@
   --animate-scale-in: scale-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-soft-pulse: soft-pulse 3.6s ease-in-out infinite;
   --animate-text-reveal: text-reveal 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-ken-burns: ken-burns 7s ease-out both;
+  --animate-reveal-up: reveal-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-hero-copy: hero-copy 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-cta-shine: cta-shine 2.8s ease-in-out infinite;
+  --animate-slide-progress: slide-progress 6s linear both;
 }
 
 @keyframes marquee {
@@ -119,12 +124,70 @@
   }
 }
 
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-copy {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes cta-shine {
+  0%,
+  55% {
+    transform: translateX(-130%);
+  }
+  100% {
+    transform: translateX(130%);
+  }
+}
+
+@keyframes slide-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
   .animate-machine-float,
   .animate-scale-in,
   .animate-soft-pulse,
-  .animate-text-reveal {
+  .animate-text-reveal,
+  .animate-ken-burns,
+  .animate-reveal-up,
+  .animate-hero-copy,
+  .animate-cta-shine,
+  .animate-slide-progress,
+  .animate-marquee {
     animation: none !important;
   }
 }

@@ -12,7 +12,7 @@ export function ValueProps({ imageSrc }: { imageSrc?: string | null }) {
         src={imageSrc || "/images/training-hero.png"}
         alt=""
         fill
-        className="object-cover"
+        className="object-cover animate-ken-burns"
         sizes="100vw"
       />
       <div className="absolute inset-0 bg-[#3d2416]/72" />
@@ -23,7 +23,8 @@ export function ValueProps({ imageSrc }: { imageSrc?: string | null }) {
           return (
             <article
               key={item.title}
-              className="flex h-[100px] flex-col items-center justify-center rounded-xl border border-white px-4 text-center"
+              className="flex h-[100px] flex-col items-center justify-center rounded-xl border border-white px-4 text-center transition-transform duration-500 hover:-translate-y-1 hover:bg-white/10"
+              style={{ animationDelay: `${i * 90}ms` }}
             >
               <Icon className="size-5 stroke-[1.4] text-white" />
               <h2 className="mt-1 font-serif text-base leading-tight text-white">{item.title}</h2>

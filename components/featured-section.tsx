@@ -49,7 +49,7 @@ function Tile({
       id={id}
       href={href}
       className={cn(
-        "group relative min-h-[220px] overflow-hidden",
+        "group relative min-h-[220px] overflow-hidden rounded-xl shadow-[0_8px_24px_rgba(80,50,20,0.08)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(80,50,20,0.18)]",
         fit === "contain" && "bg-[#1a1a1a]",
         className
       )}
@@ -59,7 +59,7 @@ function Tile({
         alt={alt}
         fill
         className={cn(
-          "transition-transform duration-700 group-hover:scale-[1.04]",
+          "transition-transform duration-700 group-hover:scale-[1.07]",
           fit === "contain" ? "object-contain p-6 md:p-8" : "object-cover"
         )}
         sizes={sizes}
