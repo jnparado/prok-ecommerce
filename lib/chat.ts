@@ -111,7 +111,7 @@ export function fallbackChatReply(message: string) {
   }
 
   if (/service|repair|maintain|clean|puly/.test(q)) {
-    return `We offer after-sales service and cleaning solutions. See [Services](/services) and [Cleaning Solution](/cleaning-solution), or call ${phone}.`;
+    return `We offer after-sales service and Puly Caff cleaning products. See [Services](/services) and [Puly Caff Product](/cleaning-solution), or call ${phone}.`;
   }
 
   if (/brand|casadio|slayer|eureka/.test(q)) {

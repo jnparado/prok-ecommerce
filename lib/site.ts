@@ -98,7 +98,7 @@ export const navItems = [
       },
     ],
   },
-  { label: "Cleaning Solution", href: "/cleaning-solution" },
+  { label: "Puly Caff Product", href: "/cleaning-solution" },
   { label: "Barista Training", href: "/training" },
   { label: "Services", href: "/services" },
   { label: "News & Events", href: "/news-events" },
@@ -113,7 +113,7 @@ export const headerNavOrder = [
   "Grinders",
   "Coffee",
   "Flavours",
-  "Cleaning Solution",
+  "Puly Caff Product",
   "Barista Training",
   "Services",
   "News & Events",
@@ -130,7 +130,7 @@ export const headerNavLayout = {
     "Coffee",
     "Flavours",
   ],
-  row1Right: ["Cleaning Solution", "Barista Training"],
+  row1Right: ["Puly Caff Product", "Barista Training"],
   row2Left: ["Services", "News & Events"],
   row2Right: ["Contact Us"],
 } as const;
@@ -865,85 +865,71 @@ export const flavourProducts = [
 ] as const;
 
 export const cleaningCatalogCopy = {
-  title: "Cleaning Solution",
+  title: "Puly Caff Product",
   description:
     "Professional espresso and grinder cleaning products to keep every machine tasting clean, running smooth, and looking ready for service.",
 } as const;
 
-export const cleaningCategories = [
-  { slug: "machine", label: "Machine" },
-  { slug: "milk", label: "Milk System" },
-  { slug: "grinder", label: "Grinder" },
-  { slug: "bar", label: "Bar Care" },
-] as const;
-
 export const diyCleaningProducts = [
-  { name: "Calcinet®", brand: "Puly Caff", src: "/images/puly-calcinet.png", href: "/cleaning-solution?category=machine" },
-  { name: "pulyGRIND® Crystals", brand: "Puly Caff", src: "/images/puly-grind-crystals.png", href: "/cleaning-solution?category=grinder" },
-  { name: "Soak Cleaning System", brand: "Puly Caff", src: "/images/puly-soak-cleaning.png", href: "/cleaning-solution?category=machine" },
-  { name: "pulyMILK® Capucino Liquid", brand: "Puly Caff", src: "/images/puly-milk-capucino.png", href: "/cleaning-solution?category=milk" },
-  { name: "pulyCAFF® Plus NSF", brand: "Puly Caff", src: "/images/puly-caff-plus-nsf.png", href: "/cleaning-solution?category=machine" },
-  { name: "pulyCAFF® New", brand: "Puly Caff", src: "/images/puly-caff-new.png", href: "/cleaning-solution?category=machine" },
-  { name: "pulyCAFF® Plus 370gram", brand: "Puly Caff", src: "/images/puly-caff-plus-370.png", href: "/cleaning-solution?category=machine" },
-  { name: "Brush", brand: "Puly Caff", src: "/images/puly-brush.png", href: "/cleaning-solution?category=bar" },
+  { name: "Calcinet®", brand: "Puly Caff Product", src: "/images/puly-calcinet-cutout.png", href: "/cleaning-solution" },
+  { name: "pulyGRIND® Crystals", brand: "Puly Caff Product", src: "/images/puly-grind-crystals-cutout.png", href: "/cleaning-solution" },
+  { name: "Soak Cleaning System", brand: "Puly Caff Product", src: "/images/puly-soak-cleaning-cutout.png", href: "/cleaning-solution" },
+  { name: "pulyMILK® Capucino Liquid", brand: "Puly Caff Product", src: "/images/puly-milk-capucino-cutout.png", href: "/cleaning-solution" },
+  { name: "pulyCAFF® Plus NSF", brand: "Puly Caff Product", src: "/images/puly-caff-plus-nsf-cutout.png", href: "/cleaning-solution" },
+  { name: "Verde Bar Igienic", brand: "Puly Caff Product", src: "/images/puly-igienic-cutout.png", href: "/cleaning-solution" },
+  { name: "pulyCAFF® Plus 370gram", brand: "Puly Caff Product", src: "/images/puly-caff-plus-370-cutout.png", href: "/cleaning-solution" },
+  { name: "Brush", brand: "Puly Caff Product", src: "/images/puly-brush.png", href: "/cleaning-solution" },
 ] as const;
 
 export const cleaningProducts = [
   {
-    name: "pulyCAFF Plus",
-    brand: "puly CAFF",
-    category: "machine",
-    detail: "Backflush detergent",
-    src: "/images/brand-pulycaff.png",
-  },
-  {
-    name: "pulyCAFF Tabs",
-    brand: "puly CAFF",
-    category: "machine",
-    detail: "Group head tablets",
-    src: "/images/brand-pulycaff.png",
-  },
-  {
-    name: "pulyCAFF Descaler",
-    brand: "puly CAFF",
-    category: "machine",
-    detail: "Limescale remover",
-    src: "/images/brand-pulycaff.png",
-  },
-  {
-    name: "pulyMILK",
-    brand: "puly CAFF",
-    category: "milk",
-    detail: "Milk system cleaner",
-    src: "/images/brand-pulycaff.png",
-  },
-  {
-    name: "pulySTEAM",
-    brand: "puly CAFF",
-    category: "milk",
-    detail: "Steam wand cleaner",
-    src: "/images/brand-pulycaff.png",
-  },
-  {
-    name: "pulyGRIND",
-    brand: "puly CAFF",
+    name: "pulyGRIND Crystals 405g",
+    brand: "Puly Caff Product",
     category: "grinder",
-    detail: "Grinder cleaner",
-    src: "/images/brand-pulycaff.png",
+    detail: "Coffee grinder cleaner",
+    src: "/images/puly-grind-crystals-cutout.png",
   },
   {
-    name: "pulyBAR",
-    brand: "puly CAFF",
+    name: "Verde Bar Igienic 1000mL",
+    brand: "Puly Caff Product",
     category: "bar",
-    detail: "Bar surface cleaner",
-    src: "/images/brand-pulycaff.png",
+    detail: "Cleans and hygienizes",
+    src: "/images/puly-igienic-cutout.png",
   },
   {
-    name: "pulyBRUSH Kit",
-    brand: "puly CAFF",
-    category: "bar",
-    detail: "Group & portafilter brushes",
-    src: "/images/brand-pulycaff.png",
+    name: "pulyMILK Capucino Liquid",
+    brand: "Puly Caff Product",
+    category: "milk",
+    detail: "Milk frother cleaner",
+    src: "/images/puly-milk-capucino-cutout.png",
+  },
+  {
+    name: "pulyCAFF Plus NSF 900g",
+    brand: "Puly Caff Product",
+    category: "machine",
+    detail: "Coffee machine cleaner",
+    src: "/images/puly-caff-plus-nsf-cutout.png",
+  },
+  {
+    name: "Calcinet Scale Remover",
+    brand: "Puly Caff Product",
+    category: "machine",
+    detail: "Boilers and heat exchangers",
+    src: "/images/puly-calcinet-cutout.png",
+  },
+  {
+    name: "Soak Cleaning System",
+    brand: "Puly Caff Product",
+    category: "machine",
+    detail: "Immersion cleaning kit",
+    src: "/images/puly-soak-cleaning-cutout.png",
+  },
+  {
+    name: "pulyCAFF Plus Powder 370g",
+    brand: "Puly Caff Product",
+    category: "machine",
+    detail: "Coffee machine cleaner",
+    src: "/images/puly-caff-plus-370-cutout.png",
   },
 ] as const;
 

@@ -85,7 +85,7 @@ export function CollectionBanner({
         </p>
         <h1
           key={title}
-          className="mt-3 max-w-[14ch] animate-fade-up font-serif text-4xl font-bold tracking-tight text-[#3d2416] md:text-[3.25rem]"
+          className="mt-3 max-w-[20ch] animate-fade-up font-serif text-4xl font-bold tracking-tight text-[#3d2416] md:text-[3.25rem]"
         >
           {title}
         </h1>
