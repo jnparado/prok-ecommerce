@@ -134,7 +134,7 @@ export function SiteFooter() {
               <p className="text-sm font-semibold text-zinc-800">{column.title}</p>
               <ul className="mt-3 space-y-2">
                 {column.links.map((link) => (
-                  <li key={link.label} id={link.label === "Blog" ? "news" : undefined}>
+                  <li key={link.label} id={link.label === "News & Events" ? "news" : undefined}>
                     <Link href={link.href} className="text-sm text-[#5b8def] hover:underline">
                       {link.label}
                     </Link>
