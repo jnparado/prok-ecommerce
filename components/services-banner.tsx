@@ -19,8 +19,8 @@ export function ServicesBanner({
   return (
     <section id="service" className="relative min-h-[320px] overflow-hidden md:min-h-[420px]">
       <Image
-        src={imageSrc || "/images/machine-services-hero.png"}
-        alt="Espresso machine in a service workshop"
+        src={imageSrc || "/images/machine-services-hero.jpg"}
+        alt="Commercial espresso machines on the workshop bench for service"
         fill
         className="object-cover animate-ken-burns"
         sizes="100vw"

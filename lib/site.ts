@@ -971,6 +971,12 @@ export const servicePillars = [
 
 export const serviceFeatures = [
   {
+    title: "Workshop Servicing",
+    body: "In-house workshop repairs and overhauls for commercial espresso machines, with genuine parts and trained technicians.",
+    src: "/images/machine-services-hero.jpg",
+    alt: "Commercial espresso machines on the workshop bench for service",
+  },
+  {
     title: "Diagnostics & Troubleshooting",
     body: "Comprehensive diagnostics and systematic troubleshooting for reported machine issues.",
     src: "/images/service-diagnostics.png",
@@ -1183,8 +1189,8 @@ export const newsItems = [
     excerpt:
       "Our technicians take regular instruction from visiting principals, so diagnostics and preventive work stay true to each brand.",
     href: "/services",
-    src: "/images/machine-services-hero.png",
-    alt: "Espresso machine in a service workshop",
+    src: "/images/machine-services-hero.jpg",
+    alt: "Commercial espresso machines on the workshop bench for service",
   },
 ] as const;
 
