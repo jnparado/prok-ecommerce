@@ -877,6 +877,17 @@ export const cleaningCategories = [
   { slug: "bar", label: "Bar Care" },
 ] as const;
 
+export const diyCleaningProducts = [
+  { name: "Calcinet®", brand: "Puly Caff", src: "/images/puly-calcinet.png", href: "/cleaning-solution?category=machine" },
+  { name: "pulyGRIND® Crystals", brand: "Puly Caff", src: "/images/puly-grind-crystals.png", href: "/cleaning-solution?category=grinder" },
+  { name: "Soak Cleaning System", brand: "Puly Caff", src: "/images/puly-soak-cleaning.png", href: "/cleaning-solution?category=machine" },
+  { name: "pulyMILK® Capucino Liquid", brand: "Puly Caff", src: "/images/puly-milk-capucino.png", href: "/cleaning-solution?category=milk" },
+  { name: "pulyCAFF® Plus NSF", brand: "Puly Caff", src: "/images/puly-caff-plus-nsf.png", href: "/cleaning-solution?category=machine" },
+  { name: "pulyCAFF® New", brand: "Puly Caff", src: "/images/puly-caff-new.png", href: "/cleaning-solution?category=machine" },
+  { name: "pulyCAFF® Plus 370gram", brand: "Puly Caff", src: "/images/puly-caff-plus-370.png", href: "/cleaning-solution?category=machine" },
+  { name: "Brush", brand: "Puly Caff", src: "/images/puly-brush.png", href: "/cleaning-solution?category=bar" },
+] as const;
+
 export const cleaningProducts = [
   {
     name: "pulyCAFF Plus",
