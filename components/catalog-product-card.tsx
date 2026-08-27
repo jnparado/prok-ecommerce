@@ -40,6 +40,7 @@ export function CatalogProductCard({
           alt={alt ?? name}
           fill
           preload={preload}
+          unoptimized={local}
           className={cn(
             "object-contain p-2 pt-4 transition-transform duration-700 ease-out group-hover:scale-110 sm:p-4 sm:pt-6",
             local && "drop-shadow-[0_16px_22px_rgba(80,50,20,0.14)]"

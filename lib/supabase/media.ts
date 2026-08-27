@@ -8,5 +8,6 @@ export function mediaUrl(src: string) {
   if (!base) return src;
 
   const filename = src.replace(/^\/images\//, "").replace(/^\//, "");
+  if (filename.includes("-cutout.")) return src.startsWith("/") ? src : `/${src}`;
   return `${base}/storage/v1/object/public/${BUCKET}/${filename}`;
 }
