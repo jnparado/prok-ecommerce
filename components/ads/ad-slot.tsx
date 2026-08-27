@@ -31,7 +31,7 @@ export function AdSlot({
   const slot = getAdsenseSlot(placement);
 
   useEffect(() => {
-    if (!client || pushed.current) return;
+    if (!client || !slot || pushed.current) return;
     try {
       window.adsbygoogle = window.adsbygoogle || [];
       window.adsbygoogle.push({});
@@ -41,21 +41,18 @@ export function AdSlot({
     }
   }, [client, slot]);
 
-  if (!client) return null;
+  if (!client || !slot) return null;
 
   return (
-    <aside
-      className={cn("w-full", className)}
-      aria-label="Advertisement"
-    >
-      <p className="mb-1.5 text-center text-[10px] tracking-[0.2em] text-zinc-400 uppercase">
+    <aside className={cn("w-full", className)} aria-label="Advertisement">
+      <p className="mb-1.5 text-center text-[10px] tracking-[0.16em] text-zinc-400 uppercase">
         Advertisement
       </p>
       <ins
         className={cn("adsbygoogle block overflow-hidden rounded-xl", minHeight[placement])}
         style={{ display: "block" }}
         data-ad-client={client}
-        data-ad-slot={slot || undefined}
+        data-ad-slot={slot}
         data-ad-format="auto"
         data-full-width-responsive="true"
       />

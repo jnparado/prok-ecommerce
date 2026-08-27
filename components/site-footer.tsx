@@ -1,36 +1,40 @@
 import Link from "next/link";
 
 import { SiteLogo } from "@/components/site-logo";
+import { siteContact } from "@/lib/site";
 
 const footerColumns = [
   {
     title: "Shop",
-    links: [{ label: "Wholesale", href: "/espresso-machines" }],
+    links: [
+      { label: "Espresso Machines", href: "/espresso-machines" },
+      { label: "Grinders", href: "/grinders" },
+      { label: "Coffee", href: "/coffee" },
+      { label: "Flavours", href: "/flavours" },
+    ],
   },
   {
     title: "Support",
     links: [
-      { label: "My Account", href: "#contact" },
-      { label: "Shopping Cart", href: "#top-seller" },
       { label: "Help Center", href: "/services" },
+      { label: "Training", href: "/training" },
       { label: "Contact Us", href: "#contact" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "Blog", href: "#news" },
-      { label: "About Us", href: "#brand" },
-      { label: "Careers", href: "#brand" },
-      { label: "Press", href: "#news" },
+      { label: "About Us", href: "/about-us" },
+      { label: "News & Events", href: "/news-events" },
+      { label: "Brands", href: "/brands" },
     ],
   },
 ] as const;
 
 const legalLinks = [
-  { label: "Privacy Policy", href: "#contact" },
-  { label: "Terms of Service", href: "#contact" },
-  { label: "Cookie Policy", href: "#contact" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Service", href: "/terms-of-service" },
+  { label: "Cookie Policy", href: "/cookie-policy" },
 ] as const;
 
 function FacebookIcon() {
@@ -93,6 +97,11 @@ export function SiteFooter() {
             Premium specialty coffee and equipment for coffee enthusiasts and
             professionals. Discover the perfect balance of quality and convenience.
           </p>
+          <p className="mt-4 text-sm leading-relaxed text-zinc-600">
+            {siteContact.address}
+            <br />
+            Tel. {siteContact.phones.join(" · ")}
+          </p>
           <div className="mt-5 flex items-center gap-3">
             {socials.map((social) => {
               const Icon = social.icon;
@@ -139,7 +148,7 @@ export function SiteFooter() {
 
       <div className="border-t border-zinc-200">
         <div className="mx-auto flex max-w-[1180px] flex-col gap-3 px-6 py-5 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2025 Prokrate Internation Trading Corporation. All rights reserved.</p>
+          <p>© 2026 {siteContact.legalName}. All rights reserved.</p>
           <div className="flex flex-wrap gap-x-6 gap-y-1">
             {legalLinks.map((link) => (
               <Link key={link.label} href={link.href} className="hover:text-zinc-700">

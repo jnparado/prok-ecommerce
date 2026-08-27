@@ -60,8 +60,10 @@ on conflict (user_id) do nothing;`}
       <div className="rounded-xl border border-[#eadfce] bg-white p-5">
         <h2 className="font-serif text-xl">Earning ads (Google AdSense)</h2>
         <p className="mt-2 text-sm text-zinc-500">
-          Ad slots are already on the public site. To start earning, add your AdSense publisher ID to{" "}
-          <code>.env.local</code> and restart the app:
+          Auto ads are live on the public site with publisher ID{" "}
+          <code>ca-pub-5885154240178213</code>, ads.txt, a cookie consent banner, and
+          privacy/cookie/terms pages. Ads do not show in this admin dashboard. Optional manual
+          units can still be added:
         </p>
         <pre className="mt-3 overflow-x-auto rounded-lg bg-[#3d2416] p-3 text-xs text-[#f6efe6]">
 {`NEXT_PUBLIC_ADSENSE_CLIENT=ca-pub-xxxxxxxxxxxxxxxx

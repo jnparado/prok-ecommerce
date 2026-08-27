@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 
 import { getAdsenseClient } from "@/lib/ads";
+import { consentBootScript } from "@/lib/consent";
+import { siteContact } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,6 +25,7 @@ const playfair = Playfair_Display({
 const adsenseClient = getAdsenseClient();
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteContact.website),
   title: "Prokrate | Premium Coffee Collection",
   description:
     "Commercial espresso machines, grinders, flavoring, and barista training.",
@@ -30,14 +34,19 @@ export const metadata: Metadata = {
     : {}),
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const headerList = await headers();
+  const pathname = headerList.get("x-pathname") ?? "";
+  const showAds = Boolean(adsenseClient) && !pathname.startsWith("/admin");
+
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full scroll-smooth antialiased`}
     >
       <head>
-        {adsenseClient ? (
+        <script dangerouslySetInnerHTML={{ __html: consentBootScript }} />
+        {showAds ? (
           <script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClient}`}

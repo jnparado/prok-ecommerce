@@ -1211,3 +1211,12 @@ export const aboutCopy = {
     "After-Sales Service",
   ],
 } as const;
+
+export const siteContact = {
+  legalName: "Prokrate International Trading Corporation",
+  shortName: "Prokrate",
+  address: "Unit 112 GF Goldwin Bldg., Quirino Avenue, Davao City, Philippines",
+  phones: ["082-322 3478", "0917 703 1653"],
+  website: "https://www.prokrate.com",
+  domain: "www.prokrate.com",
+} as const;
